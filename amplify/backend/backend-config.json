@@ -63,11 +63,74 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "LambdaNewComment": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "appsyncblogapp7bdfbe9f": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "hosting": {
     "amplifyhosting": {
       "providerPlugin": "awscloudformation",
       "service": "amplifyhosting",
       "type": "manual"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_LambdaNewComment_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "LambdaNewComment"
+        }
+      ]
+    },
+    "AMPLIFY_function_LambdaNewComment_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "LambdaNewComment"
+        }
+      ]
+    },
+    "AMPLIFY_function_appsyncblogapp7bdfbe9f_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "appsyncblogapp7bdfbe9f"
+        }
+      ]
+    },
+    "AMPLIFY_function_appsyncblogapp7bdfbe9f_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "appsyncblogapp7bdfbe9f"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_appId": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_type": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
     }
   },
   "storage": {

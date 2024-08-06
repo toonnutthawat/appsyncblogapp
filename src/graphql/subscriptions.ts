@@ -8,6 +8,26 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const newOnCreatePost = /* GraphQL */ `subscription NewOnCreatePost {
+  newOnCreatePost {
+    id
+    title
+    content
+    username
+    coverImage
+    comments {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.NewOnCreatePostSubscriptionVariables,
+  APITypes.NewOnCreatePostSubscription
+>;
 export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
   $filter: ModelSubscriptionPostFilterInput
   $username: String
@@ -84,6 +104,7 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
   onCreateComment(filter: $filter, createBy: $createBy) {
     id
     message
+    img
     post {
       id
       title
@@ -112,6 +133,7 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
   onUpdateComment(filter: $filter, createBy: $createBy) {
     id
     message
+    img
     post {
       id
       title
@@ -140,6 +162,7 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
   onDeleteComment(filter: $filter, createBy: $createBy) {
     id
     message
+    img
     post {
       id
       title
@@ -160,4 +183,55 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
 ` as GeneratedSubscription<
   APITypes.OnDeleteCommentSubscriptionVariables,
   APITypes.OnDeleteCommentSubscription
+>;
+export const onCreateChat = /* GraphQL */ `subscription OnCreateChat(
+  $filter: ModelSubscriptionChatFilterInput
+  $username: String
+) {
+  onCreateChat(filter: $filter, username: $username) {
+    id
+    message
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateChatSubscriptionVariables,
+  APITypes.OnCreateChatSubscription
+>;
+export const onUpdateChat = /* GraphQL */ `subscription OnUpdateChat(
+  $filter: ModelSubscriptionChatFilterInput
+  $username: String
+) {
+  onUpdateChat(filter: $filter, username: $username) {
+    id
+    message
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateChatSubscriptionVariables,
+  APITypes.OnUpdateChatSubscription
+>;
+export const onDeleteChat = /* GraphQL */ `subscription OnDeleteChat(
+  $filter: ModelSubscriptionChatFilterInput
+  $username: String
+) {
+  onDeleteChat(filter: $filter, username: $username) {
+    id
+    message
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteChatSubscriptionVariables,
+  APITypes.OnDeleteChatSubscription
 >;

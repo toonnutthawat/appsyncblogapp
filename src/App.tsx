@@ -3,12 +3,13 @@ import Root from "./pages/Root";
 import HomePage from "./pages/HomePage";
 import CreatePostPage from "./pages/CreatePostPage";
 import ProfilePage from "./pages/ProfilePage";
-import SignUpPage from "./pages/SignUpPage";
+import SignUpPage from "./pages/AuthPage/SignUpPage";
 import MyPost from "./pages/MyPost";
 import DetailPost from "./pages/DetailPost";
-import LoginPage from "./pages/LoginPage";
 import EditPage from "./pages/EditPage";
+import ChatPage from "./pages/ChatPage";
 import { detailLoader } from "./loaders/detailLoader";
+import Login from "./pages/AuthPage/Login";
 import '@aws-amplify/ui-react/styles.css';
 
 const router = createBrowserRouter([
@@ -27,7 +28,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile-page',
-        element: <ProfilePage isPassedToWithAuthenticator={true}></ProfilePage>
+        element: <ProfilePage></ProfilePage>
+      },
+      {
+        path: '/chat',
+        element: <ChatPage></ChatPage>
       },
       {
         path: '/sign-up',
@@ -35,11 +40,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/login',
-        element: <LoginPage></LoginPage>
+        element: <Login></Login>
       },
       {
         path: '/my-post',
-        element: <MyPost isPassedToWithAuthenticator={true}></MyPost>
+        element: <MyPost></MyPost>
       },
       {
         path: '/post/:id',

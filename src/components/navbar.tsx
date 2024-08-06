@@ -8,22 +8,29 @@ function Navbar() {
     return (
         <div className='flex justify-between items-center pt-3 pb-3 border-b bg-cyan-500 border-gray-30'>
             <div className='flex space-x-4 ml-4'>
-                <Link to="/" className='text-white hover:text-slate-900'>Home Page</Link>
-                <Link to="/create-post" className='text-white hover:text-slate-900'>Create Post</Link>
-                <Link to="/profile-page" className='text-white hover:text-slate-900'>Profile</Link>
+                <Link to="/" className='text-white hover:text-slate-900'>Home</Link>
+
 
                 {authStatus === 'authenticated' && (
-                    <Link to="/my-post" className='text-white hover:text-slate-900'>My Post</Link>
+                    <>
+                        <Link to="/create-post" className='text-white hover:text-slate-900'>Post</Link>
+                        <Link to="/chat" className='text-white hover:text-slate-900'>Chat</Link>
+                        <Link to="/my-post" className='text-white hover:text-slate-900'>MyPost</Link>
+                    </>
                 )}
 
                 {authStatus !== 'authenticated' && (
-                    <Link to="/login" className='text-white hover:text-slate-900'>Login</Link>
+                    <>
+                        <Link to="/login" className='text-white hover:text-slate-900'>Login</Link>
+                        <Link to="/sign-up" className='text-white hover:text-slate-900'>Sign Up</Link>
+                    </>
                 )}
+
             </div>
 
             {authStatus === 'authenticated' && (
                 <div className='flex items-center'>
-                    <div className='text-white hover:text-slate-900 mr-4'>I AM {user.username}</div>
+                    <Link to="/profile-page" className='text-white hover:text-slate-900 mr-4'>{user?.username}</Link>
                 </div>
             )}
         </div>

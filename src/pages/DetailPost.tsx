@@ -11,6 +11,9 @@ import { createComment } from "../graphql/mutations";
 import { v4 as uuid} from "uuid"
 import { listComments } from "../graphql/queries";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Subscription } from 'rxjs';
+import { onCreateComment } from "../graphql/subscriptions";
+
 
 function DetailPost() {
 
@@ -25,14 +28,34 @@ function DetailPost() {
     const [ showComment, setShowComment] = useState(false)
     const [ comment , setComment ] = useState<Comment>(initialState)
     const [ comments , setComments] = useState<Comment[]>()
-    const clientPublic = generateClient();
+    const [ newComment , setNewComment ] = useState<Comment>()
+    const clientPublic = generateClient({authMode: 'apiKey'});
     const clientPrivate = generateClient();
+    let subOnCreate : Subscription 
 
 
     useEffect(() => {
         updateCoverImage();
         fetchComment();
-    }, [])
+    }, [newComment])
+
+    function setUpSubscription() {
+        subOnCreate = clientPublic.graphql({
+            query: onCreateComment
+        }).subscribe({
+            next: ({ data }) => {
+                const commentData = data.onCreateComment as Comment;
+                setNewComment(commentData);
+            }
+        });
+    }
+
+    useEffect(() => {
+        setUpSubscription();
+        return () => {
+            subOnCreate.unsubscribe();
+        };
+    }, []);
 
     async function fetchComment(){
         const commentList = await clientPublic.graphql({
@@ -62,7 +85,7 @@ function DetailPost() {
                   path: detail.coverImage,
                 });
                 setCoverImage(result.path)
-                //console.log('File Properties ', result);
+                console.log('File Properties ', result);
               } catch (error) {
                 console.log('Error ', error);
               }
@@ -99,7 +122,7 @@ function DetailPost() {
                 <div className="flex flex-col items-center">
                     {
                         coverImage && (
-                            <StorageImage path={coverImage} alt="cat" className="size-3/12 rounded-lg mt-2"></StorageImage>
+                            <StorageImage path={coverImage} alt="cat" className="rounded-lg mt-2"></StorageImage>
                         )
                     }
                     <p className="text-5xl mt-4 font-semibold">title : {detail.title}</p>

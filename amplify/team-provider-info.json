@@ -21,6 +21,17 @@
       "storage": {
         "postImage": {}
       },
+      "function": {
+        "appsyncblogapp0ae669d6": {},
+        "appsyncblogapp7bdfbe9f": {
+          "deploymentBucketName": "amplify-appsyncblogapp-dev-1b7c8-deployment",
+          "s3Key": "amplify-builds/appsyncblogapp7bdfbe9f-354c6b62354136707136-build.zip"
+        },
+        "LambdaNewComment": {
+          "deploymentBucketName": "amplify-appsyncblogapp-dev-1b7c8-deployment",
+          "s3Key": "amplify-builds/LambdaNewComment-4a446638784764637577-build.zip"
+        }
+      },
       "hosting": {
         "amplifyhosting": {
           "appId": "d18olfxdyx0crx",

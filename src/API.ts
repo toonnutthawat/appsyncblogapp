@@ -84,6 +84,7 @@ export type Comment = {
   __typename: "Comment",
   id: string,
   message: string,
+  img?: string | null,
   post: Post,
   postID: string,
   createdAt: string,
@@ -106,11 +107,13 @@ export type DeletePostInput = {
 export type CreateCommentInput = {
   id?: string | null,
   message: string,
+  img?: string | null,
   postID: string,
 };
 
 export type ModelCommentConditionInput = {
   message?: ModelStringInput | null,
+  img?: ModelStringInput | null,
   postID?: ModelIDInput | null,
   and?: Array< ModelCommentConditionInput | null > | null,
   or?: Array< ModelCommentConditionInput | null > | null,
@@ -139,10 +142,46 @@ export type ModelIDInput = {
 export type UpdateCommentInput = {
   id: string,
   message?: string | null,
+  img?: string | null,
   postID?: string | null,
 };
 
 export type DeleteCommentInput = {
+  id: string,
+};
+
+export type CreateChatInput = {
+  id?: string | null,
+  message: string,
+  username: string,
+};
+
+export type ModelChatConditionInput = {
+  message?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  and?: Array< ModelChatConditionInput | null > | null,
+  or?: Array< ModelChatConditionInput | null > | null,
+  not?: ModelChatConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type Chat = {
+  __typename: "Chat",
+  id: string,
+  message: string,
+  username: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateChatInput = {
+  id: string,
+  message?: string | null,
+  username?: string | null,
+};
+
+export type DeleteChatInput = {
   id: string,
 };
 
@@ -174,6 +213,7 @@ export enum ModelSortDirection {
 export type ModelCommentFilterInput = {
   id?: ModelIDInput | null,
   message?: ModelStringInput | null,
+  img?: ModelStringInput | null,
   postID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -181,6 +221,23 @@ export type ModelCommentFilterInput = {
   or?: Array< ModelCommentFilterInput | null > | null,
   not?: ModelCommentFilterInput | null,
   createBy?: ModelStringInput | null,
+};
+
+export type ModelChatFilterInput = {
+  id?: ModelIDInput | null,
+  message?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelChatFilterInput | null > | null,
+  or?: Array< ModelChatFilterInput | null > | null,
+  not?: ModelChatFilterInput | null,
+};
+
+export type ModelChatConnection = {
+  __typename: "ModelChatConnection",
+  items:  Array<Chat | null >,
+  nextToken?: string | null,
 };
 
 export type ModelSubscriptionPostFilterInput = {
@@ -228,12 +285,23 @@ export type ModelSubscriptionStringInput = {
 export type ModelSubscriptionCommentFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   message?: ModelSubscriptionStringInput | null,
+  img?: ModelSubscriptionStringInput | null,
   postID?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCommentFilterInput | null > | null,
   or?: Array< ModelSubscriptionCommentFilterInput | null > | null,
   createBy?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionChatFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  message?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChatFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChatFilterInput | null > | null,
+  username?: ModelStringInput | null,
 };
 
 export type CreatePostMutationVariables = {
@@ -312,6 +380,7 @@ export type CreateCommentMutation = {
     __typename: "Comment",
     id: string,
     message: string,
+    img?: string | null,
     post:  {
       __typename: "Post",
       id: string,
@@ -339,6 +408,7 @@ export type UpdateCommentMutation = {
     __typename: "Comment",
     id: string,
     message: string,
+    img?: string | null,
     post:  {
       __typename: "Post",
       id: string,
@@ -366,6 +436,7 @@ export type DeleteCommentMutation = {
     __typename: "Comment",
     id: string,
     message: string,
+    img?: string | null,
     post:  {
       __typename: "Post",
       id: string,
@@ -380,6 +451,54 @@ export type DeleteCommentMutation = {
     createdAt: string,
     updatedAt: string,
     createBy?: string | null,
+  } | null,
+};
+
+export type CreateChatMutationVariables = {
+  input: CreateChatInput,
+  condition?: ModelChatConditionInput | null,
+};
+
+export type CreateChatMutation = {
+  createChat?:  {
+    __typename: "Chat",
+    id: string,
+    message: string,
+    username: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateChatMutationVariables = {
+  input: UpdateChatInput,
+  condition?: ModelChatConditionInput | null,
+};
+
+export type UpdateChatMutation = {
+  updateChat?:  {
+    __typename: "Chat",
+    id: string,
+    message: string,
+    username: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteChatMutationVariables = {
+  input: DeleteChatInput,
+  condition?: ModelChatConditionInput | null,
+};
+
+export type DeleteChatMutation = {
+  deleteChat?:  {
+    __typename: "Chat",
+    id: string,
+    message: string,
+    username: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -461,6 +580,7 @@ export type GetCommentQuery = {
     __typename: "Comment",
     id: string,
     message: string,
+    img?: string | null,
     post:  {
       __typename: "Post",
       id: string,
@@ -491,6 +611,7 @@ export type ListCommentsQuery = {
       __typename: "Comment",
       id: string,
       message: string,
+      img?: string | null,
       postID: string,
       createdAt: string,
       updatedAt: string,
@@ -515,12 +636,69 @@ export type CommentsByPostIDQuery = {
       __typename: "Comment",
       id: string,
       message: string,
+      img?: string | null,
       postID: string,
       createdAt: string,
       updatedAt: string,
       createBy?: string | null,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type GetChatQueryVariables = {
+  id: string,
+};
+
+export type GetChatQuery = {
+  getChat?:  {
+    __typename: "Chat",
+    id: string,
+    message: string,
+    username: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListChatsQueryVariables = {
+  filter?: ModelChatFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChatsQuery = {
+  listChats?:  {
+    __typename: "ModelChatConnection",
+    items:  Array< {
+      __typename: "Chat",
+      id: string,
+      message: string,
+      username: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type NewOnCreatePostSubscriptionVariables = {
+};
+
+export type NewOnCreatePostSubscription = {
+  newOnCreatePost?:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    content: string,
+    username?: string | null,
+    coverImage?: string | null,
+    comments?:  {
+      __typename: "ModelCommentConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -600,6 +778,7 @@ export type OnCreateCommentSubscription = {
     __typename: "Comment",
     id: string,
     message: string,
+    img?: string | null,
     post:  {
       __typename: "Post",
       id: string,
@@ -627,6 +806,7 @@ export type OnUpdateCommentSubscription = {
     __typename: "Comment",
     id: string,
     message: string,
+    img?: string | null,
     post:  {
       __typename: "Post",
       id: string,
@@ -654,6 +834,7 @@ export type OnDeleteCommentSubscription = {
     __typename: "Comment",
     id: string,
     message: string,
+    img?: string | null,
     post:  {
       __typename: "Post",
       id: string,
@@ -668,5 +849,53 @@ export type OnDeleteCommentSubscription = {
     createdAt: string,
     updatedAt: string,
     createBy?: string | null,
+  } | null,
+};
+
+export type OnCreateChatSubscriptionVariables = {
+  filter?: ModelSubscriptionChatFilterInput | null,
+  username?: string | null,
+};
+
+export type OnCreateChatSubscription = {
+  onCreateChat?:  {
+    __typename: "Chat",
+    id: string,
+    message: string,
+    username: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateChatSubscriptionVariables = {
+  filter?: ModelSubscriptionChatFilterInput | null,
+  username?: string | null,
+};
+
+export type OnUpdateChatSubscription = {
+  onUpdateChat?:  {
+    __typename: "Chat",
+    id: string,
+    message: string,
+    username: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteChatSubscriptionVariables = {
+  filter?: ModelSubscriptionChatFilterInput | null,
+  username?: string | null,
+};
+
+export type OnDeleteChatSubscription = {
+  onDeleteChat?:  {
+    __typename: "Chat",
+    id: string,
+    message: string,
+    username: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };

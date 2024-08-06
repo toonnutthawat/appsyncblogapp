@@ -82,6 +82,7 @@ export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
   getComment(id: $id) {
     id
     message
+    img
     post {
       id
       title
@@ -112,6 +113,7 @@ export const listComments = /* GraphQL */ `query ListComments(
     items {
       id
       message
+      img
       postID
       createdAt
       updatedAt
@@ -143,6 +145,7 @@ export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
     items {
       id
       message
+      img
       postID
       createdAt
       updatedAt
@@ -157,3 +160,33 @@ export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
   APITypes.CommentsByPostIDQueryVariables,
   APITypes.CommentsByPostIDQuery
 >;
+export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
+  getChat(id: $id) {
+    id
+    message
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetChatQueryVariables, APITypes.GetChatQuery>;
+export const listChats = /* GraphQL */ `query ListChats(
+  $filter: ModelChatFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listChats(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      message
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListChatsQueryVariables, APITypes.ListChatsQuery>;

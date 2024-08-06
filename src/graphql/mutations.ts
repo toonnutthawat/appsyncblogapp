@@ -84,6 +84,7 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
   createComment(input: $input, condition: $condition) {
     id
     message
+    img
     post {
       id
       title
@@ -112,6 +113,7 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
   updateComment(input: $input, condition: $condition) {
     id
     message
+    img
     post {
       id
       title
@@ -140,6 +142,7 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
   deleteComment(input: $input, condition: $condition) {
     id
     message
+    img
     post {
       id
       title
@@ -160,4 +163,55 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
 ` as GeneratedMutation<
   APITypes.DeleteCommentMutationVariables,
   APITypes.DeleteCommentMutation
+>;
+export const createChat = /* GraphQL */ `mutation CreateChat(
+  $input: CreateChatInput!
+  $condition: ModelChatConditionInput
+) {
+  createChat(input: $input, condition: $condition) {
+    id
+    message
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateChatMutationVariables,
+  APITypes.CreateChatMutation
+>;
+export const updateChat = /* GraphQL */ `mutation UpdateChat(
+  $input: UpdateChatInput!
+  $condition: ModelChatConditionInput
+) {
+  updateChat(input: $input, condition: $condition) {
+    id
+    message
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateChatMutationVariables,
+  APITypes.UpdateChatMutation
+>;
+export const deleteChat = /* GraphQL */ `mutation DeleteChat(
+  $input: DeleteChatInput!
+  $condition: ModelChatConditionInput
+) {
+  deleteChat(input: $input, condition: $condition) {
+    id
+    message
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteChatMutationVariables,
+  APITypes.DeleteChatMutation
 >;

@@ -1,28 +1,31 @@
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { useState , useRef} from 'react'
+import { useState, useRef } from 'react'
 import { generateClient } from "@aws-amplify/api";
 import { uploadData } from "aws-amplify/storage";
-import { v4 as uuid} from "uuid"
+import { v4 as uuid } from "uuid"
 import { createPost } from "../graphql/mutations";
 import { useNavigate } from "react-router-dom";
 import SimpleMdeReact from "react-simplemde-editor";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import type { Post } from "../API";
+import { FaFileImage } from "react-icons/fa";
 import "easymde/dist/easymde.min.css"
 
 
 
-function CreatePostPage(){
+function CreatePostPage() {
     const initialState: Post = {
         title: "", content: "", id: "", createdAt: "", updatedAt: "",
         __typename: "Post"
     }
     const [post, setPost] = useState<Post>(initialState)
-    const [image , setImage] = useState<File | null>(null)
-    const { title , content } = post;
+    const [image, setImage] = useState<File | null>(null)
+    const { title, content } = post;
     const { authStatus } = useAuthenticator(context => [context.authStatus]);
     const imageFileInput = useRef<HTMLInputElement | null>(null)
     console.log(post.content)
+
+
 
 
     const client = generateClient();
@@ -36,39 +39,39 @@ function CreatePostPage(){
         ))
     }
 
-    function onImageChange(e: React.ChangeEvent<HTMLInputElement>){
+    function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const fileUploaded = e.target.files ? e.target.files[0] : null;
-        if(!fileUploaded) return;
+        if (!fileUploaded) return;
         setImage(fileUploaded)
     }
 
-    async function uploadImage(){
-        if(imageFileInput.current){
+    async function uploadImage() {
+        if (imageFileInput.current) {
             imageFileInput.current.click()
         }
     }
 
-    async function createNewPost(){
-        if(!title || !content) return;
+    async function createNewPost() {
+        if (!title) return;
 
         const id = uuid();
 
-        if(image){
+        if (image) {
             const filename = `public/${image.name}_${uuid()}`
             post.coverImage = filename
-              try {
+            try {
                 const result = await uploadData({
-                  path: filename, 
-                  data: image,
+                    path: filename,
+                    data: image,
                 }).result;
                 console.log('Succeeded: ', result);
-              } catch (error) {
+            } catch (error) {
                 console.log('Error : ', error);
-              }
+            }
         }
-        
 
-        if(authStatus === 'authenticated'){
+
+        if (authStatus === 'authenticated') {
             const newPost = {
                 title,
                 content,
@@ -92,7 +95,7 @@ function CreatePostPage(){
         navigate(`/post/${id}`)
     }
 
-    return(
+    return (
         <div>
             {
                 image && (
@@ -102,21 +105,27 @@ function CreatePostPage(){
                 )
             }
             <h1 className="text-3xl font-semibold tracking-wide mt-6">Create new Post</h1>
-            <input 
-                onChange={onChange} 
-                name="title" 
-                placeholder="Title" 
-                value={post.title} 
+            <input
+                onChange={onChange}
+                name="title"
+                placeholder="Title"
+                value={post.title}
                 className="border-b pb-2 text-lg my-4 focus:outline-none w-full font-light text-gray-500 placeholder-gray-500 y-2">
             </input>
-        <SimpleMdeReact value={post.content} onChange={(value) => setPost({...post,content: value})} />
-        <input type="file" ref={imageFileInput} onChange={onImageChange} className="abolute w-0 h-0"/>
-        <button type="button" className=" mb-4 bg-blue-600 text-white font-semibold px-8 py-2 rounded-lg hover:bg-blue-800" onClick={uploadImage}>
-            Upload Cover Image
-        </button>
-        <button type="button" className="ml-2 mb-4 bg-green-600 text-white font-semibold px-8 py-2 rounded-lg hover:bg-green-800" onClick={createNewPost}>
-             Create Post
-        </button>
+            <SimpleMdeReact value={post.content} onChange={(value) => setPost({ ...post, content: value })} />
+            <input type="file" ref={imageFileInput} onChange={onImageChange} className="abolute w-0 h-0" />
+            <div className="flex">
+                <button type="button" className="mb-4 bg-cyan-500 text-white font-semibold py-2 rounded-lg hover:bg-cyan-800 flex items-center justify-center w-36"
+                    onClick={uploadImage}
+                    style={{ width: '5rem' }}>
+                    <FaFileImage />
+                </button>
+                <button type="button" className="ml-2 mb-4 bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-800 flex items-center justify-center w-36"
+                    onClick={createNewPost}
+                    style={{ width: '5rem' }}>
+                    Post
+                </button>
+            </div>
         </div>
     )
 }
