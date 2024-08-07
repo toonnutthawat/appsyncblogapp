@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import Root from "./pages/Root";
 import HomePage from "./pages/HomePage";
-import CreatePostPage from "./pages/CreatePostPage";
+import CreatePostPage from "./pages/PostPage/CreatePostPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignUpPage from "./pages/AuthPage/SignUpPage";
-import MyPost from "./pages/MyPost";
-import DetailPost from "./pages/DetailPost";
-import EditPage from "./pages/EditPage";
+import MyPost from "./pages/PostPage/MyPost";
+import DetailPost from "./pages/PostPage/DetailPost";
+import EditPage from "./pages/PostPage/EditPage";
 import ChatPage from "./pages/ChatPage";
 import { detailLoader } from "./loaders/detailLoader";
 import Login from "./pages/AuthPage/Login";

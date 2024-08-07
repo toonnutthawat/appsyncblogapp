@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import type { Post } from "../API";
+import type { Post } from "../../API";
 import { generateClient } from "@aws-amplify/api";
-import { listPosts }  from "../graphql/queries";
+import { listPosts }  from "../../graphql/queries";
 import { Link } from "react-router-dom";
 import Moment from "moment"
-import { deletePost  as deletePostMutation} from "../graphql/mutations";
+import { deletePost  as deletePostMutation} from "../../graphql/mutations";
 import { StorageImage } from "@aws-amplify/ui-react-storage";
 import { Subscription } from 'rxjs'
-import { onDeletePost } from "../graphql/subscriptions";
+import { onDeletePost } from "../../graphql/subscriptions";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 

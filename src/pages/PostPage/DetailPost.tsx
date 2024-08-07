@@ -1,18 +1,18 @@
 import { useLoaderData } from "react-router-dom";
 import { getProperties } from "aws-amplify/storage";
-import type { DetailResult } from "../loaders/detailLoader";
+import type { DetailResult } from "../../loaders/detailLoader";
 import Moment from "moment"
 import { useEffect , useState} from "react";
 import { StorageImage } from "@aws-amplify/ui-react-storage";
 import SimpleMdeReact from "react-simplemde-editor";
-import type { Comment } from "../API";
+import type { Comment } from "../../API";
 import { generateClient } from "@aws-amplify/api";
-import { createComment } from "../graphql/mutations";
+import { createComment } from "../../graphql/mutations";
 import { v4 as uuid} from "uuid"
-import { listComments } from "../graphql/queries";
+import { listComments } from "../../graphql/queries";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Subscription } from 'rxjs';
-import { onCreateComment } from "../graphql/subscriptions";
+import { onCreateComment } from "../../graphql/subscriptions";
 
 
 function DetailPost() {
@@ -115,6 +115,7 @@ function DetailPost() {
             console.log('Error writing comment: ', error);
         }
     }
+    
 
     return(
         <div>

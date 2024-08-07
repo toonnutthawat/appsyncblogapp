@@ -1,13 +1,12 @@
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useState, useRef } from 'react'
 import { generateClient } from "@aws-amplify/api";
 import { uploadData } from "aws-amplify/storage";
 import { v4 as uuid } from "uuid"
-import { createPost } from "../graphql/mutations";
+import { createPost } from "../../graphql/mutations";
 import { useNavigate } from "react-router-dom";
 import SimpleMdeReact from "react-simplemde-editor";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import type { Post } from "../API";
+import type { Post } from "../../API";
 import { FaFileImage } from "react-icons/fa";
 import "easymde/dist/easymde.min.css"
 
@@ -130,4 +129,4 @@ function CreatePostPage() {
     )
 }
 
-export default withAuthenticator(CreatePostPage);
+export default CreatePostPage;
