@@ -1,9 +1,22 @@
 import '../../configureAmplify';
 import { Link } from 'react-router-dom';
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hook';
+import { fetchUser } from '../store/slices/thunks/userThunk';
 
 function Navbar() {
-    const { authStatus, user } = useAuthenticator(); // Destructure authStatus and user directly
+    const { authStatus } = useAuthenticator(); // Destructure authStatus and user directly
+    const dispatch = useAppDispatch()
+    const userInfo = useAppSelector(state => state.user.userInfo)
+    const location = useLocation()
+    const { isSignIn } = location.state || ""
+
+    useEffect(() => {
+        dispatch(fetchUser())
+    }, [isSignIn])
+
 
     return (
         <div className='flex justify-between items-center pt-3 pb-3 border-b bg-cyan-500 border-gray-30'>
@@ -22,15 +35,15 @@ function Navbar() {
                 {authStatus !== 'authenticated' && (
                     <>
                         <Link to="/login" className='text-white hover:text-slate-900'>Login</Link>
-                        <Link to="/sign-up" className='text-white hover:text-slate-900'>Sign Up</Link>
                     </>
                 )}
+
 
             </div>
 
             {authStatus === 'authenticated' && (
                 <div className='flex items-center'>
-                    <Link to="/profile-page" className='text-white hover:text-slate-900 mr-4'>{user?.username}</Link>
+                    <Link to="/profile-page" className='text-white hover:text-slate-900 mr-4'>{userInfo?.username}</Link>
                 </div>
             )}
         </div>

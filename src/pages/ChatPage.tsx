@@ -2,11 +2,12 @@ import { generateClient } from "@aws-amplify/api";
 import { useState, useEffect, useRef } from "react";
 import type { Chat } from "../API";
 import { createChat } from "../graphql/mutations";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 import { listChats } from "../graphql/queries";
 import Moment from "moment";
 import { Subscription } from 'rxjs';
 import { onCreateChat } from "../graphql/subscriptions";
+import { useAppDispatch, useAppSelector } from "../hook";
+import { fetchUser } from "../store/slices/thunks/userThunk";
 
 function ChatPage() {
     const initialState: Chat = {
@@ -17,18 +18,24 @@ function ChatPage() {
         createdAt: "",
         updatedAt: ""
     };
-    const { user } = useAuthenticator();
+
     const [chat, setChat] = useState<Chat>(initialState);
     const [chats, setChats] = useState<Chat[]>([]);
     const [newChat, setNewChat] = useState<Chat | null>(null);
+    const user = useAppSelector(state => state.user.userInfo)
     const client = generateClient();
     const publicClient = generateClient({ authMode: 'apiKey' });
+    const dispatch = useAppDispatch()
     const chatEndRef = useRef<HTMLDivElement>(null);
     let subOnCreate: Subscription;
 
     useEffect(() => {
         fetchChat();
     }, [newChat]);
+
+    useEffect(() => {
+        dispatch(fetchUser())
+    }, [])
 
     function setUpSubscription() {
         subOnCreate = publicClient.graphql({
@@ -60,14 +67,14 @@ function ChatPage() {
 
     async function writeChat() {
         if (!chat.message) return;
-
+        if (!user?.username) return;
         try {
             await client.graphql({
                 query: createChat,
                 variables: {
                     input: {
                         message: chat.message,
-                        username: user.username
+                        username: user?.username
                     }
                 }
             });
@@ -77,6 +84,7 @@ function ChatPage() {
             console.log('Error chat: ', error);
         }
     }
+
 
     useEffect(() => {
         if (chatEndRef.current) {

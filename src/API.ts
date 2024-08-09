@@ -682,26 +682,6 @@ export type ListChatsQuery = {
   } | null,
 };
 
-export type NewOnCreatePostSubscriptionVariables = {
-};
-
-export type NewOnCreatePostSubscription = {
-  newOnCreatePost?:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    content: string,
-    username?: string | null,
-    coverImage?: string | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
 export type OnCreatePostSubscriptionVariables = {
   filter?: ModelSubscriptionPostFilterInput | null,
   username?: string | null,

@@ -8,26 +8,6 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
-export const newOnCreatePost = /* GraphQL */ `subscription NewOnCreatePost {
-  newOnCreatePost {
-    id
-    title
-    content
-    username
-    coverImage
-    comments {
-      nextToken
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.NewOnCreatePostSubscriptionVariables,
-  APITypes.NewOnCreatePostSubscription
->;
 export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
   $filter: ModelSubscriptionPostFilterInput
   $username: String

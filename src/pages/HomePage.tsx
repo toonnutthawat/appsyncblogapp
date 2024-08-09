@@ -1,5 +1,4 @@
 import { generateClient } from 'aws-amplify/api';
-import { listPosts } from '../graphql/queries';
 import { useState, useEffect } from "react";
 import '@aws-amplify/ui-react/styles.css';
 import { Link } from 'react-router-dom';
@@ -7,23 +6,19 @@ import { StorageImage } from '@aws-amplify/ui-react-storage';
 import { onCreatePost } from '../graphql/subscriptions';
 import type { Post } from '../API';
 import { Subscription } from 'rxjs';
+import { useAppDispatch, useAppSelector } from '../hook';
+import { fetchPosts } from '../store/slices/thunks/postsThunk';
+import { listPosts } from '../graphql/queries';
 // import { InvokeCommandOutput, Lambda } from '@aws-sdk/client-lambda';
 // import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 // import { fetchUserAttributes } from 'aws-amplify/auth';
 
 function HomePage() {
-  const [posts, setPosts] = useState<Post[]>([]);
   const [newPost, setNewPost] = useState<Post | null>(null);
-
-  // async function getUserInfo(){
-  //     const { username, userId, signInDetails } = await getCurrentUser();
-  //     const user = await fetchUserAttributes()
-  //     console.log("user:", user)
-  //     console.log("username", username);
-  //     console.log("user id", userId);
-  //     console.log("sign-in details", signInDetails);
-  // }
-
+  const [listAllPosts, setlistAllPosts] = useState<Post[] | null>(null)
+  const dispatch = useAppDispatch();
+  const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
+  console.log("allposts", allPosts);
 
   const client = generateClient({ authMode: 'apiKey' });
   let subOnCreate: Subscription;
@@ -34,7 +29,6 @@ function HomePage() {
         next: ({ data }) => {
           const postData = data.onCreatePost as Post;
           setNewPost(postData);
-          console.log(postData);
         },
       });
   }
@@ -45,6 +39,23 @@ function HomePage() {
       subOnCreate.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    getPosts()
+    console.log("getPosts");
+  }, [])
+
+  async function getPosts() {
+    try {
+      const response = await client.graphql({
+        query: listPosts
+      })
+      setlistAllPosts(response.data.listPosts.items)
+    } catch (error) {
+      console.log(error);
+      setlistAllPosts([])
+    }
+  }
 
   // async function handler() {
   //   try {
@@ -90,21 +101,15 @@ function HomePage() {
   // }
 
   useEffect(() => {
-    fetchPosts();
+    dispatch(fetchPosts());
+    console.log("fetchAllPosts");
   }, [newPost]);
-
-  async function fetchPosts() {
-    const postData = await client.graphql({
-      query: listPosts,
-    });
-    setPosts(postData.data.listPosts.items);
-  }
 
   return (
     <div className="m-4">
       <h1 className='text-4xl font-bold text-cyan-500'>All Posts</h1>
       {
-        posts.map((post, index) => (
+        (listAllPosts ?? []).map((post, index) => (
           <Link to={`/post/${post.id}`} key={index}>
             <div className='gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100'>
               {

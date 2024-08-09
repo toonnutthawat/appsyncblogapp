@@ -1,35 +1,47 @@
 import { useState } from "react";
 import { signIn } from "aws-amplify/auth";
 import { useNavigate } from "react-router-dom";
+import { signInWithRedirect } from "aws-amplify/auth";
+import { FaFacebookSquare } from "react-icons/fa";
 
 
 function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [errorMessage , setErrorMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate();
 
-    const handleSignIn =  async (event: React.FormEvent<HTMLFormElement>) => {
+    const toSignUpPage = () => {
+        navigate('/sign-up')
+    }
+
+    const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        try{
-            await signIn({
+        try {
+            const response = await signIn({
                 username: username,
                 password: password
             })
-            navigate('/')
-            console.log("LOGIN SUCCESS");
-            
+            if (response.isSignedIn) {
+                console.log(response);
+                navigate('/', { state: { isSignIn: true } })
+                console.log("LOGIN SUCCESS");
+            }
+            else {
+                setErrorMessage("try again")
+            }
+
         }
-        catch(error){
+        catch (error) {
             setErrorMessage((error as Error).message)
         }
     }
 
     return (
         <div className="flex justify-center">
-            <div className="space-y-2">
-                <div>
-                    Login Page
+            <div className="space-y-2 relative">
+                <div className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">
+                    Login
                 </div>
                 <form onSubmit={handleSignIn}>
                     <div>
@@ -54,9 +66,15 @@ function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             required />
                     </div>
-                    {errorMessage && (<div className="text-red-500 break-words" style={{ width: "24rem" }}>{errorMessage}</div>)}
-                    <div className="mt-4">
-                        <button className={`${(username && password) === ""  ? "bg-gray-500" : "bg-cyan-500"} text-white p-2 rounded`} disabled={(username && password) ===  ""}>Sign Up</button>
+                    <div className="absolute right-0 cursor-pointer mt-4" onClick={toSignUpPage}>Don't have an account? sign up</div>
+                    <div className="mt-8">
+                        <div className="flex flex-row items-center space-x-2">
+                            <button className={`${(username && password) === "" ? "bg-gray-500" : "bg-cyan-500"} text-white p-2 rounded`} disabled={(username && password) === ""}>Login</button>
+                            <button onClick={() => signInWithRedirect({ provider: "Facebook" })} className="">
+                                <FaFacebookSquare size="34px" color="#0866ff"></FaFacebookSquare>
+                            </button>
+                        </div>
+                        {errorMessage && (<div className="text-red-500 break-words" style={{ width: "24rem" }}>{errorMessage}</div>)}
                     </div>
                 </form>
             </div>

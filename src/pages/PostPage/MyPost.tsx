@@ -1,72 +1,27 @@
-import { useEffect, useState } from "react";
-import type { Post } from "../../API";
-import { generateClient } from "@aws-amplify/api";
-import { listPosts }  from "../../graphql/queries";
+import { useEffect  } from "react";
 import { Link } from "react-router-dom";
 import Moment from "moment"
-import { deletePost  as deletePostMutation} from "../../graphql/mutations";
 import { StorageImage } from "@aws-amplify/ui-react-storage";
-import { Subscription } from 'rxjs'
-import { onDeletePost } from "../../graphql/subscriptions";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-
+import { fetchMyPosts } from "../../store/slices/thunks/postsThunk";
+import { useAppDispatch, useAppSelector } from "../../hook";
+import { removePost } from "../../store/slices/thunks/postsThunk";
 
 function MyPost(){
 
-    const { user } = useAuthenticator(); // Destructure authStatus and user directly
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [deleteData , setDeletePost] = useState<Post>()
-    const username = user.username
-    const client = generateClient();
-    let subOnDelete: Subscription;
-
-    function setUpSubscriptions(){
-      subOnDelete = client.graphql({
-        query: onDeletePost
-      }).subscribe({
-        next: ({data}) => {
-          const deleteData = data.onDeletePost as Post
-          setDeletePost(deleteData)
-        }
-      })
-    }
+    const dispatch = useAppDispatch()
+    const myPosts = useAppSelector(state => state.posts.myPosts.data || [])
 
     useEffect(() => {
-      setUpSubscriptions()
-      return () => {
-        subOnDelete.unsubscribe();
-      }
-    })
-  
-    useEffect(() => {
-      fetchPost()
-    },[deleteData])
+      dispatch(fetchMyPosts())
+      console.log("fetchMyPosts");
+    },[])
 
-    async function fetchPost() {
-      const postData = await client.graphql({
-        query: listPosts,
-        variables: {
-          filter: {
-            username: { eq: `${user?.userId}::${username}` }
-          }
-        }
-      })
-      setPosts(postData.data.listPosts.items)
-    }
-
-    async function deletePost(id : string) {
-      await client.graphql({
-        query: deletePostMutation,
-        variables: {input : {id}}
-      })
-      fetchPost()
-    } 
  
     return(
-        <div className="py-8 px-8 max-w-xxl mx-auto bg-white rounded sm:items-center sm:space-y-0 sm:space-x-6 mb-2">
+        <div className="py-8 px-8 max-w-xxl mx-auto rounded sm:items-center sm:space-y-0 sm:space-x-6 mb-2">
             <h1 className='text-4xl font-bold text-cyan-500 ml-5'>My Posts</h1>
                   {
-        posts.map((post) => (
+          myPosts.map((post) => (
             <div key={post.id} className="relative">
             <div className='gap-4 p-5 mt-4  rounded-lg shadow-md hover:bg-zinc-100 relative'>
             {
@@ -86,7 +41,7 @@ function MyPost(){
                     className="bg-cyan-500 rounded p-2 bottom-5 hover:bg-cyan-700 text-white  text-sm sm:text-base">View</Link>
                 <Link to={`/edit-post/${post.id}`} 
                     className="bg-cyan-500 rounded p-2 bottom-5 hover:bg-cyan-700 text-white  text-sm sm:text-base ml-2">Edit</Link>
-                <button onClick={() => deletePost(post.id)}
+                <button onClick={() => dispatch(removePost(post.id))}
                     className="bg-red-500 rounded p-2 bottom-5 hover:bg-red-700 text-white text-sm sm:text-base ml-2" 
                     id="delete-button">
                       X

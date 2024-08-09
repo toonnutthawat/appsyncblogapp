@@ -42,7 +42,7 @@ function SignUpPage(){
             { confirmSignUp ? <ConfirmSignUpPage username={username}></ConfirmSignUpPage> :
            
             <div>
-                 <div>REGISTER PAGE</div>
+                 <div className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">REGISTER</div>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-2">
                 <div>
                     <div>Email</div>

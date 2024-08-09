@@ -36,7 +36,7 @@
     "sharedId": "8e57264f",
     "resourceName": "appsyncblogapp8e57264f",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "manual",
+    "useDefault": "defaultSocial",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
@@ -55,15 +55,20 @@
     },
     "breakCircularDependency": true,
     "dependsOn": [],
-    "thirdPartyAuth": false,
     "userPoolGroups": false,
     "adminQueries": false,
     "triggers": {},
-    "hostedUI": false,
-    "authProviders": [],
+    "hostedUI": true,
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "permissions": []
+    "permissions": [],
+    "hostedUIDomainName": "appsyncblogappad7fe4cb-ad7fe4cb",
+    "authProvidersUserPool": [
+      "Facebook"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}}]",
+    "authProviders": [],
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:5173/\"],\"LogoutURLs\":[\"http://localhost:5173/\"]}"
   }
 }

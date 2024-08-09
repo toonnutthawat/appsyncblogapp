@@ -16,7 +16,7 @@ type Post @model
   title: String!
   content: String!
   username: String @index(name: "postByUsername", queryField: "postByUsername")
-  coverImage: String
+  coverImage: String 
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
 }
 
@@ -54,7 +54,3 @@ type Chat
     username: String!
   }
 
-
-type Subscription {
-  newOnCreatePost : Post @aws_subscribe(mutations: ["createPost"])
-}

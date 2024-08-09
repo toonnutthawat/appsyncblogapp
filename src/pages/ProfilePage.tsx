@@ -4,20 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import { signOut } from 'aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { v4 as uuid} from "uuid"
 import { uploadData } from "aws-amplify/storage";
 import { updateUserAttributes } from "aws-amplify/auth";
-
+import { useAppDispatch, useAppSelector } from '../hook';
+import { fetchUser } from '../store/slices/thunks/userThunk';
 
 function ProfilePage(){
     const [image, setImage] = useState<File | null>(null)
-    const [userInfo , setUserInfo] = useState<string>()
+    const dispatch = useAppDispatch()
     const imageFileInput = useRef<HTMLInputElement | null>(null)
+    const userInfo = useAppSelector(state => state.user.userInfo)
     const userAttributes = fetchUserAttributes()
     const [editImg , setEditImg] = useState(false)
     const navigate = useNavigate();
-    const { user } = useAuthenticator(); // Destructure authStatus and user directly
+
     console.log(userAttributes);
 
     async function handleSignOut() {
@@ -26,16 +27,8 @@ function ProfilePage(){
     }
 
     useEffect(() => {
-        getUserInfo()
-    }, [uploadIMG])
-
-    async function getUserInfo(){
-        const userAttributes = await fetchUserAttributes()
-        setUserInfo(userAttributes.profile)
-        console.log(await fetchUserAttributes());
-        console.log(userInfo);
-    }
-
+        dispatch(fetchUser())
+    },[])
 
     async function uploadIMG(){
         if(image){
@@ -52,6 +45,7 @@ function ProfilePage(){
                   data: image,
                 }).result;
                 console.log('Succeeded: ', result);
+                dispatch(fetchUser())
               } catch (error) {
                 console.log('Error : ', error);
               }
@@ -84,18 +78,18 @@ function ProfilePage(){
                         </div>
                         </>
                 ) :
-                <ProfilePicture size="94px" src={userInfo}></ProfilePicture>
+                <ProfilePicture size="94px" src={userInfo?.img}></ProfilePicture>
             }
             <h1 className="font-medium text-gray-500 my-2">
                 username : 
                 {
-                    user?.username
+                    userInfo?.username 
                 }
             </h1>
             <p className="text-sm text-gray-500 mb-6">
                 userId :
                 {
-                    user?.userId
+                    userInfo?.id
                 }
             </p>
             <input type="file" ref={imageFileInput} onChange={onImageChange} className="abolute w-0 h-0"/>
