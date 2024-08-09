@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { confirmSignUp } from "aws-amplify/auth";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "@aws-amplify/ui-react";
 
 
 
@@ -35,7 +36,8 @@ function ConfirmSignUpPage({username} : {username : string}){
 
     return(
     <div>
-        {signUpComplete ? <div className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">Complete SignUp</div> :
+        {signUpComplete ? <div className="flex flex-col items-center"><div className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">Complete SignUp</div><Loader size="large"></Loader></div>
+        :
         <div className="flex flex-col">
             <div>Email Verification</div>
             <form onSubmit={handleSubmit} className="flex flex-col space-y-2" style={{width: "24rem"}}>

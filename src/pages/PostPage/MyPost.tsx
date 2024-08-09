@@ -23,7 +23,7 @@ function MyPost(){
                   {
           myPosts.map((post) => (
             <div key={post.id} className="relative">
-            <div className='gap-4 p-5 mt-4  rounded-lg shadow-md hover:bg-zinc-100 relative'>
+            <div className='gap-4 p-5 mt-4  rounded-lg shadow-md hover:drop-shadow-2xl hover:bg-zinc-100 relative'>
             {
                 post.coverImage && (
                   <div>

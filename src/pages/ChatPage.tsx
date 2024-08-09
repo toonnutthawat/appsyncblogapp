@@ -93,8 +93,8 @@ function ChatPage() {
     }, [chats]);
 
     return (
-        <div className="relative flex flex-col h-screen">
-            <div id="chat" className="overflow-y-auto h-4/5">
+        <div className="relative flex flex-col">
+            <div id="chat" className="overflow-y-auto" style={{height: "540px"}}>
                 {
                     chats && (
                         chats.map((chat) => (
@@ -110,13 +110,13 @@ function ChatPage() {
                 }
                 <div ref={chatEndRef} />
             </div>
-            <div id="input-block" className="w-full h-1/5 bg-white">
+            <div id="input-block" className="w-full bg-white sticky space-y-2" style={{height: "96px"}}>
                 <input
                     name="message"
                     value={chat.message}
                     placeholder="Start a message"
                     onChange={(e) => setChat({ ...chat, message: e.target.value })}
-                    className="ml-2 rounded pl-2 border-b pb-2 text-lg my-4 focus:outline-none w-full font-light text-gray-500 placeholder-gray-500 y-2">
+                    className="ml-2 rounded pl-2 border-b py-2 pb-2 text-lg focus:outline-none w-full font-light text-gray-500 placeholder-gray-500 y-2">
                 </input>
                 <button onClick={writeChat} className="ml-2 mb-4 border border-cyan-500 text-cyan-500 font-semibold px-8 py-2 rounded-lg hover:bg-cyan-100">Send</button>
             </div>

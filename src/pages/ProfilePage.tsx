@@ -67,7 +67,7 @@ function ProfilePage() {
     }
 
     return (
-        <div className='flex flex-col items-center'>
+        <div className='flex flex-col items-center' style={{height: "654px"}}>
             <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">Profile</h1>
             {
                 (image && editImg) ? (
