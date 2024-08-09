@@ -107,7 +107,7 @@ function HomePage() {
 
   return (
     <div className="m-4">
-      <h1 className='text-4xl font-bold text-cyan-500'>All Posts</h1>
+      <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">All Posts</h1>
       {
         (listAllPosts ?? []).map((post, index) => (
           <Link to={`/post/${post.id}`} key={index}>

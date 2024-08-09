@@ -103,7 +103,7 @@ function CreatePostPage() {
                     </div>
                 )
             }
-            <h1 className="text-3xl font-semibold tracking-wide mt-6">Create new Post</h1>
+            <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">Create new Post</h1>
             <input
                 onChange={onChange}
                 name="title"

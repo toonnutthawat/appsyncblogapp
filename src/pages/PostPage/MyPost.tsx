@@ -19,7 +19,7 @@ function MyPost(){
  
     return(
         <div className="py-8 px-8 max-w-xxl mx-auto rounded sm:items-center sm:space-y-0 sm:space-x-6 mb-2">
-            <h1 className='text-4xl font-bold text-cyan-500 ml-5'>My Posts</h1>
+            <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">My Posts</h1>
                   {
           myPosts.map((post) => (
             <div key={post.id} className="relative">

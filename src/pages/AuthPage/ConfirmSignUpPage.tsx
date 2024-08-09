@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { confirmSignUp } from "aws-amplify/auth";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -7,6 +8,7 @@ function ConfirmSignUpPage({username} : {username : string}){
     const [otp, setOtp] = useState("")
     const [errorMessage , setErrorMessage] = useState("")
     const [ signUpComplete , setSignUpComplete] = useState(false)
+    const navigate = useNavigate()
 
     const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -19,6 +21,9 @@ function ConfirmSignUpPage({username} : {username : string}){
             console.log("CONFIRM EMAIL SUCCESS");
             if(nextStep.signUpStep === "DONE"){
                 setSignUpComplete(true)
+                setTimeout(() => {
+                    navigate('/login'); // Replace '/next-page' with the route you want to navigate to
+                  }, 3000);
             }
             
         }
@@ -30,7 +35,7 @@ function ConfirmSignUpPage({username} : {username : string}){
 
     return(
     <div>
-        {signUpComplete ? <div>Complete SignUp</div> :
+        {signUpComplete ? <div className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">Complete SignUp</div> :
         <div className="flex flex-col">
             <div>Email Verification</div>
             <form onSubmit={handleSubmit} className="flex flex-col space-y-2" style={{width: "24rem"}}>
