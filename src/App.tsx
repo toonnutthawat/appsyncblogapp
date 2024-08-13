@@ -8,6 +8,7 @@ import MyPost from "./pages/PostPage/MyPost";
 import DetailPost from "./pages/PostPage/DetailPost";
 import EditPage from "./pages/PostPage/EditPage";
 import ChatPage from "./pages/ChatPage";
+import ResetPassword from "./pages/AuthPage/ResetPassword";
 import { detailLoader } from "./loaders/detailLoader";
 import Login from "./pages/AuthPage/Login";
 import '@aws-amplify/ui-react/styles.css';
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login></Login>
+      },
+      {
+        path: '/reset-password',
+        element: <ResetPassword></ResetPassword>
       },
       {
         path: '/my-post',

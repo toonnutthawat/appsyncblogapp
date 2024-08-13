@@ -14,6 +14,9 @@ function Login() {
     const toSignUpPage = () => {
         navigate('/sign-up')
     }
+    const toResetPasswordPage = () => {
+        navigate('/reset-password')
+    }
 
     const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -66,7 +69,10 @@ function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             required />
                     </div>
-                    <div className="absolute right-0 cursor-pointer mt-4" onClick={toSignUpPage}>Don't have an account? sign up</div>
+                    <div className="space-y-6 mt-4">
+                        <div className="absolute right-0 cursor-pointer" onClick={toSignUpPage}>Don't have an account? sign up</div>
+                        <div className="absolute right-0 cursor-pointer" onClick={toResetPasswordPage}>Forgot password?</div>
+                    </div>
                     <div className="mt-8">
                         <div className="flex flex-row items-center space-x-2">
                             <button className={`${(username && password) === "" ? "bg-gray-500" : "bg-cyan-500"} text-white p-2 rounded`} disabled={(username && password) === ""}>Login</button>
