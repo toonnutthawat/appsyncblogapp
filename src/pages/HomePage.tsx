@@ -10,7 +10,6 @@ import { useAppDispatch } from '../hook';
 import { useAppSelector } from '../hook';
 import { fetchPosts } from '../store/slices/thunks/postsThunk';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { FaSearch } from 'react-icons/fa';
 // import { InvokeCommandOutput, Lambda } from '@aws-sdk/client-lambda';
 // import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 // import { fetchUserAttributes } from 'aws-amplify/auth';
