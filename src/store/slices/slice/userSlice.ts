@@ -17,6 +17,9 @@ const userSlice = createSlice({
         builder.addCase(fetchUser.fulfilled, (state, action) => {
             state.userInfo = action.payload
         })
+        builder.addCase(fetchUser.rejected , (state) => {
+            state.error = "fail to fetch User"
+        })
     },
     reducers:{
 

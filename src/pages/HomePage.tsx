@@ -1,21 +1,27 @@
 import { generateClient } from 'aws-amplify/api';
 import { useState, useEffect } from "react";
 import '@aws-amplify/ui-react/styles.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StorageImage } from '@aws-amplify/ui-react-storage';
 import { onCreatePost } from '../graphql/subscriptions';
 import type { Post } from '../API';
 import { Subscription } from 'rxjs';
-import { useAppDispatch, useAppSelector } from '../hook';
+import { useAppDispatch } from '../hook';
+import { useAppSelector } from '../hook';
 import { fetchPosts } from '../store/slices/thunks/postsThunk';
-import { listPosts } from '../graphql/queries';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { FaSearch } from 'react-icons/fa';
 // import { InvokeCommandOutput, Lambda } from '@aws-sdk/client-lambda';
 // import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 // import { fetchUserAttributes } from 'aws-amplify/auth';
 
 function HomePage() {
   const [newPost, setNewPost] = useState<Post | null>(null);
-  const [listAllPosts, setlistAllPosts] = useState<Post[] | null>(null)
+  const { authStatus } = useAuthenticator(); // Destructure authStatus and user directly
+  const [term, setTerm] = useState("")
+  const navigate = useNavigate()
+  console.log(term);
+
   const dispatch = useAppDispatch();
   const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
   console.log("allposts", allPosts);
@@ -39,23 +45,6 @@ function HomePage() {
       subOnCreate.unsubscribe();
     };
   }, []);
-
-  useEffect(() => {
-    getPosts()
-    console.log("getPosts");
-  }, [])
-
-  async function getPosts() {
-    try {
-      const response = await client.graphql({
-        query: listPosts
-      })
-      setlistAllPosts(response.data.listPosts.items)
-    } catch (error) {
-      console.log(error);
-      setlistAllPosts([])
-    }
-  }
 
   // async function handler() {
   //   try {
@@ -100,6 +89,34 @@ function HomePage() {
   //   }
   // }
 
+  const filteredPosts = allPosts?.filter((post) =>
+    post.title.toLowerCase().includes(term.toLowerCase())
+  );
+
+  const renderedListAllPosts = filteredPosts?.map((post, index) => (
+    <div key={index}>
+      <Link to={`/post/${post.id}`}>
+        <div className='gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100'>
+          {
+            post.coverImage && (
+              <div>
+                <StorageImage path={post.coverImage} alt='img' className='size-3/6 rounded-lg'></StorageImage>
+              </div>
+            )
+          }
+          <h2 className='font-bold text-3xl truncate'>title: {post.title}</h2>
+          <p className='truncate'>content: {post.content}</p>
+          <p>author: {post.username}</p>
+        </div>
+      </Link>
+    </div>
+  ));
+
+  const toLoginPage = () => {
+    navigate("/login")
+  }
+
+
   useEffect(() => {
     dispatch(fetchPosts());
     console.log("fetchAllPosts");
@@ -107,24 +124,26 @@ function HomePage() {
 
   return (
     <div className="m-4">
-      <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">All Posts</h1>
-      {
-        (listAllPosts ?? []).map((post, index) => (
-          <Link to={`/post/${post.id}`} key={index}>
-            <div className='gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100'>
-              {
-                post.coverImage && (
-                  <div>
-                    <StorageImage path={post.coverImage} alt='img' className='size-3/6 rounded-lg'></StorageImage>
-                  </div>
-                )
-              }
-              <h2 className='font-bold text-3xl truncate'>title: {post.title}</h2>
-              <p className='truncate'>content: {post.content}</p>
-              <p>author: {post.username}</p>
-            </div>
-          </Link>
-        ))
+      {authStatus !== "authenticated" ?
+        <div>
+          <div className='text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg'>Welcome to APPSYNCBLOGAPP</div>
+          <button 
+            onClick={toLoginPage} 
+            className='mb-4 bg-cyan-500 text-white font-semibold py-2 rounded-lg hover:bg-cyan-800 flex items-center justify-center w-36'>login
+          </button>
+        </div>
+        :
+        <div>
+          <input 
+            value={term} 
+            onChange={e => setTerm(e.target.value)} 
+            placeholder='search title' 
+            className='p-2' 
+            style={{width: "100%"}}>
+            </input>
+          <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">All Posts</h1>
+          {renderedListAllPosts}
+        </div>
       }
     </div>
   );
