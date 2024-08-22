@@ -2,12 +2,12 @@ import { generateClient } from "@aws-amplify/api";
 import { useState, useEffect, useRef } from "react";
 import type { Chat } from "../API";
 import { createChat } from "../graphql/mutations";
-import { listChats } from "../graphql/queries";
 import Moment from "moment";
 import { Subscription } from 'rxjs';
 import { onCreateChat } from "../graphql/subscriptions";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchUser } from "../store/slices/thunks/userThunk";
+import { fetchChats } from "../store/slices/thunks/chatsThunk";
 
 function ChatPage() {
     const initialState: Chat = {
@@ -20,7 +20,9 @@ function ChatPage() {
     };
 
     const [chat, setChat] = useState<Chat>(initialState);
-    const [chats, setChats] = useState<Chat[]>([]);
+    const chatList = useAppSelector(state => state.chats.allChats.data || [])
+    const sortedChats = [...chatList].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    console.log("chatList :" , chatList);
     const [newChat, setNewChat] = useState<Chat | null>(null);
     const user = useAppSelector(state => state.user.userInfo)
     const client = generateClient();
@@ -30,11 +32,12 @@ function ChatPage() {
     let subOnCreate: Subscription;
 
     useEffect(() => {
-        fetchChat();
+        dispatch(fetchChats())
     }, [newChat]);
 
     useEffect(() => {
         dispatch(fetchUser())
+        dispatch(fetchChats())
     }, [])
 
     function setUpSubscription() {
@@ -55,16 +58,6 @@ function ChatPage() {
         };
     }, []);
 
-    async function fetchChat() {
-        const chatList = await publicClient.graphql({
-            query: listChats,
-        });
-
-        const sortedChats = chatList.data.listChats.items.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-
-        setChats(sortedChats);
-    }
-
     async function writeChat() {
         if (!chat.message) return;
         if (!user?.username) return;
@@ -79,7 +72,7 @@ function ChatPage() {
                 }
             });
             setChat({ ...chat, message: "" });
-            fetchChat();
+            dispatch(fetchChats());
         } catch (error) {
             console.log('Error chat: ', error);
         }
@@ -90,14 +83,14 @@ function ChatPage() {
         if (chatEndRef.current) {
             chatEndRef.current.scrollIntoView();
         }
-    }, [chats]);
+    }, [chatList]);
 
     return (
         <div className="relative flex flex-col">
             <div id="chat" className="overflow-y-auto" style={{height: "540px"}}>
                 {
-                    chats && (
-                        chats.map((chat) => (
+                    sortedChats && (
+                        sortedChats.map((chat) => (
                             <div key={chat.id} className="mb-6">
                                 <h1>From: {chat.username}</h1>
                                 <div className="gap-4 p-5 mt-4 shadow-md hover:bg-zinc-100 border border-cyan-500 rounded text-wrap break-words">
