@@ -15,7 +15,7 @@ import "easymde/dist/easymde.min.css"
 function CreatePostPage() {
     const initialState: Post = {
         title: "", content: "", id: "", createdAt: "", updatedAt: "",
-        __typename: "Post"
+        __typename: "Post", likes: 0
     }
     const [post, setPost] = useState<Post>(initialState)
     const [image, setImage] = useState<File | null>(null)
@@ -85,7 +85,8 @@ function CreatePostPage() {
                         title: newPost.title,
                         content: newPost.content,
                         id: id,
-                        coverImage: post.coverImage
+                        coverImage: post.coverImage,
+                        likes: 0
                     }
                 }
             });

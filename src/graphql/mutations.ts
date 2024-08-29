@@ -22,6 +22,11 @@ export const createPost = /* GraphQL */ `mutation CreatePost(
       nextToken
       __typename
     }
+    listOfLike {
+      nextToken
+      __typename
+    }
+    likes
     createdAt
     updatedAt
     __typename
@@ -45,6 +50,11 @@ export const updatePost = /* GraphQL */ `mutation UpdatePost(
       nextToken
       __typename
     }
+    listOfLike {
+      nextToken
+      __typename
+    }
+    likes
     createdAt
     updatedAt
     __typename
@@ -68,6 +78,11 @@ export const deletePost = /* GraphQL */ `mutation DeletePost(
       nextToken
       __typename
     }
+    listOfLike {
+      nextToken
+      __typename
+    }
+    likes
     createdAt
     updatedAt
     __typename
@@ -76,6 +91,93 @@ export const deletePost = /* GraphQL */ `mutation DeletePost(
 ` as GeneratedMutation<
   APITypes.DeletePostMutationVariables,
   APITypes.DeletePostMutation
+>;
+export const createAccountLike = /* GraphQL */ `mutation CreateAccountLike(
+  $input: CreateAccountLikeInput!
+  $condition: ModelAccountLikeConditionInput
+) {
+  createAccountLike(input: $input, condition: $condition) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      username
+      coverImage
+      likes
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    createdAt
+    updatedAt
+    createBy
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateAccountLikeMutationVariables,
+  APITypes.CreateAccountLikeMutation
+>;
+export const updateAccountLike = /* GraphQL */ `mutation UpdateAccountLike(
+  $input: UpdateAccountLikeInput!
+  $condition: ModelAccountLikeConditionInput
+) {
+  updateAccountLike(input: $input, condition: $condition) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      username
+      coverImage
+      likes
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    createdAt
+    updatedAt
+    createBy
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateAccountLikeMutationVariables,
+  APITypes.UpdateAccountLikeMutation
+>;
+export const deleteAccountLike = /* GraphQL */ `mutation DeleteAccountLike(
+  $input: DeleteAccountLikeInput!
+  $condition: ModelAccountLikeConditionInput
+) {
+  deleteAccountLike(input: $input, condition: $condition) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      username
+      coverImage
+      likes
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    createdAt
+    updatedAt
+    createBy
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteAccountLikeMutationVariables,
+  APITypes.DeleteAccountLikeMutation
 >;
 export const createComment = /* GraphQL */ `mutation CreateComment(
   $input: CreateCommentInput!
@@ -91,6 +193,7 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -120,6 +223,7 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -149,6 +253,7 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename

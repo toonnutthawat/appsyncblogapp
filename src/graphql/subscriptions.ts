@@ -22,6 +22,11 @@ export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
       nextToken
       __typename
     }
+    listOfLike {
+      nextToken
+      __typename
+    }
+    likes
     createdAt
     updatedAt
     __typename
@@ -45,6 +50,11 @@ export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost(
       nextToken
       __typename
     }
+    listOfLike {
+      nextToken
+      __typename
+    }
+    likes
     createdAt
     updatedAt
     __typename
@@ -68,6 +78,11 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
       nextToken
       __typename
     }
+    listOfLike {
+      nextToken
+      __typename
+    }
+    likes
     createdAt
     updatedAt
     __typename
@@ -76,6 +91,93 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
 ` as GeneratedSubscription<
   APITypes.OnDeletePostSubscriptionVariables,
   APITypes.OnDeletePostSubscription
+>;
+export const onCreateAccountLike = /* GraphQL */ `subscription OnCreateAccountLike(
+  $filter: ModelSubscriptionAccountLikeFilterInput
+  $createBy: String
+) {
+  onCreateAccountLike(filter: $filter, createBy: $createBy) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      username
+      coverImage
+      likes
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    createdAt
+    updatedAt
+    createBy
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateAccountLikeSubscriptionVariables,
+  APITypes.OnCreateAccountLikeSubscription
+>;
+export const onUpdateAccountLike = /* GraphQL */ `subscription OnUpdateAccountLike(
+  $filter: ModelSubscriptionAccountLikeFilterInput
+  $createBy: String
+) {
+  onUpdateAccountLike(filter: $filter, createBy: $createBy) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      username
+      coverImage
+      likes
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    createdAt
+    updatedAt
+    createBy
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateAccountLikeSubscriptionVariables,
+  APITypes.OnUpdateAccountLikeSubscription
+>;
+export const onDeleteAccountLike = /* GraphQL */ `subscription OnDeleteAccountLike(
+  $filter: ModelSubscriptionAccountLikeFilterInput
+  $createBy: String
+) {
+  onDeleteAccountLike(filter: $filter, createBy: $createBy) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      username
+      coverImage
+      likes
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    createdAt
+    updatedAt
+    createBy
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteAccountLikeSubscriptionVariables,
+  APITypes.OnDeleteAccountLikeSubscription
 >;
 export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
   $filter: ModelSubscriptionCommentFilterInput
@@ -91,6 +193,7 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -120,6 +223,7 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -149,6 +253,7 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename

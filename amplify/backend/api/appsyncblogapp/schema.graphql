@@ -18,7 +18,26 @@ type Post @model
   username: String @index(name: "postByUsername", queryField: "postByUsername")
   coverImage: String 
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+  listOfLike: [AccountLike] @hasMany(indexName: "byPost" , fields: ["id"])
+  likes: Int
 }
+
+type AccountLike
+  @model
+  @aws_api_key
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      {allow: owner, provider: userPools, ownerField: "createBy"}
+      {allow: public, provider: apiKey, operations: [read]}
+    ]
+  )
+  {
+    id: ID!
+    status: Boolean!
+    post: Post! @belongsTo(fields:["postID"])
+    postID: ID! @index(name: "byPost")
+  }
 
 type Comment
   @model
@@ -53,4 +72,5 @@ type Chat
     message: String!
     username: String!
   }
+
 

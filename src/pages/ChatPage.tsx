@@ -96,7 +96,7 @@ function ChatPage() {
                                 <div className="gap-4 p-5 mt-4 shadow-md hover:bg-zinc-100 border border-cyan-500 rounded text-wrap break-words">
                                     <h1>{chat.message}</h1>
                                 </div>
-                                <h1>{Moment(chat.createdAt).format("yy : MMM : dddd HH:mm")}</h1>
+                                <h1>{Moment(chat.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</h1>
                             </div>
                         ))
                     )

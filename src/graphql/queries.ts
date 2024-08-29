@@ -19,6 +19,11 @@ export const getPost = /* GraphQL */ `query GetPost($id: ID!) {
       nextToken
       __typename
     }
+    listOfLike {
+      nextToken
+      __typename
+    }
+    likes
     createdAt
     updatedAt
     __typename
@@ -37,6 +42,7 @@ export const listPosts = /* GraphQL */ `query ListPosts(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -66,6 +72,7 @@ export const postByUsername = /* GraphQL */ `query PostByUsername(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -78,6 +85,86 @@ export const postByUsername = /* GraphQL */ `query PostByUsername(
   APITypes.PostByUsernameQueryVariables,
   APITypes.PostByUsernameQuery
 >;
+export const getAccountLike = /* GraphQL */ `query GetAccountLike($id: ID!) {
+  getAccountLike(id: $id) {
+    id
+    status
+    post {
+      id
+      title
+      content
+      username
+      coverImage
+      likes
+      createdAt
+      updatedAt
+      __typename
+    }
+    postID
+    createdAt
+    updatedAt
+    createBy
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetAccountLikeQueryVariables,
+  APITypes.GetAccountLikeQuery
+>;
+export const listAccountLikes = /* GraphQL */ `query ListAccountLikes(
+  $filter: ModelAccountLikeFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listAccountLikes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      status
+      postID
+      createdAt
+      updatedAt
+      createBy
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListAccountLikesQueryVariables,
+  APITypes.ListAccountLikesQuery
+>;
+export const accountLikesByPostID = /* GraphQL */ `query AccountLikesByPostID(
+  $postID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelAccountLikeFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  accountLikesByPostID(
+    postID: $postID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      status
+      postID
+      createdAt
+      updatedAt
+      createBy
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.AccountLikesByPostIDQueryVariables,
+  APITypes.AccountLikesByPostIDQuery
+>;
 export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
   getComment(id: $id) {
     id
@@ -89,6 +176,7 @@ export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename

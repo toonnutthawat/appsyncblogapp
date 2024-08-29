@@ -8,6 +8,7 @@ export type CreatePostInput = {
   content: string,
   username?: string | null,
   coverImage?: string | null,
+  likes?: number | null,
 };
 
 export type ModelPostConditionInput = {
@@ -15,6 +16,7 @@ export type ModelPostConditionInput = {
   content?: ModelStringInput | null,
   username?: ModelStringInput | null,
   coverImage?: ModelStringInput | null,
+  likes?: ModelIntInput | null,
   and?: Array< ModelPostConditionInput | null > | null,
   or?: Array< ModelPostConditionInput | null > | null,
   not?: ModelPostConditionInput | null,
@@ -62,6 +64,18 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
 export type Post = {
   __typename: "Post",
   id: string,
@@ -70,6 +84,8 @@ export type Post = {
   username?: string | null,
   coverImage?: string | null,
   comments?: ModelCommentConnection | null,
+  listOfLike?: ModelAccountLikeConnection | null,
+  likes?: number | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -92,15 +108,83 @@ export type Comment = {
   createBy?: string | null,
 };
 
+export type ModelAccountLikeConnection = {
+  __typename: "ModelAccountLikeConnection",
+  items:  Array<AccountLike | null >,
+  nextToken?: string | null,
+};
+
+export type AccountLike = {
+  __typename: "AccountLike",
+  id: string,
+  status: boolean,
+  post: Post,
+  postID: string,
+  createdAt: string,
+  updatedAt: string,
+  createBy?: string | null,
+};
+
 export type UpdatePostInput = {
   id: string,
   title?: string | null,
   content?: string | null,
   username?: string | null,
   coverImage?: string | null,
+  likes?: number | null,
 };
 
 export type DeletePostInput = {
+  id: string,
+};
+
+export type CreateAccountLikeInput = {
+  id?: string | null,
+  status: boolean,
+  postID: string,
+};
+
+export type ModelAccountLikeConditionInput = {
+  status?: ModelBooleanInput | null,
+  postID?: ModelIDInput | null,
+  and?: Array< ModelAccountLikeConditionInput | null > | null,
+  or?: Array< ModelAccountLikeConditionInput | null > | null,
+  not?: ModelAccountLikeConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  createBy?: ModelStringInput | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export type UpdateAccountLikeInput = {
+  id: string,
+  status?: boolean | null,
+  postID?: string | null,
+};
+
+export type DeleteAccountLikeInput = {
   id: string,
 };
 
@@ -121,22 +205,6 @@ export type ModelCommentConditionInput = {
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   createBy?: ModelStringInput | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type UpdateCommentInput = {
@@ -191,6 +259,7 @@ export type ModelPostFilterInput = {
   content?: ModelStringInput | null,
   username?: ModelStringInput | null,
   coverImage?: ModelStringInput | null,
+  likes?: ModelIntInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelPostFilterInput | null > | null,
@@ -209,6 +278,18 @@ export enum ModelSortDirection {
   DESC = "DESC",
 }
 
+
+export type ModelAccountLikeFilterInput = {
+  id?: ModelIDInput | null,
+  status?: ModelBooleanInput | null,
+  postID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelAccountLikeFilterInput | null > | null,
+  or?: Array< ModelAccountLikeFilterInput | null > | null,
+  not?: ModelAccountLikeFilterInput | null,
+  createBy?: ModelStringInput | null,
+};
 
 export type ModelCommentFilterInput = {
   id?: ModelIDInput | null,
@@ -245,6 +326,7 @@ export type ModelSubscriptionPostFilterInput = {
   title?: ModelSubscriptionStringInput | null,
   content?: ModelSubscriptionStringInput | null,
   coverImage?: ModelSubscriptionStringInput | null,
+  likes?: ModelSubscriptionIntInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionPostFilterInput | null > | null,
@@ -280,6 +362,34 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionAccountLikeFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  status?: ModelSubscriptionBooleanInput | null,
+  postID?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionAccountLikeFilterInput | null > | null,
+  or?: Array< ModelSubscriptionAccountLikeFilterInput | null > | null,
+  createBy?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
 };
 
 export type ModelSubscriptionCommentFilterInput = {
@@ -321,6 +431,11 @@ export type CreatePostMutation = {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
     } | null,
+    listOfLike?:  {
+      __typename: "ModelAccountLikeConnection",
+      nextToken?: string | null,
+    } | null,
+    likes?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -343,6 +458,11 @@ export type UpdatePostMutation = {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
     } | null,
+    listOfLike?:  {
+      __typename: "ModelAccountLikeConnection",
+      nextToken?: string | null,
+    } | null,
+    likes?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -365,8 +485,97 @@ export type DeletePostMutation = {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
     } | null,
+    listOfLike?:  {
+      __typename: "ModelAccountLikeConnection",
+      nextToken?: string | null,
+    } | null,
+    likes?: number | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type CreateAccountLikeMutationVariables = {
+  input: CreateAccountLikeInput,
+  condition?: ModelAccountLikeConditionInput | null,
+};
+
+export type CreateAccountLikeMutation = {
+  createAccountLike?:  {
+    __typename: "AccountLike",
+    id: string,
+    status: boolean,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      username?: string | null,
+      coverImage?: string | null,
+      likes?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    postID: string,
+    createdAt: string,
+    updatedAt: string,
+    createBy?: string | null,
+  } | null,
+};
+
+export type UpdateAccountLikeMutationVariables = {
+  input: UpdateAccountLikeInput,
+  condition?: ModelAccountLikeConditionInput | null,
+};
+
+export type UpdateAccountLikeMutation = {
+  updateAccountLike?:  {
+    __typename: "AccountLike",
+    id: string,
+    status: boolean,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      username?: string | null,
+      coverImage?: string | null,
+      likes?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    postID: string,
+    createdAt: string,
+    updatedAt: string,
+    createBy?: string | null,
+  } | null,
+};
+
+export type DeleteAccountLikeMutationVariables = {
+  input: DeleteAccountLikeInput,
+  condition?: ModelAccountLikeConditionInput | null,
+};
+
+export type DeleteAccountLikeMutation = {
+  deleteAccountLike?:  {
+    __typename: "AccountLike",
+    id: string,
+    status: boolean,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      username?: string | null,
+      coverImage?: string | null,
+      likes?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    postID: string,
+    createdAt: string,
+    updatedAt: string,
+    createBy?: string | null,
   } | null,
 };
 
@@ -388,6 +597,7 @@ export type CreateCommentMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -416,6 +626,7 @@ export type UpdateCommentMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -444,6 +655,7 @@ export type DeleteCommentMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -518,6 +730,11 @@ export type GetPostQuery = {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
     } | null,
+    listOfLike?:  {
+      __typename: "ModelAccountLikeConnection",
+      nextToken?: string | null,
+    } | null,
+    likes?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -539,6 +756,7 @@ export type ListPostsQuery = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -564,8 +782,82 @@ export type PostByUsernameQuery = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetAccountLikeQueryVariables = {
+  id: string,
+};
+
+export type GetAccountLikeQuery = {
+  getAccountLike?:  {
+    __typename: "AccountLike",
+    id: string,
+    status: boolean,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      username?: string | null,
+      coverImage?: string | null,
+      likes?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    postID: string,
+    createdAt: string,
+    updatedAt: string,
+    createBy?: string | null,
+  } | null,
+};
+
+export type ListAccountLikesQueryVariables = {
+  filter?: ModelAccountLikeFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAccountLikesQuery = {
+  listAccountLikes?:  {
+    __typename: "ModelAccountLikeConnection",
+    items:  Array< {
+      __typename: "AccountLike",
+      id: string,
+      status: boolean,
+      postID: string,
+      createdAt: string,
+      updatedAt: string,
+      createBy?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type AccountLikesByPostIDQueryVariables = {
+  postID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAccountLikeFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type AccountLikesByPostIDQuery = {
+  accountLikesByPostID?:  {
+    __typename: "ModelAccountLikeConnection",
+    items:  Array< {
+      __typename: "AccountLike",
+      id: string,
+      status: boolean,
+      postID: string,
+      createdAt: string,
+      updatedAt: string,
+      createBy?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -588,6 +880,7 @@ export type GetCommentQuery = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -699,6 +992,11 @@ export type OnCreatePostSubscription = {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
     } | null,
+    listOfLike?:  {
+      __typename: "ModelAccountLikeConnection",
+      nextToken?: string | null,
+    } | null,
+    likes?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -721,6 +1019,11 @@ export type OnUpdatePostSubscription = {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
     } | null,
+    listOfLike?:  {
+      __typename: "ModelAccountLikeConnection",
+      nextToken?: string | null,
+    } | null,
+    likes?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -743,8 +1046,97 @@ export type OnDeletePostSubscription = {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
     } | null,
+    listOfLike?:  {
+      __typename: "ModelAccountLikeConnection",
+      nextToken?: string | null,
+    } | null,
+    likes?: number | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnCreateAccountLikeSubscriptionVariables = {
+  filter?: ModelSubscriptionAccountLikeFilterInput | null,
+  createBy?: string | null,
+};
+
+export type OnCreateAccountLikeSubscription = {
+  onCreateAccountLike?:  {
+    __typename: "AccountLike",
+    id: string,
+    status: boolean,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      username?: string | null,
+      coverImage?: string | null,
+      likes?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    postID: string,
+    createdAt: string,
+    updatedAt: string,
+    createBy?: string | null,
+  } | null,
+};
+
+export type OnUpdateAccountLikeSubscriptionVariables = {
+  filter?: ModelSubscriptionAccountLikeFilterInput | null,
+  createBy?: string | null,
+};
+
+export type OnUpdateAccountLikeSubscription = {
+  onUpdateAccountLike?:  {
+    __typename: "AccountLike",
+    id: string,
+    status: boolean,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      username?: string | null,
+      coverImage?: string | null,
+      likes?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    postID: string,
+    createdAt: string,
+    updatedAt: string,
+    createBy?: string | null,
+  } | null,
+};
+
+export type OnDeleteAccountLikeSubscriptionVariables = {
+  filter?: ModelSubscriptionAccountLikeFilterInput | null,
+  createBy?: string | null,
+};
+
+export type OnDeleteAccountLikeSubscription = {
+  onDeleteAccountLike?:  {
+    __typename: "AccountLike",
+    id: string,
+    status: boolean,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      username?: string | null,
+      coverImage?: string | null,
+      likes?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    postID: string,
+    createdAt: string,
+    updatedAt: string,
+    createBy?: string | null,
   } | null,
 };
 
@@ -766,6 +1158,7 @@ export type OnCreateCommentSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -794,6 +1187,7 @@ export type OnUpdateCommentSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -822,6 +1216,7 @@ export type OnDeleteCommentSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
+      likes?: number | null,
       createdAt: string,
       updatedAt: string,
     },
