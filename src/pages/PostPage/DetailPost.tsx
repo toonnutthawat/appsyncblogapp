@@ -19,6 +19,8 @@ import { useAppSelector } from "../../hook";
 function DetailPost() {
 
     const { detail } = useLoaderData() as DetailResult
+    console.log("detail :" , detail);
+    
     const { authStatus } = useAuthenticator(context => [context.authStatus])
     const initialState: Comment = {
         id: '', message: '', createdAt: '', updatedAt: '', __typename: "Comment",
