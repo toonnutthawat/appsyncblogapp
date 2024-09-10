@@ -1,13 +1,12 @@
 import { generateClient } from "@aws-amplify/api";
 import { useState, useEffect, useRef } from "react";
 import type { Chat } from "../API";
-import { createChat } from "../graphql/mutations";
 import Moment from "moment";
 import { Subscription } from 'rxjs';
 import { onCreateChat } from "../graphql/subscriptions";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchUser } from "../store/slices/thunks/userThunk";
-import { fetchChats } from "../store/slices/thunks/chatsThunk";
+import { createMessage, fetchChats } from "../store/slices/thunks/chatsThunk";
 
 function ChatPage() {
     const initialState: Chat = {
@@ -22,10 +21,9 @@ function ChatPage() {
     const [chat, setChat] = useState<Chat>(initialState);
     const chatList = useAppSelector(state => state.chats.allChats.data || [])
     const sortedChats = [...chatList].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-    console.log("chatList :" , chatList);
+    //console.log("chatList :" , chatList);
     const [newChat, setNewChat] = useState<Chat | null>(null);
     const user = useAppSelector(state => state.user.userInfo)
-    const client = generateClient();
     const publicClient = generateClient({ authMode: 'apiKey' });
     const dispatch = useAppDispatch()
     const chatEndRef = useRef<HTMLDivElement>(null);
@@ -61,21 +59,8 @@ function ChatPage() {
     async function writeChat() {
         if (!chat.message) return;
         if (!user?.username) return;
-        try {
-            await client.graphql({
-                query: createChat,
-                variables: {
-                    input: {
-                        message: chat.message,
-                        username: user?.username
-                    }
-                }
-            });
-            setChat({ ...chat, message: "" });
-            dispatch(fetchChats());
-        } catch (error) {
-            console.log('Error chat: ', error);
-        }
+        dispatch(createMessage(chat.message))
+        dispatch(fetchChats())
     }
 
 

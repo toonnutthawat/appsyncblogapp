@@ -15,7 +15,7 @@ import "easymde/dist/easymde.min.css"
 function CreatePostPage() {
     const initialState: Post = {
         title: "", content: "", id: "", createdAt: "", updatedAt: "",
-        __typename: "Post", likes: 0
+        __typename: "Post"
     }
     const [post, setPost] = useState<Post>(initialState)
     const [image, setImage] = useState<File | null>(null)
@@ -86,7 +86,6 @@ function CreatePostPage() {
                         content: newPost.content,
                         id: id,
                         coverImage: post.coverImage,
-                        likes: 0
                     }
                 }
             });
@@ -96,7 +95,7 @@ function CreatePostPage() {
     }
 
     return (
-        <div>
+        <div className='px-20'>
             {
                 image && (
                     <div className="flex flex-col items-center">

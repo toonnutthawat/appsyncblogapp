@@ -48,7 +48,6 @@ function MyPost() {
               <p className="truncate"> content :  {post.content}</p>
               <p> author : {post.username}</p>
               <p className="text-slate=500">Create on : {Moment(post.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</p>
-              <p className="text-slate=500"> likes : {post.likes}</p>
               <div className="flex absolute right-4 bottom-4">
                 <Link to={`/post/${post.id}`}
                   className="bg-cyan-500 rounded p-2 bottom-5 hover:bg-cyan-700 text-white  text-sm sm:text-base">View</Link>

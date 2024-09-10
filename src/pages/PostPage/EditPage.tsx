@@ -2,24 +2,26 @@ import { useLoaderData } from "react-router-dom"
 import type { DetailResult } from "../../loaders/detailLoader"
 import { useState , useRef } from "react"
 import SimpleMdeReact from "react-simplemde-editor"
-import { updatePost as UpdatePostMutation} from "../../graphql/mutations"
-import { generateClient } from "@aws-amplify/api"
+// import { generateClient } from "@aws-amplify/api"
 //import { PostType } from "../types/PostType"
+import { useAppDispatch } from "../../hook";
 import { Post } from "../../API"
 import { useNavigate } from "react-router-dom"
 import { StorageImage } from "@aws-amplify/ui-react-storage"
 import { v4 as uuid} from "uuid"
 import { uploadData } from "aws-amplify/storage"
+import { editPost } from "../../store/slices/thunks/postsThunk"
 
 
 function EditPage(){
     const {detail} = useLoaderData() as DetailResult
-    const client = generateClient()
+    //const client = generateClient()
     const [ updatedPost , setUpdatedPost] = useState<Post>(detail)
     const [image , setImage] = useState<File | null>(null)
     const [delImg , setDelImg] = useState(false)
     const imageFileInput = useRef<HTMLInputElement | null>(null)
     const navigate = useNavigate()
+    const dispatch = useAppDispatch();
     console.log(delImg)
     console.log(updatedPost.coverImage)
 
@@ -54,19 +56,7 @@ function EditPage(){
         if(delImg){
             updatedPost.coverImage = null
         }
-
-        await client.graphql({
-            query: UpdatePostMutation,
-            variables: { input: 
-                {   
-                    id: detail.id,
-                    title: updatedPost.title,
-                    content: updatedPost.content,
-                    coverImage: updatedPost.coverImage
-                }
-             }
-        })
-
+        dispatch(editPost({ updatedNewPost: updatedPost, detailId: detail.id }));
         navigate('/my-post')
     }
 

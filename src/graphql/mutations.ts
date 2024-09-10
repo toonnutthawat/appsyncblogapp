@@ -26,7 +26,6 @@ export const createPost = /* GraphQL */ `mutation CreatePost(
       nextToken
       __typename
     }
-    likes
     createdAt
     updatedAt
     __typename
@@ -54,7 +53,6 @@ export const updatePost = /* GraphQL */ `mutation UpdatePost(
       nextToken
       __typename
     }
-    likes
     createdAt
     updatedAt
     __typename
@@ -82,7 +80,6 @@ export const deletePost = /* GraphQL */ `mutation DeletePost(
       nextToken
       __typename
     }
-    likes
     createdAt
     updatedAt
     __typename
@@ -92,11 +89,11 @@ export const deletePost = /* GraphQL */ `mutation DeletePost(
   APITypes.DeletePostMutationVariables,
   APITypes.DeletePostMutation
 >;
-export const createAccountLike = /* GraphQL */ `mutation CreateAccountLike(
-  $input: CreateAccountLikeInput!
-  $condition: ModelAccountLikeConditionInput
+export const createLikeStatus = /* GraphQL */ `mutation CreateLikeStatus(
+  $input: CreateLikeStatusInput!
+  $condition: ModelLikeStatusConditionInput
 ) {
-  createAccountLike(input: $input, condition: $condition) {
+  createLikeStatus(input: $input, condition: $condition) {
     id
     status
     post {
@@ -105,7 +102,6 @@ export const createAccountLike = /* GraphQL */ `mutation CreateAccountLike(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -118,14 +114,14 @@ export const createAccountLike = /* GraphQL */ `mutation CreateAccountLike(
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateAccountLikeMutationVariables,
-  APITypes.CreateAccountLikeMutation
+  APITypes.CreateLikeStatusMutationVariables,
+  APITypes.CreateLikeStatusMutation
 >;
-export const updateAccountLike = /* GraphQL */ `mutation UpdateAccountLike(
-  $input: UpdateAccountLikeInput!
-  $condition: ModelAccountLikeConditionInput
+export const updateLikeStatus = /* GraphQL */ `mutation UpdateLikeStatus(
+  $input: UpdateLikeStatusInput!
+  $condition: ModelLikeStatusConditionInput
 ) {
-  updateAccountLike(input: $input, condition: $condition) {
+  updateLikeStatus(input: $input, condition: $condition) {
     id
     status
     post {
@@ -134,7 +130,6 @@ export const updateAccountLike = /* GraphQL */ `mutation UpdateAccountLike(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -147,14 +142,14 @@ export const updateAccountLike = /* GraphQL */ `mutation UpdateAccountLike(
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateAccountLikeMutationVariables,
-  APITypes.UpdateAccountLikeMutation
+  APITypes.UpdateLikeStatusMutationVariables,
+  APITypes.UpdateLikeStatusMutation
 >;
-export const deleteAccountLike = /* GraphQL */ `mutation DeleteAccountLike(
-  $input: DeleteAccountLikeInput!
-  $condition: ModelAccountLikeConditionInput
+export const deleteLikeStatus = /* GraphQL */ `mutation DeleteLikeStatus(
+  $input: DeleteLikeStatusInput!
+  $condition: ModelLikeStatusConditionInput
 ) {
-  deleteAccountLike(input: $input, condition: $condition) {
+  deleteLikeStatus(input: $input, condition: $condition) {
     id
     status
     post {
@@ -163,7 +158,6 @@ export const deleteAccountLike = /* GraphQL */ `mutation DeleteAccountLike(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -176,8 +170,8 @@ export const deleteAccountLike = /* GraphQL */ `mutation DeleteAccountLike(
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteAccountLikeMutationVariables,
-  APITypes.DeleteAccountLikeMutation
+  APITypes.DeleteLikeStatusMutationVariables,
+  APITypes.DeleteLikeStatusMutation
 >;
 export const createComment = /* GraphQL */ `mutation CreateComment(
   $input: CreateCommentInput!
@@ -193,7 +187,6 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -223,7 +216,6 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -253,7 +245,6 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename

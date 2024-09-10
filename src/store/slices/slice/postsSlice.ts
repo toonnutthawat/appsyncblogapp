@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { Post } from "../../../API"
-import { fetchPosts , fetchMyPosts , removePost } from "../thunks/postsThunk"
+import { fetchPosts , fetchMyPosts , removePost , editPost } from "../thunks/postsThunk"
 
 const postsSlice = createSlice({
     name: "posts",
@@ -34,6 +34,28 @@ const postsSlice = createSlice({
                 return post.id !== action.payload.data.deletePost.id
             })
         })
+
+        builder.addCase(editPost.fulfilled, (state, action) => {
+            const updatedPost = action.payload;
+
+            // Update in allPosts
+            if (state.allPosts.data) {
+              const index = state.allPosts.data.findIndex((post) => post.id === updatedPost.id);
+              if (index !== -1) {
+                state.allPosts.data[index] = updatedPost as Post;
+                console.log("after updated : ", state.allPosts.data[index]);
+              }
+            }
+      
+            // Update in myPosts
+            if (state.myPosts.data) {
+              const index = state.myPosts.data.findIndex((post) => post.id === updatedPost.id);
+              if (index !== -1) {
+                state.myPosts.data[index] = updatedPost as Post;
+              }
+            }
+        })
+    
     },
     reducers: {
 

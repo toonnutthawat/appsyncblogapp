@@ -26,7 +26,6 @@ export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
       nextToken
       __typename
     }
-    likes
     createdAt
     updatedAt
     __typename
@@ -54,7 +53,6 @@ export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost(
       nextToken
       __typename
     }
-    likes
     createdAt
     updatedAt
     __typename
@@ -82,7 +80,6 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
       nextToken
       __typename
     }
-    likes
     createdAt
     updatedAt
     __typename
@@ -92,11 +89,11 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
   APITypes.OnDeletePostSubscriptionVariables,
   APITypes.OnDeletePostSubscription
 >;
-export const onCreateAccountLike = /* GraphQL */ `subscription OnCreateAccountLike(
-  $filter: ModelSubscriptionAccountLikeFilterInput
+export const onCreateLikeStatus = /* GraphQL */ `subscription OnCreateLikeStatus(
+  $filter: ModelSubscriptionLikeStatusFilterInput
   $createBy: String
 ) {
-  onCreateAccountLike(filter: $filter, createBy: $createBy) {
+  onCreateLikeStatus(filter: $filter, createBy: $createBy) {
     id
     status
     post {
@@ -105,7 +102,6 @@ export const onCreateAccountLike = /* GraphQL */ `subscription OnCreateAccountLi
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -118,14 +114,14 @@ export const onCreateAccountLike = /* GraphQL */ `subscription OnCreateAccountLi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateAccountLikeSubscriptionVariables,
-  APITypes.OnCreateAccountLikeSubscription
+  APITypes.OnCreateLikeStatusSubscriptionVariables,
+  APITypes.OnCreateLikeStatusSubscription
 >;
-export const onUpdateAccountLike = /* GraphQL */ `subscription OnUpdateAccountLike(
-  $filter: ModelSubscriptionAccountLikeFilterInput
+export const onUpdateLikeStatus = /* GraphQL */ `subscription OnUpdateLikeStatus(
+  $filter: ModelSubscriptionLikeStatusFilterInput
   $createBy: String
 ) {
-  onUpdateAccountLike(filter: $filter, createBy: $createBy) {
+  onUpdateLikeStatus(filter: $filter, createBy: $createBy) {
     id
     status
     post {
@@ -134,7 +130,6 @@ export const onUpdateAccountLike = /* GraphQL */ `subscription OnUpdateAccountLi
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -147,14 +142,14 @@ export const onUpdateAccountLike = /* GraphQL */ `subscription OnUpdateAccountLi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateAccountLikeSubscriptionVariables,
-  APITypes.OnUpdateAccountLikeSubscription
+  APITypes.OnUpdateLikeStatusSubscriptionVariables,
+  APITypes.OnUpdateLikeStatusSubscription
 >;
-export const onDeleteAccountLike = /* GraphQL */ `subscription OnDeleteAccountLike(
-  $filter: ModelSubscriptionAccountLikeFilterInput
+export const onDeleteLikeStatus = /* GraphQL */ `subscription OnDeleteLikeStatus(
+  $filter: ModelSubscriptionLikeStatusFilterInput
   $createBy: String
 ) {
-  onDeleteAccountLike(filter: $filter, createBy: $createBy) {
+  onDeleteLikeStatus(filter: $filter, createBy: $createBy) {
     id
     status
     post {
@@ -163,7 +158,6 @@ export const onDeleteAccountLike = /* GraphQL */ `subscription OnDeleteAccountLi
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -176,8 +170,8 @@ export const onDeleteAccountLike = /* GraphQL */ `subscription OnDeleteAccountLi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteAccountLikeSubscriptionVariables,
-  APITypes.OnDeleteAccountLikeSubscription
+  APITypes.OnDeleteLikeStatusSubscriptionVariables,
+  APITypes.OnDeleteLikeStatusSubscription
 >;
 export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
   $filter: ModelSubscriptionCommentFilterInput
@@ -193,7 +187,6 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -223,7 +216,6 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename
@@ -253,7 +245,6 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
       content
       username
       coverImage
-      likes
       createdAt
       updatedAt
       __typename

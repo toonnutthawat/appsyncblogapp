@@ -7,14 +7,16 @@ import { StorageImage } from "@aws-amplify/ui-react-storage";
 import SimpleMdeReact from "react-simplemde-editor";
 import type { Comment } from "../../API";
 import { generateClient } from "@aws-amplify/api";
-import { createAccountLike, createComment, updateAccountLike } from "../../graphql/mutations";
-import { v4 as uuid } from "uuid"
-import { getAccountLike, listAccountLikes, listComments } from "../../graphql/queries";
+// import { createAccountLike, updateAccountLike } from "../../graphql/mutations";
+// import { getAccountLike, listAccountLikes } from "../../graphql/queries";
+import { createLikeStatus , updateLikeStatus } from "../../graphql/mutations";
+import { getLikeStatus , listLikeStatuses } from "../../graphql/queries";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Subscription } from 'rxjs';
 import { onCreateComment } from "../../graphql/subscriptions";
 import { BiSolidLike } from "react-icons/bi";
-import { useAppSelector } from "../../hook";
+import { useAppDispatch, useAppSelector } from "../../hook";
+import { addComment, fetchComments } from "../../store/slices/thunks/commentsThunk";
 
 function DetailPost() {
 
@@ -31,20 +33,19 @@ function DetailPost() {
     const [showComment, setShowComment] = useState(false)
     const [accountLike, setAccountLike] = useState<boolean>()
     const [comment, setComment] = useState<Comment>(initialState)
-    const [comments, setComments] = useState<Comment[]>()
     const [newComment, setNewComment] = useState<Comment>()
     const [totalLikes , setTotalLikes] = useState(0)
     const username = useAppSelector(state => state.user.userInfo?.username)
+    const comments = useAppSelector(state => state.comments.data)
     const clientPublic = generateClient({ authMode: 'apiKey' });
-
-
     const clientPrivate = generateClient();
+    const dispatch = useAppDispatch()
     let subOnCreate: Subscription
 
 
     useEffect(() => {
         updateCoverImage();
-        fetchComment();
+        dispatch(fetchComments(detail))
     }, [newComment])
 
 
@@ -76,7 +77,7 @@ function DetailPost() {
         console.log("postID", detail.id);
         
         const response = await clientPublic.graphql({
-            query: listAccountLikes,
+            query: listLikeStatuses,
             variables: {
                 filter:{
                     postID: {
@@ -88,49 +89,28 @@ function DetailPost() {
                 }
             }
         })
-        setTotalLikes(response.data.listAccountLikes.items.length)
+        setTotalLikes(response.data.listLikeStatuses.items.length)
     }
 
     async function fetchStatusAccountLike() {
         try {
             const response = await clientPrivate.graphql({
-                query: getAccountLike,
+                query: getLikeStatus,
                 variables: {
                     id: detail.id + ":" + username
                 }
             })
-            if (response.data.getAccountLike === null) {
+            if (response.data.getLikeStatus === null) {
                 setAccountLike(false)
             }
             else {
-                setAccountLike(response.data.getAccountLike?.status as boolean)
+                setAccountLike(response.data.getLikeStatus?.status as boolean)
             }
         }
         catch (error) {
             console.log(error);
         }
     }
-
-    async function fetchComment() {
-        const commentList = await clientPublic.graphql({
-            query: listComments,
-            variables: {
-                filter: {
-                    postID: {
-                        eq: detail.id,
-                    },
-                },
-            },
-        });
-
-        const fetchedComments = commentList.data.listComments.items.map((comment) => ({
-            ...comment,
-            post: detail,
-        }));
-
-        setComments(fetchedComments)
-    }
-
 
     async function updateCoverImage() {
         if (detail.coverImage) {
@@ -139,7 +119,6 @@ function DetailPost() {
                     path: detail.coverImage,
                 });
                 setCoverImage(result.path)
-                //console.log('File Properties ', result);
             } catch (error) {
                 console.log('Error ', error);
             }
@@ -148,23 +127,11 @@ function DetailPost() {
 
     async function writeComment() {
         if (!comment?.message) return;
-        const id = uuid()
         try {
-            await clientPrivate.graphql({
-                query: createComment,
-                variables: {
-                    input: {
-                        id: id,
-                        message: comment.message,
-                        postID: detail.id
-                    }
-                }
-            })
+            dispatch(addComment({message: comment.message , postId: detail.id}))
             setShowComment(false)
+            dispatch(fetchComments(detail))
             setComment({ ...comment, message: "" })
-            fetchComment()
-            console.log(showComment)
-
         } catch (error) {
             console.log('Error writing comment: ', error);
         }
@@ -173,17 +140,17 @@ function DetailPost() {
     async function toggleLike() {
 
         const response = await clientPrivate.graphql({
-            query: getAccountLike,
+            query: getLikeStatus,
             variables: {
                 id: detail.id + ":" + username
             }
         })
 
 
-        if (response.data.getAccountLike === null) {
+        if (response.data.getLikeStatus === null) {
             try {
                 await clientPrivate.graphql({
-                    query: createAccountLike,
+                    query: createLikeStatus,
                     variables: {
                         input: {
                             id: detail.id + ":" + username,
@@ -199,13 +166,13 @@ function DetailPost() {
             }
         }
         else {
-            if (!response.data.getAccountLike?.id) return;
+            if (!response.data.getLikeStatus?.id) return;
             await clientPrivate.graphql({
-                query: updateAccountLike,
+                query: updateLikeStatus,
                 variables: {
                     input: {
-                        id: response.data.getAccountLike?.id,
-                        status: !response.data.getAccountLike?.status
+                        id: response.data.getLikeStatus?.id,
+                        status: !response.data.getLikeStatus?.status
                     }
                 }
             })
@@ -216,7 +183,7 @@ function DetailPost() {
 
 
     return (
-        <div>
+        <div className="px-20">
             <div className="flex flex-col text-left relative">
                 <div className="flex flex-col items-center">
                     <div className="flex flex-row absolute right-0 mt-4 items-center">

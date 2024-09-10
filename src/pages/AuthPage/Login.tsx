@@ -42,7 +42,7 @@ function Login() {
 
     return (
         <div className="flex justify-center">
-            <div className="space-y-2 relative">
+            <div className="space-y-2 relative h-full">
                 <div className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">
                     Login
                 </div>
