@@ -4,7 +4,6 @@ import { listChats } from "../../../graphql/queries";
 import { getCurrentUser } from "aws-amplify/auth";
 import { createChat } from "../../../graphql/mutations";
 
-const client = generateClient({authMode:"apiKey"});
 const privateClient = generateClient()
 
 
@@ -24,7 +23,7 @@ const createMessage = createAsyncThunk("createMessage", async (message: string )
 })
 
 const fetchChats = createAsyncThunk("fetchChats", async () => {
-    const response = await client.graphql({
+    const response = await privateClient.graphql({
         query: listChats
     })
 
@@ -33,7 +32,7 @@ const fetchChats = createAsyncThunk("fetchChats", async () => {
 
 const fetchMyChats = createAsyncThunk("fetchMyChats", async () => {
     const user = await getCurrentUser()
-    const response = await client.graphql({
+    const response = await privateClient.graphql({
         query: listChats,
         variables: {
           filter: {

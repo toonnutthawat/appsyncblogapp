@@ -22,7 +22,7 @@ const fetchMyPosts = createAsyncThunk("fetchMyPosts", async () => {
         query: listPosts,
         variables: {
           filter: {
-            username: { eq: `${user?.userId}::${user?.username}` }
+            username: { eq: `${user?.username}` }
           }
         }
       })
@@ -32,12 +32,18 @@ const fetchMyPosts = createAsyncThunk("fetchMyPosts", async () => {
 
 
 const removePost = createAsyncThunk("deletePost", async (id : string) => {
+  try{
     const response = await client.graphql({
         query: deletePost,
         variables: {input : {id}}
     })
 
     return response
+  }
+  catch(error){
+    console.log(error);
+    
+  }
 }) 
 
 const editPost = createAsyncThunk("editPost", async ({updatedNewPost, detailId} : {updatedNewPost : Post , detailId : string}) => {

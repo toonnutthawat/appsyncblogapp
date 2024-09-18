@@ -52,39 +52,6 @@ export const listPosts = /* GraphQL */ `query ListPosts(
   }
 }
 ` as GeneratedQuery<APITypes.ListPostsQueryVariables, APITypes.ListPostsQuery>;
-export const postByUsername = /* GraphQL */ `query PostByUsername(
-  $username: String!
-  $sortDirection: ModelSortDirection
-  $filter: ModelPostFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  postByUsername(
-    username: $username
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      title
-      content
-      username
-      coverImage
-      likes
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.PostByUsernameQueryVariables,
-  APITypes.PostByUsernameQuery
->;
 export const getLikeStatus = /* GraphQL */ `query GetLikeStatus($id: ID!) {
   getLikeStatus(id: $id) {
     id
@@ -133,37 +100,6 @@ export const listLikeStatuses = /* GraphQL */ `query ListLikeStatuses(
 ` as GeneratedQuery<
   APITypes.ListLikeStatusesQueryVariables,
   APITypes.ListLikeStatusesQuery
->;
-export const likeStatusesByPostID = /* GraphQL */ `query LikeStatusesByPostID(
-  $postID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelLikeStatusFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  likeStatusesByPostID(
-    postID: $postID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      status
-      postID
-      createdAt
-      updatedAt
-      createBy
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.LikeStatusesByPostIDQueryVariables,
-  APITypes.LikeStatusesByPostIDQuery
 >;
 export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
   getComment(id: $id) {
@@ -216,6 +152,100 @@ export const listComments = /* GraphQL */ `query ListComments(
   APITypes.ListCommentsQueryVariables,
   APITypes.ListCommentsQuery
 >;
+export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
+  getChat(id: $id) {
+    id
+    message
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetChatQueryVariables, APITypes.GetChatQuery>;
+export const listChats = /* GraphQL */ `query ListChats(
+  $filter: ModelChatFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listChats(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      message
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListChatsQueryVariables, APITypes.ListChatsQuery>;
+export const postByUsername = /* GraphQL */ `query PostByUsername(
+  $username: String!
+  $sortDirection: ModelSortDirection
+  $filter: ModelPostFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  postByUsername(
+    username: $username
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      title
+      content
+      username
+      coverImage
+      likes
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.PostByUsernameQueryVariables,
+  APITypes.PostByUsernameQuery
+>;
+export const likeStatusesByPostID = /* GraphQL */ `query LikeStatusesByPostID(
+  $postID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelLikeStatusFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  likeStatusesByPostID(
+    postID: $postID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      status
+      postID
+      createdAt
+      updatedAt
+      createBy
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.LikeStatusesByPostIDQueryVariables,
+  APITypes.LikeStatusesByPostIDQuery
+>;
 export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
   $postID: ID!
   $sortDirection: ModelSortDirection
@@ -248,33 +278,3 @@ export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
   APITypes.CommentsByPostIDQueryVariables,
   APITypes.CommentsByPostIDQuery
 >;
-export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
-  getChat(id: $id) {
-    id
-    message
-    username
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.GetChatQueryVariables, APITypes.GetChatQuery>;
-export const listChats = /* GraphQL */ `query ListChats(
-  $filter: ModelChatFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listChats(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      message
-      username
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.ListChatsQueryVariables, APITypes.ListChatsQuery>;

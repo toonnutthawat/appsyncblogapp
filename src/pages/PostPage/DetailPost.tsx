@@ -14,7 +14,6 @@ import { BiSolidLike } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { addComment, fetchComments } from "../../store/slices/thunks/commentsThunk";
 import { updateLikesByPost, fetchLikeStatus, toggleLikeStatus } from "../../store/slices/thunks/likeStatusThunk";
-import { fetchPosts } from "../../store/slices/thunks/postsThunk";
 
 function DetailPost() {
 
@@ -30,17 +29,17 @@ function DetailPost() {
     const [accountLike, setAccountLike] = useState<boolean>(false)
     const [comment, setComment] = useState<Comment>(initialState)
     const [newComment, setNewComment] = useState<Comment>()
-    const [likesCount, setLikesCount] = useState<number>(detail.likes);
+    const [likesCount, setLikesCount] = useState<number>(detail.likes ? detail.likes : 0);
     const comments = useAppSelector(state => state.comments.data)
     const likeStatus = useAppSelector(state => state.likeStatus.data)
-    const test = useAppSelector(state => state.posts.allPosts.data?.find((post) => {return post.id === detail.id}))
+    //const test = useAppSelector(state => state.posts.allPosts.data?.find((post) => {return post.id === detail.id}))
     // console.log("detail : ", detail);
     // console.log("likeStatus : ",likeStatus);
     // console.log("accountLike :", accountLike);
     // console.log("likesCount :", likesCount);
     // console.log("test : ",test);
     
-    const clientPublic = generateClient({ authMode: 'apiKey' });
+    const clientPublic = generateClient();
     const dispatch = useAppDispatch()
     let subOnCreate: Subscription
     

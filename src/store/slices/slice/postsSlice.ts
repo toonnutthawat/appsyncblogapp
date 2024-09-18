@@ -32,11 +32,13 @@ const postsSlice = createSlice({
         builder.addCase(removePost.fulfilled, (state , action) => {
             if(!state.myPosts.data) return;
             state.myPosts.data = state.myPosts.data?.filter((post) => {
+                if(!action.payload) return;
                 return post.id !== action.payload.data.deletePost.id
             })
         })
 
         builder.addCase(updateLikesByPost.fulfilled, (state, action) => {
+            if(!action.payload) return;
             const { postId, likesCount } = action.payload;
       
             // Update likes in allPosts

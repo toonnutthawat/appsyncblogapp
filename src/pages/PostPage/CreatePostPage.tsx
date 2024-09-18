@@ -9,6 +9,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import type { Post } from "../../API";
 import { FaFileImage } from "react-icons/fa";
 import "easymde/dist/easymde.min.css"
+import { useAppSelector } from '../../hook';
 
 
 
@@ -19,6 +20,7 @@ function CreatePostPage() {
     }
     const [post, setPost] = useState<Post>(initialState)
     const [image, setImage] = useState<File | null>(null)
+    const user = useAppSelector(state => state.user.userInfo)
     const { title, content } = post;
     const { authStatus } = useAuthenticator(context => [context.authStatus]);
     const imageFileInput = useRef<HTMLInputElement | null>(null)
@@ -86,6 +88,8 @@ function CreatePostPage() {
                         content: newPost.content,
                         id: id,
                         coverImage: post.coverImage,
+                        username: user?.username,
+                        likes: 0
                     }
                 }
             });

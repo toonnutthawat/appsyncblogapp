@@ -22,7 +22,7 @@ function HomePage() {
   const dispatch = useAppDispatch();
   const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
 
-  const client = generateClient({ authMode: 'apiKey' });
+  const client = generateClient();
   let subOnCreate: Subscription;
 
   function setUpSubscriptions() {

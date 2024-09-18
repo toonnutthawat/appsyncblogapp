@@ -21,10 +21,10 @@ function ChatPage() {
     const [chat, setChat] = useState<Chat>(initialState);
     const chatList = useAppSelector(state => state.chats.allChats.data || [])
     const sortedChats = [...chatList].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-    //console.log("chatList :" , chatList);
+    console.log("chatList :" , chatList);
     const [newChat, setNewChat] = useState<Chat | null>(null);
     const user = useAppSelector(state => state.user.userInfo)
-    const publicClient = generateClient({ authMode: 'apiKey' });
+    const publicClient = generateClient();
     const dispatch = useAppDispatch()
     const chatEndRef = useRef<HTMLDivElement>(null);
     let subOnCreate: Subscription;

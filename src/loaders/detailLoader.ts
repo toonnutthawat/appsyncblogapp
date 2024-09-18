@@ -13,7 +13,7 @@ export interface DetailResult {
 }
 
 export async function detailLoader({ params }: ParamsType): Promise<DetailResult> {
-    const client = generateClient({ authMode: "apiKey" });
+    const client = generateClient();
     const { id } = params;
     if (!id) {
         throw new Error('id must be provided');

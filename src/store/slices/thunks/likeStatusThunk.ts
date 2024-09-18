@@ -4,7 +4,7 @@ import { getLikeStatus, listLikeStatuses } from "../../../graphql/queries";
 import { createLikeStatus, updateLikeStatus, updatePost } from "../../../graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
 
-const client = generateClient({authMode: "apiKey"})
+const client = generateClient()
 const privateClient = generateClient()
 
 const fetchLikeStatus = createAsyncThunk("fetchLikeStatus", async (postId : string) => {
@@ -67,6 +67,7 @@ const toggleLikeStatus = createAsyncThunk("toggleLikeStatus" , async (postId : s
 })
 
 const updateLikesByPost = createAsyncThunk("fetchLikesByPost" , async (postId : string) => {
+    try{
         const response = await client.graphql({
             query: listLikeStatuses,
             variables: {
@@ -90,7 +91,12 @@ const updateLikesByPost = createAsyncThunk("fetchLikesByPost" , async (postId : 
             }
 
         })
+        console.log("updateLikesByPost");
         return { postId, likesCount: response.data.listLikeStatuses.items.length };
+    }
+    catch(error){
+        console.log(error);   
+    }
 })
 
 

@@ -8,7 +8,7 @@ export type CreatePostInput = {
   content: string,
   username?: string | null,
   coverImage?: string | null,
-  likes?: number | null,
+  likes: number,
 };
 
 export type ModelPostConditionInput = {
@@ -83,7 +83,7 @@ export type Post = {
   content: string,
   username?: string | null,
   coverImage?: string | null,
-  likes?: number | null,
+  likes: number,
   comments?: ModelCommentConnection | null,
   listOfLike?: ModelLikeStatusConnection | null,
   createdAt: string,
@@ -273,12 +273,6 @@ export type ModelPostConnection = {
   nextToken?: string | null,
 };
 
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-
 export type ModelLikeStatusFilterInput = {
   id?: ModelIDInput | null,
   status?: ModelBooleanInput | null,
@@ -320,6 +314,12 @@ export type ModelChatConnection = {
   items:  Array<Chat | null >,
   nextToken?: string | null,
 };
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelSubscriptionPostFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -427,7 +427,7 @@ export type CreatePostMutation = {
     content: string,
     username?: string | null,
     coverImage?: string | null,
-    likes?: number | null,
+    likes: number,
     comments?:  {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
@@ -454,7 +454,7 @@ export type UpdatePostMutation = {
     content: string,
     username?: string | null,
     coverImage?: string | null,
-    likes?: number | null,
+    likes: number,
     comments?:  {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
@@ -481,7 +481,7 @@ export type DeletePostMutation = {
     content: string,
     username?: string | null,
     coverImage?: string | null,
-    likes?: number | null,
+    likes: number,
     comments?:  {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
@@ -512,7 +512,7 @@ export type CreateLikeStatusMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -540,7 +540,7 @@ export type UpdateLikeStatusMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -568,7 +568,7 @@ export type DeleteLikeStatusMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -597,7 +597,7 @@ export type CreateCommentMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -626,7 +626,7 @@ export type UpdateCommentMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -655,7 +655,7 @@ export type DeleteCommentMutation = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -726,7 +726,7 @@ export type GetPostQuery = {
     content: string,
     username?: string | null,
     coverImage?: string | null,
-    likes?: number | null,
+    likes: number,
     comments?:  {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
@@ -756,33 +756,7 @@ export type ListPostsQuery = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type PostByUsernameQueryVariables = {
-  username: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelPostFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type PostByUsernameQuery = {
-  postByUsername?:  {
-    __typename: "ModelPostConnection",
-    items:  Array< {
-      __typename: "Post",
-      id: string,
-      title: string,
-      content: string,
-      username?: string | null,
-      coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -806,7 +780,7 @@ export type GetLikeStatusQuery = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -839,30 +813,6 @@ export type ListLikeStatusesQuery = {
   } | null,
 };
 
-export type LikeStatusesByPostIDQueryVariables = {
-  postID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelLikeStatusFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type LikeStatusesByPostIDQuery = {
-  likeStatusesByPostID?:  {
-    __typename: "ModelLikeStatusConnection",
-    items:  Array< {
-      __typename: "LikeStatus",
-      id: string,
-      status: boolean,
-      postID: string,
-      createdAt: string,
-      updatedAt: string,
-      createBy?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
 export type GetCommentQueryVariables = {
   id: string,
 };
@@ -880,7 +830,7 @@ export type GetCommentQuery = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -899,31 +849,6 @@ export type ListCommentsQueryVariables = {
 
 export type ListCommentsQuery = {
   listComments?:  {
-    __typename: "ModelCommentConnection",
-    items:  Array< {
-      __typename: "Comment",
-      id: string,
-      message: string,
-      img?: string | null,
-      postID: string,
-      createdAt: string,
-      updatedAt: string,
-      createBy?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type CommentsByPostIDQueryVariables = {
-  postID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelCommentFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type CommentsByPostIDQuery = {
-  commentsByPostID?:  {
     __typename: "ModelCommentConnection",
     items:  Array< {
       __typename: "Comment",
@@ -975,6 +900,81 @@ export type ListChatsQuery = {
   } | null,
 };
 
+export type PostByUsernameQueryVariables = {
+  username: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelPostFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type PostByUsernameQuery = {
+  postByUsername?:  {
+    __typename: "ModelPostConnection",
+    items:  Array< {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      username?: string | null,
+      coverImage?: string | null,
+      likes: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type LikeStatusesByPostIDQueryVariables = {
+  postID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelLikeStatusFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type LikeStatusesByPostIDQuery = {
+  likeStatusesByPostID?:  {
+    __typename: "ModelLikeStatusConnection",
+    items:  Array< {
+      __typename: "LikeStatus",
+      id: string,
+      status: boolean,
+      postID: string,
+      createdAt: string,
+      updatedAt: string,
+      createBy?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type CommentsByPostIDQueryVariables = {
+  postID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelCommentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type CommentsByPostIDQuery = {
+  commentsByPostID?:  {
+    __typename: "ModelCommentConnection",
+    items:  Array< {
+      __typename: "Comment",
+      id: string,
+      message: string,
+      img?: string | null,
+      postID: string,
+      createdAt: string,
+      updatedAt: string,
+      createBy?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreatePostSubscriptionVariables = {
   filter?: ModelSubscriptionPostFilterInput | null,
   username?: string | null,
@@ -988,7 +988,7 @@ export type OnCreatePostSubscription = {
     content: string,
     username?: string | null,
     coverImage?: string | null,
-    likes?: number | null,
+    likes: number,
     comments?:  {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
@@ -1015,7 +1015,7 @@ export type OnUpdatePostSubscription = {
     content: string,
     username?: string | null,
     coverImage?: string | null,
-    likes?: number | null,
+    likes: number,
     comments?:  {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
@@ -1042,7 +1042,7 @@ export type OnDeletePostSubscription = {
     content: string,
     username?: string | null,
     coverImage?: string | null,
-    likes?: number | null,
+    likes: number,
     comments?:  {
       __typename: "ModelCommentConnection",
       nextToken?: string | null,
@@ -1073,7 +1073,7 @@ export type OnCreateLikeStatusSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -1101,7 +1101,7 @@ export type OnUpdateLikeStatusSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -1129,7 +1129,7 @@ export type OnDeleteLikeStatusSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -1158,7 +1158,7 @@ export type OnCreateCommentSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -1187,7 +1187,7 @@ export type OnUpdateCommentSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
@@ -1216,7 +1216,7 @@ export type OnDeleteCommentSubscription = {
       content: string,
       username?: string | null,
       coverImage?: string | null,
-      likes?: number | null,
+      likes: number,
       createdAt: string,
       updatedAt: string,
     },
