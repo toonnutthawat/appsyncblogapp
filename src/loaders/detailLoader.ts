@@ -2,7 +2,7 @@ import { Params } from "react-router-dom";
 import { generateClient } from "@aws-amplify/api";
 import '../../configureAmplify'
 import { getPost } from "../graphql/queries";
-import type { Post, ModelCommentConnection, ModelAccountLikeConnection } from "../API"; // Adjust the path as necessary
+import type { Post, ModelCommentConnection , ModelLikeStatusConnection } from "../API"; // Adjust the path as necessary
 
 interface ParamsType {
     params: Params
@@ -33,9 +33,9 @@ export async function detailLoader({ params }: ParamsType): Promise<DetailResult
         ...postData.data.getPost,
         // Type assertion for comments field
         listOfLike: {
-            __typename: "ModelAccountLikeConnection",
+            __typename: "ModelLikeStatusConnection",
             nextToken: postData.data.getPost.listOfLike?.nextToken,
-        } as ModelAccountLikeConnection
+        } as ModelLikeStatusConnection
         ,
         comments: postData.data.getPost.comments as ModelCommentConnection
     };

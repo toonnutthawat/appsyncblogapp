@@ -18,6 +18,7 @@ export const onCreatePost = /* GraphQL */ `subscription OnCreatePost(
     content
     username
     coverImage
+    likes
     comments {
       nextToken
       __typename
@@ -45,6 +46,7 @@ export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost(
     content
     username
     coverImage
+    likes
     comments {
       nextToken
       __typename
@@ -72,6 +74,7 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
     content
     username
     coverImage
+    likes
     comments {
       nextToken
       __typename
@@ -102,6 +105,7 @@ export const onCreateLikeStatus = /* GraphQL */ `subscription OnCreateLikeStatus
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -130,6 +134,7 @@ export const onUpdateLikeStatus = /* GraphQL */ `subscription OnUpdateLikeStatus
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -158,6 +163,7 @@ export const onDeleteLikeStatus = /* GraphQL */ `subscription OnDeleteLikeStatus
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -187,6 +193,7 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -216,6 +223,7 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -245,6 +253,7 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename

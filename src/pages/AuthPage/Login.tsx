@@ -41,14 +41,14 @@ function Login() {
     }
 
     return (
-        <div className="flex justify-center">
-            <div className="space-y-2 relative h-full">
-                <div className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">
+        <div className="flex justify-center bg-white min-h-screen">
+            <div className="space-y-2 relative bg-cyan-500 p-8 mt-8 shadow-2xl rounded" style={{ height: "32rem" }}>
+                <div className="text-4xl py-4 text-white font-bold drop-shadow-lg">
                     Login
                 </div>
                 <form onSubmit={handleSignIn}>
                     <div>
-                        <div>Username</div>
+                        <div className="text-white">Username</div>
                         <input
                             value={username}
                             type="text"
@@ -59,7 +59,7 @@ function Login() {
                             required />
                     </div>
                     <div>
-                        <div>Password</div>
+                        <div className="text-white">Password</div>
                         <input
                             value={password}
                             type="password"
@@ -69,18 +69,21 @@ function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             required />
                     </div>
-                    <div className="space-y-6 mt-4">
-                        <div className="absolute right-0 cursor-pointer" onClick={toSignUpPage}>Don't have an account? sign up</div>
-                        <div className="absolute right-0 cursor-pointer" onClick={toResetPasswordPage}>Forgot password?</div>
-                    </div>
                     <div className="mt-8">
-                        <div className="flex flex-row items-center space-x-2">
-                            <button className={`${(username && password) === "" ? "bg-gray-500" : "bg-cyan-500"} text-white p-2 rounded`} disabled={(username && password) === ""}>Login</button>
-                            <button onClick={() => signInWithRedirect({ provider: "Facebook" })} className="">
-                                <FaFacebookSquare size="34px" color="#0866ff"></FaFacebookSquare>
+                        <div className="flex flex-col items-center space-y-2">
+                            <button className={`${(username && password) === "" ? "bg-gray-500" : "bg-cyan-700"} text-white p-2 rounded w-full`} disabled={(username && password) === ""}>Login</button>
+
+                            <button onClick={() => signInWithRedirect({ provider: "Facebook" })} className="flex flex-row items-center justify-center w-full rounded p-2 space-x-2" style={{ backgroundColor: "#0866ff" }}>
+                                <FaFacebookSquare size="22px" color="white"></FaFacebookSquare>
+                                <p className="text-white">facebook</p>
                             </button>
+
                         </div>
                         {errorMessage && (<div className="text-red-500 break-words" style={{ width: "24rem" }}>{errorMessage}</div>)}
+                    </div>
+                    <div className="space-y-6 mt-4 relative">
+                        <div className="absolute right-0 cursor-pointer text-white" onClick={toSignUpPage}>Don't have an account? sign up</div>
+                        <div className="absolute right-0 cursor-pointer text-white" onClick={toResetPasswordPage}>Forgot password?</div>
                     </div>
                 </form>
             </div>

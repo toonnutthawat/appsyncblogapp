@@ -8,7 +8,7 @@ const client = generateClient({authMode:"apiKey"});
 const privateClient = generateClient()
 
 
-const createMessage = createAsyncThunk("createMessage", async (message: string ,) => {
+const createMessage = createAsyncThunk("createMessage", async (message: string ) => {
   const user = await getCurrentUser()  
   const response = await privateClient.graphql({
       query: createChat,

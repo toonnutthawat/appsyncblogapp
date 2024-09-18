@@ -17,6 +17,7 @@ type Post @model
   content: String!
   username: String @index(name: "postByUsername", queryField: "postByUsername")
   coverImage: String 
+  likes: Int
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
   listOfLike: [LikeStatus] @hasMany(indexName: "byPost" , fields: ["id"])
 }

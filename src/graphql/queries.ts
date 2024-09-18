@@ -15,6 +15,7 @@ export const getPost = /* GraphQL */ `query GetPost($id: ID!) {
     content
     username
     coverImage
+    likes
     comments {
       nextToken
       __typename
@@ -41,6 +42,7 @@ export const listPosts = /* GraphQL */ `query ListPosts(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -70,6 +72,7 @@ export const postByUsername = /* GraphQL */ `query PostByUsername(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -92,6 +95,7 @@ export const getLikeStatus = /* GraphQL */ `query GetLikeStatus($id: ID!) {
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -172,6 +176,7 @@ export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename

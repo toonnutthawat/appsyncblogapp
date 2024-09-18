@@ -3,6 +3,7 @@ import { postsReducer } from "./slice/postsSlice";
 import { userReducer } from "./slice/userSlice";
 import { chatsReducer } from "./slice/chatsSlice";
 import { commentsReducer } from "./slice/commentsSlice";
+import { likeStatusReducer } from "./slice/likeStatusSlice";
 
 
 const store = configureStore({
@@ -10,7 +11,8 @@ const store = configureStore({
         posts: postsReducer,
         user: userReducer,
         chats: chatsReducer,
-        comments: commentsReducer
+        comments: commentsReducer,
+        likeStatus: likeStatusReducer
     }
 })
 

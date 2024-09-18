@@ -19,8 +19,6 @@ function HomePage() {
   const { authStatus } = useAuthenticator(); // Destructure authStatus and user directly
   const [term, setTerm] = useState("")
   const navigate = useNavigate()
-  console.log(term);
-
   const dispatch = useAppDispatch();
   const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
 
@@ -93,7 +91,7 @@ function HomePage() {
 
   const renderedListAllPosts = filteredPosts?.map((post, index) => (
     <div key={index}>
-      <Link to={`/post/${post.id}`}>
+      <Link to={`/post/${post.id}`} state={{detail : post}}>
         <div className='gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100'>
           {
             post.coverImage && (

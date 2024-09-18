@@ -35,15 +35,15 @@ function ConfirmSignUpPage({username} : {username : string}){
     }
 
     return(
-    <div>
-        {signUpComplete ? <div className="flex flex-col items-center"><div className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">Complete SignUp</div><Loader size="large"></Loader></div>
+    <div className="flex flex-col justify-center">
+        {signUpComplete ? <div className="flex flex-col items-center"><div className="text-4xl py-4 text-white font-bold drop-shadow-lg">Complete SignUp</div><Loader size="large"></Loader></div>
         :
         <div className="flex flex-col">
-            <div>Email Verification</div>
+            <div className="text-4xl pb-4 text-white font-bold drop-shadow-lg">Email Verification</div>
             <form onSubmit={handleSubmit} className="flex flex-col space-y-2" style={{width: "24rem"}}>
                 <input value={otp} onChange={(e) => setOtp(e.target.value)}  className="border-2 pl-2 border-cyan-500 rounded" />
                 { errorMessage && (<div className="text-red-500 break-words" style={{width: "24rem"}}>{errorMessage}</div>)}
-                <button className={`${otp === "" ? "bg-gray-500" : "bg-cyan-500"} text-white p-2 rounded mt-4`} disabled={otp===""}>confirm email</button>
+                <button className={`${otp === "" ? "bg-gray-500" : "bg-cyan-700"} text-white p-2 rounded mt-4`} disabled={otp===""}>confirm email</button>
             </form>
         </div>
 }

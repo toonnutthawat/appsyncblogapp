@@ -88,9 +88,9 @@ function ProfilePage() {
                     }
                 </p>
                 <p className="text-sm text-gray-500 mb-6">
-                    userId :
+                    email :
                     {
-                        " " + userInfo?.id
+                        " " + userInfo?.email
                     }
                 </p>
             </div>

@@ -5,6 +5,7 @@ export interface UserInfoType {
     id: string,
     username: string,
     img: string | undefined
+    email: string | undefined
 }
 
 const userSlice = createSlice({

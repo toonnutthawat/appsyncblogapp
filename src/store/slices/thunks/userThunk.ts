@@ -10,7 +10,8 @@ const fetchUser = createAsyncThunk("fetchUser", async () => {
         const user: UserInfoType = {
             id: response.userId,
             username: response.username,
-            img: responseAttributes.profile
+            img: responseAttributes.profile,
+            email: responseAttributes.email
         };
 
         return user

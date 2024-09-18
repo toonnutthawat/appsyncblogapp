@@ -7,22 +7,18 @@ import { StorageImage } from "@aws-amplify/ui-react-storage";
 import SimpleMdeReact from "react-simplemde-editor";
 import type { Comment } from "../../API";
 import { generateClient } from "@aws-amplify/api";
-// import { createAccountLike, updateAccountLike } from "../../graphql/mutations";
-// import { getAccountLike, listAccountLikes } from "../../graphql/queries";
-import { createLikeStatus , updateLikeStatus } from "../../graphql/mutations";
-import { getLikeStatus , listLikeStatuses } from "../../graphql/queries";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Subscription } from 'rxjs';
 import { onCreateComment } from "../../graphql/subscriptions";
 import { BiSolidLike } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { addComment, fetchComments } from "../../store/slices/thunks/commentsThunk";
+import { updateLikesByPost, fetchLikeStatus, toggleLikeStatus } from "../../store/slices/thunks/likeStatusThunk";
+import { fetchPosts } from "../../store/slices/thunks/postsThunk";
 
 function DetailPost() {
 
     const { detail } = useLoaderData() as DetailResult
-    console.log("detail :" , detail);
-    
     const { authStatus } = useAuthenticator(context => [context.authStatus])
     const initialState: Comment = {
         id: '', message: '', createdAt: '', updatedAt: '', __typename: "Comment",
@@ -31,18 +27,23 @@ function DetailPost() {
     }
     const [coverImage, setCoverImage] = useState('')
     const [showComment, setShowComment] = useState(false)
-    const [accountLike, setAccountLike] = useState<boolean>()
+    const [accountLike, setAccountLike] = useState<boolean>(false)
     const [comment, setComment] = useState<Comment>(initialState)
     const [newComment, setNewComment] = useState<Comment>()
-    const [totalLikes , setTotalLikes] = useState(0)
-    const username = useAppSelector(state => state.user.userInfo?.username)
+    const [likesCount, setLikesCount] = useState<number>(detail.likes);
     const comments = useAppSelector(state => state.comments.data)
+    const likeStatus = useAppSelector(state => state.likeStatus.data)
+    const test = useAppSelector(state => state.posts.allPosts.data?.find((post) => {return post.id === detail.id}))
+    // console.log("detail : ", detail);
+    // console.log("likeStatus : ",likeStatus);
+    // console.log("accountLike :", accountLike);
+    // console.log("likesCount :", likesCount);
+    // console.log("test : ",test);
+    
     const clientPublic = generateClient({ authMode: 'apiKey' });
-    const clientPrivate = generateClient();
     const dispatch = useAppDispatch()
     let subOnCreate: Subscription
-
-
+    
     useEffect(() => {
         updateCoverImage();
         dispatch(fetchComments(detail))
@@ -69,47 +70,34 @@ function DetailPost() {
     }, []);
 
     useEffect(() => {
-        fetchTotalLikes()
+        dispatch(fetchLikeStatus(detail.id))
+        //dispatch(updateLikesByPost(detail.id))
         fetchStatusAccountLike()
+        //dispatch(fetchPosts())
     }, [])
 
-    async function fetchTotalLikes() {
-        console.log("postID", detail.id);
-        
-        const response = await clientPublic.graphql({
-            query: listLikeStatuses,
-            variables: {
-                filter:{
-                    postID: {
-                        eq: detail.id
-                    },
-                    status: {
-                        eq: true
-                    }
-                }
-            }
-        })
-        setTotalLikes(response.data.listLikeStatuses.items.length)
-    }
+    useEffect(() => {
+        //dispatch(fetchPosts())
+        dispatch(updateLikesByPost(detail.id))
+    },[toggleLike])
 
     async function fetchStatusAccountLike() {
         try {
-            const response = await clientPrivate.graphql({
-                query: getLikeStatus,
-                variables: {
-                    id: detail.id + ":" + username
-                }
-            })
-            if (response.data.getLikeStatus === null) {
-                setAccountLike(false)
-            }
-            else {
-                setAccountLike(response.data.getLikeStatus?.status as boolean)
-            }
+            setAccountLike(likeStatus?.status as boolean)
         }
         catch (error) {
             console.log(error);
         }
+    }
+
+    async function toggleLike() {
+        if(!likeStatus) return;
+        const newLikeStatus = !accountLike;
+        dispatch(toggleLikeStatus(detail.id))
+        dispatch(updateLikesByPost(detail.id))
+        fetchStatusAccountLike()
+        setLikesCount((prevCount) => (newLikeStatus ? prevCount + 1 : prevCount - 1));
+        setAccountLike(!accountLike)
     }
 
     async function updateCoverImage() {
@@ -137,62 +125,18 @@ function DetailPost() {
         }
     }
 
-    async function toggleLike() {
-
-        const response = await clientPrivate.graphql({
-            query: getLikeStatus,
-            variables: {
-                id: detail.id + ":" + username
-            }
-        })
-
-
-        if (response.data.getLikeStatus === null) {
-            try {
-                await clientPrivate.graphql({
-                    query: createLikeStatus,
-                    variables: {
-                        input: {
-                            id: detail.id + ":" + username,
-                            status: !accountLike,
-                            postID: detail.id
-                        }
-                    }
-                })
-                setAccountLike(!accountLike)
-            }
-            catch (error) {
-                console.log(error);
-            }
-        }
-        else {
-            if (!response.data.getLikeStatus?.id) return;
-            await clientPrivate.graphql({
-                query: updateLikeStatus,
-                variables: {
-                    input: {
-                        id: response.data.getLikeStatus?.id,
-                        status: !response.data.getLikeStatus?.status
-                    }
-                }
-            })
-        }
-        fetchStatusAccountLike()
-        fetchTotalLikes()
-    }
-
 
     return (
         <div className="px-20">
             <div className="flex flex-col text-left relative">
                 <div className="flex flex-col items-center">
                     <div className="flex flex-row absolute right-0 mt-4 items-center">
-                        {accountLike ?
+                        {accountLike  ?
                             <BiSolidLike className="text-green-500 hover:text-green-700 cursor-pointer" size="34px" onClick={toggleLike} />
                             :
                             <BiSolidLike className="text-red-500 hover:text-red-700 cursor-pointer" size="34px" onClick={toggleLike} />
                         }
-                        <div className="ml-2">{totalLikes}</div>
+                        <div className="ml-2">{likesCount}</div>
                     </div>
                     {
                         coverImage && (

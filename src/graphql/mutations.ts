@@ -18,6 +18,7 @@ export const createPost = /* GraphQL */ `mutation CreatePost(
     content
     username
     coverImage
+    likes
     comments {
       nextToken
       __typename
@@ -45,6 +46,7 @@ export const updatePost = /* GraphQL */ `mutation UpdatePost(
     content
     username
     coverImage
+    likes
     comments {
       nextToken
       __typename
@@ -72,6 +74,7 @@ export const deletePost = /* GraphQL */ `mutation DeletePost(
     content
     username
     coverImage
+    likes
     comments {
       nextToken
       __typename
@@ -102,6 +105,7 @@ export const createLikeStatus = /* GraphQL */ `mutation CreateLikeStatus(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -130,6 +134,7 @@ export const updateLikeStatus = /* GraphQL */ `mutation UpdateLikeStatus(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -158,6 +163,7 @@ export const deleteLikeStatus = /* GraphQL */ `mutation DeleteLikeStatus(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -187,6 +193,7 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -216,6 +223,7 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
@@ -245,6 +253,7 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
       content
       username
       coverImage
+      likes
       createdAt
       updatedAt
       __typename
