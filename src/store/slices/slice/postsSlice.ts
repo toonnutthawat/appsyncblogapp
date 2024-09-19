@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { Post } from "../../../API"
-import { fetchPosts , fetchMyPosts , removePost , editPost } from "../thunks/postsThunk"
+import { fetchPosts , fetchMyPosts , removePost , editPost, addPost } from "../thunks/postsThunk"
 import { updateLikesByPost } from "../thunks/likeStatusThunk"
 
 const postsSlice = createSlice({
@@ -28,6 +28,11 @@ const postsSlice = createSlice({
         })
         builder.addCase(fetchMyPosts.rejected, (state) => {
             state.myPosts.error = "fail to fetchMyPosts"
+        })
+
+        builder.addCase(addPost.fulfilled, (state,action) => {
+          state.allPosts.data?.push(action.payload as Post)
+          console.log("addPost in Redux success");
         })
         builder.addCase(removePost.fulfilled, (state , action) => {
             if(!state.myPosts.data) return;

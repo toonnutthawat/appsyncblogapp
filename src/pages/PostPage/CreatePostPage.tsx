@@ -1,35 +1,29 @@
 import { useState, useRef } from 'react'
-import { generateClient } from "@aws-amplify/api";
 import { uploadData } from "aws-amplify/storage";
 import { v4 as uuid } from "uuid"
-import { createPost } from "../../graphql/mutations";
 import { useNavigate } from "react-router-dom";
 import SimpleMdeReact from "react-simplemde-editor";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import type { Post } from "../../API";
 import { FaFileImage } from "react-icons/fa";
 import "easymde/dist/easymde.min.css"
-import { useAppSelector } from '../../hook';
+import { useAppDispatch } from '../../hook';
+import { addPost } from '../../store/slices/thunks/postsThunk';
 
 
 
 function CreatePostPage() {
     const initialState: Post = {
         title: "", content: "", id: "", createdAt: "", updatedAt: "",
-        __typename: "Post"
+        __typename: "Post",likes: 0
     }
     const [post, setPost] = useState<Post>(initialState)
+    const dispatch = useAppDispatch()
     const [image, setImage] = useState<File | null>(null)
-    const user = useAppSelector(state => state.user.userInfo)
     const { title, content } = post;
     const { authStatus } = useAuthenticator(context => [context.authStatus]);
     const imageFileInput = useRef<HTMLInputElement | null>(null)
     console.log(post.content)
-
-
-
-
-    const client = generateClient();
     const navigate = useNavigate();
 
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -54,7 +48,7 @@ function CreatePostPage() {
 
     async function createNewPost() {
         if (!title) return;
-
+        if(!content) return;
         const id = uuid();
 
         if (image) {
@@ -70,31 +64,9 @@ function CreatePostPage() {
                 console.log('Error : ', error);
             }
         }
-
-
         if (authStatus === 'authenticated') {
-            const newPost = {
-                title,
-                content,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-
-            await client.graphql({
-                query: createPost,
-                variables: {
-                    input: {
-                        title: newPost.title,
-                        content: newPost.content,
-                        id: id,
-                        coverImage: post.coverImage,
-                        username: user?.username,
-                        likes: 0
-                    }
-                }
-            });
+        await dispatch(addPost({ postId: id, postToCreate: post, coverImage: post.coverImage }))
         }
-
         navigate(`/post/${id}`)
     }
 
