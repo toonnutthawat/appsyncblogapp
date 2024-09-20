@@ -18,7 +18,8 @@ const likeStatusSlice = createSlice({
     });
     builder.addCase(toggleLikeStatus.fulfilled, (state, action) => {
       if (state.data) {
-        if (!action.payload) return;
+        if (action.payload === false) { state.data.status = false; return;}
+        if(action.payload)
         state.data.status = action.payload;
         console.log("toggleLike in Redux Success");
       }

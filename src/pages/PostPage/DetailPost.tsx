@@ -29,16 +29,9 @@ function DetailPost() {
     const [accountLike, setAccountLike] = useState<boolean>(false)
     const [comment, setComment] = useState<Comment>(initialState)
     const [newComment, setNewComment] = useState<Comment>()
-    const [likesCount, setLikesCount] = useState<number>(detail.likes ? detail.likes : 0);
     const comments = useAppSelector(state => state.comments.data)
     const likeStatus = useAppSelector(state => state.likeStatus.data)
-    //const test = useAppSelector(state => state.posts.allPosts.data?.find((post) => {return post.id === detail.id}))
-    // console.log("detail : ", detail);
-    // console.log("likeStatus : ",likeStatus);
-    // console.log("accountLike :", accountLike);
-    // console.log("likesCount :", likesCount);
-    // console.log("test : ",test);
-    
+    const postLikes = useAppSelector(state => state.posts.allPosts.data?.find((post) => {return post.id === detail.id}))
     const clientPublic = generateClient();
     const dispatch = useAppDispatch()
     let subOnCreate: Subscription
@@ -91,11 +84,9 @@ function DetailPost() {
 
     async function toggleLike() {
         if(!likeStatus) return;
-        const newLikeStatus = !accountLike;
         dispatch(toggleLikeStatus(detail.id))
         dispatch(updateLikesByPost(detail.id))
         fetchStatusAccountLike()
-        setLikesCount((prevCount) => (newLikeStatus ? prevCount + 1 : prevCount - 1));
         setAccountLike(!accountLike)
     }
 
@@ -130,12 +121,12 @@ function DetailPost() {
             <div className="flex flex-col text-left relative">
                 <div className="flex flex-col items-center">
                     <div className="flex flex-row absolute right-0 mt-4 items-center">
-                        {accountLike  ?
+                        {likeStatus?.status  ?
                             <BiSolidLike className="text-green-500 hover:text-green-700 cursor-pointer" size="34px" onClick={toggleLike} />
                             :
                             <BiSolidLike className="text-red-500 hover:text-red-700 cursor-pointer" size="34px" onClick={toggleLike} />
                         }
-                        <div className="ml-2">{likesCount}</div>
+                        <div className="ml-2">{postLikes?.likes}</div>
                     </div>
                     {
                         coverImage && (

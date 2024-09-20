@@ -4,7 +4,7 @@ import { listComments } from "../../../graphql/queries";
 import { Post } from "../../../API";
 import { createComment } from "../../../graphql/mutations";
 
-const publicClient = generateClient({authMode: "apiKey"})
+const publicClient = generateClient()
 const privateClient = generateClient()
 
 const fetchComments = createAsyncThunk("fetchComments", async (post : Post) => {

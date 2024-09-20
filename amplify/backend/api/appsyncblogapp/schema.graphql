@@ -3,7 +3,7 @@ type Post
 @auth(
   rules: [
     { allow: owner, provider: userPools, ownerField: "username"}
-    { allow: private, provider: userPools, operations: [read] }
+    { allow: private, provider: userPools, operations: [read,update] }
   ]
 )
 @aws_cognito_user_pools # Include this directive to enable Cognito User Pools
@@ -14,7 +14,7 @@ type Post
   username: String @index(name: "postByUsername", queryField: "postByUsername")
   coverImage: String 
   likes: Int!
-  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"]) 
   listOfLike: [LikeStatus] @hasMany(indexName: "byPost", fields: ["id"])
 }
 
@@ -23,7 +23,7 @@ type LikeStatus
   @auth(
     rules: [
       { allow: owner, provider: userPools, ownerField: "createBy" }
-      { allow: private, provider: userPools, operations: [read] }
+      { allow: private, provider: userPools, operations: [read,delete] }
     ]
   )
   @aws_cognito_user_pools # Include this directive to enable Cognito User Pools

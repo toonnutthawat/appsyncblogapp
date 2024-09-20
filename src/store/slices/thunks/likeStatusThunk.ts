@@ -91,7 +91,7 @@ const updateLikesByPost = createAsyncThunk("fetchLikesByPost" , async (postId : 
             }
 
         })
-        console.log("updateLikesByPost");
+        // console.log("updateLikesByPost");
         return { postId, likesCount: response.data.listLikeStatuses.items.length };
     }
     catch(error){

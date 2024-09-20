@@ -1,7 +1,7 @@
 import { Params } from "react-router-dom";
 import { generateClient } from "@aws-amplify/api";
 import '../../configureAmplify'
-import { getPost } from "../graphql/queries";
+import { getPost, listComments, listLikeStatuses } from "../graphql/queries";
 import type { Post, ModelCommentConnection , ModelLikeStatusConnection } from "../API"; // Adjust the path as necessary
 
 interface ParamsType {
@@ -23,6 +23,34 @@ export async function detailLoader({ params }: ParamsType): Promise<DetailResult
         query: getPost,
         variables: { id }
     });
+    
+    const responseListOfLikes = await client.graphql({
+        query: listLikeStatuses,
+        variables: {
+            filter:{
+                postID: {
+                    eq: postData.data.getPost?.id
+                },
+                status: {
+                    eq: true
+                }
+            }
+        }
+        
+    })
+
+
+    const responseComments = await client.graphql({
+        query: listComments,
+        variables: {
+            filter:{
+                postID: {
+                    eq: postData.data.getPost?.id
+                }
+            }
+        }
+    })
+
 
     if (!postData || !postData.data || !postData.data.getPost) {
         throw new Error('Post not found');
@@ -35,9 +63,14 @@ export async function detailLoader({ params }: ParamsType): Promise<DetailResult
         listOfLike: {
             __typename: "ModelLikeStatusConnection",
             nextToken: postData.data.getPost.listOfLike?.nextToken,
+            items: responseListOfLikes.data.listLikeStatuses.items
         } as ModelLikeStatusConnection
         ,
-        comments: postData.data.getPost.comments as ModelCommentConnection
+        comments: {
+            __typename: "ModelCommentConnection" , 
+            items : responseComments.data.listComments.items ,
+            nextToken: postData.data.getPost.comments?.nextToken
+        } as ModelCommentConnection
     };
 
     return {

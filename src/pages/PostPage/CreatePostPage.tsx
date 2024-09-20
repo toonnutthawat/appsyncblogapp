@@ -18,12 +18,12 @@ function CreatePostPage() {
         __typename: "Post",likes: 0
     }
     const [post, setPost] = useState<Post>(initialState)
+    const [errorMessage , setErrorMessage] = useState("")
     const dispatch = useAppDispatch()
     const [image, setImage] = useState<File | null>(null)
     const { title, content } = post;
     const { authStatus } = useAuthenticator(context => [context.authStatus]);
     const imageFileInput = useRef<HTMLInputElement | null>(null)
-    console.log(post.content)
     const navigate = useNavigate();
 
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -47,8 +47,9 @@ function CreatePostPage() {
     }
 
     async function createNewPost() {
-        if (!title) return;
-        if(!content) return;
+        if(!title && !content) { setErrorMessage("Title and Content cannot be empty") ; return;}
+        if (!title) { setErrorMessage("Title cannot be empty"); return;}
+        if(!content) { setErrorMessage("Content cannot be empty"); return;}
         const id = uuid();
 
         if (image) {
@@ -85,11 +86,12 @@ function CreatePostPage() {
                 name="title"
                 placeholder="Title"
                 value={post.title}
-                className="border-b pb-2 text-lg my-4 focus:outline-none w-full font-light text-gray-500 placeholder-gray-500 y-2">
+                className="border-b pb-2 text-lg my-4 focus:outline-none w-full font-light text-gray-500 placeholder-gray-500 y-2" required>
             </input>
-            <SimpleMdeReact value={post.content} onChange={(value) => setPost({ ...post, content: value })} />
+            <SimpleMdeReact value={post.content} onChange={(value) => setPost({ ...post, content: value })} aria-required/>
             <input type="file" ref={imageFileInput} onChange={onImageChange} className="abolute w-0 h-0" />
-            <div className="flex">
+            { errorMessage && <span className='text-red-500 break-word mt-4'>{errorMessage}</span>}
+            <div className="flex flex-row">
                 <button type="button" className="mb-4 bg-cyan-500 text-white font-semibold py-2 rounded-lg hover:bg-cyan-800 flex items-center justify-center w-36"
                     onClick={uploadImage}
                     style={{ width: '5rem' }}>
