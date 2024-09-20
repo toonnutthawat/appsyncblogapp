@@ -7,6 +7,7 @@ import { onCreateChat } from "../graphql/subscriptions";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { fetchUser } from "../store/slices/thunks/userThunk";
 import { createMessage, fetchChats } from "../store/slices/thunks/chatsThunk";
+import ProfilePicture from "../components/ProfilePicture";
 
 function ChatPage() {
     const initialState: Chat = {
@@ -71,13 +72,16 @@ function ChatPage() {
     }, [chatList]);
 
     return (
-        <div className="relative flex flex-col">
+        <div className="relative flex flex-col px-10">
             <div id="chat" className="overflow-y-auto" style={{height: "540px"}}>
                 {
                     sortedChats && (
                         sortedChats.map((chat) => (
                             <div key={chat.id} className="mb-6">
-                                <h1>From: {chat.username}</h1>
+                                <div className="flex flex-row space-x-2 items-center">
+                                    <ProfilePicture src={`public/profile/${chat.username}`} size='32px'></ProfilePicture>
+                                    <p>{chat.username}</p>
+                                </div>
                                 <div className="gap-4 p-5 mt-4 shadow-md hover:bg-zinc-100 border border-cyan-500 rounded text-wrap break-words">
                                     <h1>{chat.message}</h1>
                                 </div>

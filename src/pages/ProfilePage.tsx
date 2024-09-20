@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import { signOut } from 'aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuid } from "uuid"
 import { uploadData } from "aws-amplify/storage";
 import { updateUserAttributes } from "aws-amplify/auth";
 import { useAppDispatch, useAppSelector } from '../hook';
@@ -18,6 +17,7 @@ function ProfilePage() {
     const userAttributes = fetchUserAttributes()
     const [editImg, setEditImg] = useState(false)
     const navigate = useNavigate();
+    const user = useAppSelector(state => state.user.userInfo)
 
     console.log(userAttributes);
 
@@ -32,7 +32,7 @@ function ProfilePage() {
 
     async function uploadIMG() {
         if (image) {
-            const filename = `public/${image.name}_${uuid()}`
+            const filename = `public/profile/${user?.username}`
             await updateUserAttributes({
                 userAttributes: {
                     profile: filename

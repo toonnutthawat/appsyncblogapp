@@ -61,8 +61,8 @@ function EditPage(){
     }
 
     return(
-        <div>
-            <h1 className="text-3xl font-semibold tracking-wide mt-6">Edit Post</h1>
+        <div className="px-20">
+            <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">Edit Post</h1>
             {
                 detail.coverImage && !image  && !delImg ? (
                     <div className="relative items-center flex flex-col">

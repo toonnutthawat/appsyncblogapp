@@ -53,7 +53,7 @@ function CreatePostPage() {
         const id = uuid();
 
         if (image) {
-            const filename = `public/${image.name}_${uuid()}`
+            const filename = `public/postImage/${image.name}_${uuid()}`
             post.coverImage = filename
             try {
                 const result = await uploadData({

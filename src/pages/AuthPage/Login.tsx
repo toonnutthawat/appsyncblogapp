@@ -41,7 +41,7 @@ function Login() {
     }
 
     return (
-        <div className="flex justify-center bg-white min-h-screen">
+        <div className="flex justify-center bg-white min-h-screen px-20">
             <div className="space-y-2 relative bg-cyan-500 p-8 mt-8 shadow-2xl rounded" style={{ height: "32rem" }}>
                 <div className="text-4xl py-4 text-white font-bold drop-shadow-lg">
                     Login

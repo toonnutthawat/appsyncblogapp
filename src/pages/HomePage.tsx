@@ -10,6 +10,8 @@ import { useAppDispatch } from '../hook';
 import { useAppSelector } from '../hook';
 import { fetchPosts } from '../store/slices/thunks/postsThunk';
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import ProfilePicture from '../components/ProfilePicture';
+import { BiSolidLike } from 'react-icons/bi';
 // import { InvokeCommandOutput, Lambda } from '@aws-sdk/client-lambda';
 // import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 // import { fetchUserAttributes } from 'aws-amplify/auth';
@@ -92,7 +94,7 @@ function HomePage() {
   const renderedListAllPosts = filteredPosts?.map((post, index) => (
     <div key={index}>
       <Link to={`/post/${post.id}`} state={{detail : post}}>
-        <div className='gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100'>
+        <div className='gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100 relative'>
           {
             post.coverImage && (
               <div>
@@ -102,7 +104,14 @@ function HomePage() {
           }
           <h2 className='font-bold text-3xl truncate'>title: {post.title}</h2>
           <p className='truncate'>content: {post.content}</p>
-          <p>author: {post.username}</p>
+          <div className='flex flex-row space-x-2 absolute right-2 top-2'>
+            <ProfilePicture src={`public/profile/${post.username}`} size='32px'></ProfilePicture>
+            <p>{post.username}</p>
+          </div>
+          <div className='flex flex-row space-x-2 absolute right-2 bottom-2 items-center'>
+            <BiSolidLike size="32px"></BiSolidLike>
+            <p>{post.likes}</p>
+          </div>
         </div>
       </Link>
     </div>

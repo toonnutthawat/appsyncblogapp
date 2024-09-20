@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hook';
 import { fetchUser } from '../store/slices/thunks/userThunk';
+import ProfilePicture from './ProfilePicture';
 
 function Navbar() {
     const { authStatus } = useAuthenticator(); // Destructure authStatus and user directly
@@ -19,7 +20,7 @@ function Navbar() {
 
 
     return (
-        <div className='flex justify-between items-center pt-3 pb-3 border-b bg-cyan-500 border-gray-30'>
+        <div className='flex justify-between items-center pt-2 pb-2 border-b bg-cyan-500 border-gray-30'>
             <div className='flex space-x-4 ml-4'>
                 <Link to="/" className='text-white hover:text-slate-900'>Home</Link>
 
@@ -43,7 +44,10 @@ function Navbar() {
             </div>
 
             {authStatus === 'authenticated' && (
-                <div className='flex items-center'>
+                <div className='flex items-center space-x-2 mr-4'>
+                    <Link to="/profile-page">
+                        <ProfilePicture src={userInfo?.img} size='32px'></ProfilePicture>
+                    </Link>
                     <Link to="/profile-page" className='text-white hover:text-slate-900 mr-4'>{userInfo?.username}</Link>
                 </div>
             )}

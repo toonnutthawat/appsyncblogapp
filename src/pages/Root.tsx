@@ -7,7 +7,7 @@ export default function Root() {
     return (
         <Authenticator.Provider>
             <Navbar></Navbar>
-            <div className="container m-auto px-20">
+            <div className="container m-auto">
                 <Outlet />
             </div>
         </Authenticator.Provider>

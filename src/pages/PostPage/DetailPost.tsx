@@ -14,6 +14,7 @@ import { BiSolidLike } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { addComment, fetchComments } from "../../store/slices/thunks/commentsThunk";
 import { updateLikesByPost, fetchLikeStatus, toggleLikeStatus } from "../../store/slices/thunks/likeStatusThunk";
+import ProfilePicture from "../../components/ProfilePicture";
 
 function DetailPost() {
 
@@ -63,13 +64,10 @@ function DetailPost() {
 
     useEffect(() => {
         dispatch(fetchLikeStatus(detail.id))
-        //dispatch(updateLikesByPost(detail.id))
         fetchStatusAccountLike()
-        //dispatch(fetchPosts())
     }, [])
 
     useEffect(() => {
-        //dispatch(fetchPosts())
         dispatch(updateLikesByPost(detail.id))
     },[toggleLike])
 
@@ -135,7 +133,10 @@ function DetailPost() {
                     }
                     <p className="text-5xl mt-4 font-semibold">title : {detail.title}</p>
                     <p className="text-xl mt-4 font-light max-w-full max-h-full break-words">content : {detail.content}</p>
-                    <p className="text-xl mt-4 font-light my-4"> by : {detail.username}</p>
+                    <div className="flex flex-row space-x-2 items-center">
+                        <ProfilePicture src={`public/profile/${detail.username}`} size='32px'></ProfilePicture>
+                        <p className="text-xl font-light my-4">{detail.username}</p>
+                    </div>
                     <p className="text-xl mt-4 font-light my-4">Create on : {Moment(detail.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</p>
                 </div>
                 {
@@ -148,12 +149,13 @@ function DetailPost() {
                     comments && (
 
                         comments.map((comment) => (
-                            <div key={comment?.id} className="gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100">
-                                <div>
+                            <div key={comment?.id} className="gap-4 p-8 mt-4 shadow-md cursor-pointer hover:bg-zinc-100 relative space-y-2">
+                                    <div className="flex flex-row space-x-2">
+                                        <ProfilePicture src={`public/profile/${comment.createBy}`} size='32px'></ProfilePicture>
+                                        <p style={{overflowWrap: "anywhere"}}>{comment?.createBy}</p>
+                                    </div>
                                     <h1>{comment?.message}</h1>
-                                    <p>comment by : {comment?.createBy}</p>
-                                    <p>create on {Moment(comment.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</p>
-                                </div>
+                                    <h1 className="bottom-2 right-2">{Moment(comment.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</h1>
                             </div>
                         ))
                     )

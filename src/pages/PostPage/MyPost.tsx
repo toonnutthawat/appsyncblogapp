@@ -35,7 +35,8 @@ function MyPost() {
       {
         filteredPosts.map((post) => (
           <div key={post.id} className="relative">
-            <div className='gap-4 p-5 mt-4  rounded-lg shadow-md hover:drop-shadow-2xl hover:bg-zinc-100 relative'>
+            <Link to={`/post/${post.id}`}>
+            <div className='gap-4 p-5 mt-4 rounded-lg shadow-md hover:bg-zinc-100 relative'>
               {
                 post.coverImage && (
                   <div>
@@ -48,7 +49,7 @@ function MyPost() {
               <p className="truncate"> content :  {post.content}</p>
               <p> author : {post.username}</p>
               <p className="text-slate=500">Create on : {Moment(post.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</p>
-              <div className="flex absolute right-4 bottom-4">
+              <div className="flex absolute right-4 top-4">
                 <Link to={`/post/${post.id}`}
                   className="bg-cyan-500 rounded p-2 bottom-5 hover:bg-cyan-700 text-white  text-sm sm:text-base">View</Link>
                 <Link to={`/edit-post/${post.id}`}
@@ -60,6 +61,7 @@ function MyPost() {
                 </button>
               </div>
             </div>
+            </Link>
 
           </div>
         ))

@@ -63,5 +63,5 @@ type Chat
 {
   id: ID!
   message: String!
-  username: String! @auth(rules: [{ allow: private, operations: [read] }])
+  username: String!
 }
