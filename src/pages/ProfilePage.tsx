@@ -97,7 +97,7 @@ function ProfilePage() {
             <input type="file" ref={imageFileInput} onChange={onImageChange} className="abolute w-0 h-0" />
             <div className="gap-2">
                 <button onClick={uploadImage} className="p-4 bg-cyan-500 rounded text-white hover:bg-cyan-800 mr-4">update profile</button>
-                <button onClick={handleSignOut} className="mt-2 p-4 bg-cyan-500 rounded text-white hover:bg-cyan-800">Sign out</button>
+                <button onClick={handleSignOut} className="mt-2 p-4 bg-red-500 rounded text-white hover:bg-red-800">Sign out</button>
             </div>
         </div>
     )

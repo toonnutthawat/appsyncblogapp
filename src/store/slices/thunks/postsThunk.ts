@@ -1,9 +1,9 @@
 import type { Post } from './../../../API';
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { generateClient } from "@aws-amplify/api";
-import { listLikeStatuses, listPosts } from "../../../graphql/queries";
+import { listComments, listLikeStatuses, listPosts } from "../../../graphql/queries";
 import { getCurrentUser } from "aws-amplify/auth";
-import { createPost, deleteLikeStatus, deletePost, updatePost } from "../../../graphql/mutations";
+import { createPost, deleteComment, deleteLikeStatus, deletePost, updatePost } from "../../../graphql/mutations";
 
 
 const client = generateClient();
@@ -62,10 +62,27 @@ const removePost = createAsyncThunk("deletePost", async (id : string) => {
         }
       }
     })
+
+    const cmDlList = await client.graphql({
+      query: listComments,
+      variables: {
+        filter : {
+          postID: {
+            eq: id
+          }
+        }
+      }
+    })
+
     const arrDl = []
+    const cmArrDl = []
 
     for(let i = 0; i < dlList.data.listLikeStatuses.items.length ; i++){
         arrDl[i] = dlList.data.listLikeStatuses.items[i].id
+    }
+
+    for(let i = 0; i < cmDlList.data.listComments.items.length ; i++){
+      cmArrDl[i] = cmDlList.data.listComments.items[i].id
     }
 
     console.log("arrDl :",arrDl);
@@ -76,6 +93,13 @@ const removePost = createAsyncThunk("deletePost", async (id : string) => {
         variables: { input : {id : arrDl[i]}}
       })
       console.log("deletedLikeStatus :",deletedLikeStatus);
+    }
+
+    for(let i = 0; i < cmArrDl.length; i++ ){
+      await client.graphql({
+        query: deleteComment ,
+        variables: { input: {id: cmArrDl[i]}}
+      })
     }
 
     const response = await client.graphql({

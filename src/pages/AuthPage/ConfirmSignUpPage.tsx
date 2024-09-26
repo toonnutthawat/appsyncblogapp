@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Loader } from "@aws-amplify/ui-react";
 
 
-
 function ConfirmSignUpPage({username} : {username : string}){
     const [otp, setOtp] = useState("")
     const [errorMessage , setErrorMessage] = useState("")
@@ -21,8 +20,20 @@ function ConfirmSignUpPage({username} : {username : string}){
               }); 
             console.log("CONFIRM EMAIL SUCCESS");
             if(nextStep.signUpStep === "DONE"){
+                // const image = '../../img/profile.jpeg'
+                // const filename = `public/profile/${username}`
+    
+                // try {
+                //     const result = await uploadData({
+                //         path: filename,
+                //         data: image,
+                //     }).result;
+                //     console.log('Succeeded: ', result);
+                // } catch (error) {
+                //     console.log('Error : ', error);
+                // }
                 setSignUpComplete(true)
-                setTimeout(() => {
+                setTimeout( () => {
                     navigate('/login'); // Replace '/next-page' with the route you want to navigate to
                   }, 3000);
             }

@@ -128,9 +128,10 @@ function DetailPost() {
                     </div>
                     {
                         coverImage && (
-                            <StorageImage path={coverImage} alt="cat" className="rounded-lg mt-2"></StorageImage>
+                            <StorageImage path={coverImage} alt="cat" className="rounded-lg mt-2 size-3/6"></StorageImage>
                         )
                     }
+                    <div></div>
                     <p className="text-5xl mt-4 font-semibold">title : {detail.title}</p>
                     <p className="text-xl mt-4 font-light max-w-full max-h-full break-words">content : {detail.content}</p>
                     <div className="flex flex-row space-x-2 items-center">

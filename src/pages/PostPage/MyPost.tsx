@@ -35,7 +35,6 @@ function MyPost() {
       {
         filteredPosts.map((post) => (
           <div key={post.id} className="relative">
-            <Link to={`/post/${post.id}`}>
             <div className='gap-4 p-5 mt-4 rounded-lg shadow-md hover:bg-zinc-100 relative'>
               {
                 post.coverImage && (
@@ -61,7 +60,6 @@ function MyPost() {
                 </button>
               </div>
             </div>
-            </Link>
 
           </div>
         ))

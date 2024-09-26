@@ -12,14 +12,15 @@ import { fetchPosts } from '../store/slices/thunks/postsThunk';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import ProfilePicture from '../components/ProfilePicture';
 import { BiSolidLike } from 'react-icons/bi';
-// import { InvokeCommandOutput, Lambda } from '@aws-sdk/client-lambda';
-// import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
-// import { fetchUserAttributes } from 'aws-amplify/auth';
+import { IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
+import { FiMinus } from "react-icons/fi";
 
 function HomePage() {
   const [newPost, setNewPost] = useState<Post | null>(null);
   const { authStatus } = useAuthenticator(); // Destructure authStatus and user directly
   const [term, setTerm] = useState("")
+  const [sortOrder, setSortOrder] = useState<'none' | 'ascending' | 'descending'>('none'); // Three state sorting
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
   const allPosts = useAppSelector(state => state.posts.allPosts.data || [])
@@ -44,60 +45,42 @@ function HomePage() {
     };
   }, []);
 
-  // async function handler() {
-  //   try {
-  //     const authSession = await fetchAuthSession();
-  //     const lambda = new Lambda({
-  //       credentials: authSession.credentials,
-  //       region: 'ap-southeast-1',
-  //     });
-
-  //     const response = await lambda.invoke({
-  //       FunctionName: 'arn:aws:lambda:ap-southeast-1:211125542142:function:LambdaNewComment-dev',
-  //     });
-
-  //     const decodedResponse = lambdaDecode(response);
-  //     console.log('Lambda decoded:', decodedResponse);
-  //   } catch (error) {
-  //     console.error('Error invoking Lambda function:', error);
-  //   }
-  // }
-
-  // function lambdaDecode(response: InvokeCommandOutput) {
-  //   try {
-  //     if (response.Payload) {
-  //       const decoder = new TextDecoder("utf-8");
-  //       const decodedPayload = decoder.decode(response.Payload);
-  //       const payload = JSON.parse(decodedPayload);
-  //       console.log('Parsed Payload:', payload);  // Log the parsed payload for debugging
-
-  //       if (payload && payload.body) {
-  //         const body = JSON.parse(payload.body);
-  //         console.log("Body: ",body)
-  //         return body;
-  //       } else {
-  //         throw new Error("Payload body is undefined or invalid");
-  //       }
-  //     } else {
-  //       throw new Error("Payload is undefined");
-  //     }
-  //   } catch (error) {
-  //     console.error('Error decoding Lambda response:', error);
-  //     return null;
-  //   }
-  // }
-
   const filteredPosts = allPosts?.filter((post) =>
     post.title.toLowerCase().includes(term.toLowerCase())
   );
+  console.log("original filteredPost : ", filteredPosts);
 
-  const renderedListAllPosts = filteredPosts?.map((post, index) => (
+  const getSortedPosts = () => {
+    if (sortOrder === 'ascending') {
+      return [...filteredPosts].sort((a, b) => a.likes - b.likes);
+    } else if (sortOrder === 'descending') {
+      return [...filteredPosts].sort((a, b) => b.likes - a.likes);
+    }
+    return filteredPosts; // Default: no sorting (sortOrder is 'none')
+  };
+
+  const sortedPosts = getSortedPosts();
+  console.log("sortedPost : ", sortedPosts);
+
+  // Toggle through the three states: none -> ascending -> descending -> none
+  const toggleSortOrder = () => {
+    if (sortOrder === 'none') {
+      setSortOrder('ascending');
+    } else if (sortOrder === 'ascending') {
+      setSortOrder('descending');
+    } else {
+      setSortOrder('none');
+    }
+  };
+
+
+  const renderedListAllPosts = sortedPosts?.map((post, index) => (
     <div key={index}>
-      <Link to={`/post/${post.id}`} state={{detail : post}}>
-        <div className='gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100 relative'>
+      <Link to={`/post/${post.id}`} state={{ detail: post }}>
+        <div className='gap-4 p-5 mt-4 shadow-md cursor-pointer hover:bg-zinc-100 relative rounded-lg'>
           {
             post.coverImage && (
-              <div>
+              <div className='pt-8'>
                 <StorageImage path={post.coverImage} alt='img' className='size-3/6 rounded-lg'></StorageImage>
               </div>
             )
@@ -121,7 +104,6 @@ function HomePage() {
     navigate("/login")
   }
 
-
   useEffect(() => {
     dispatch(fetchPosts());
     console.log("fetchAllPosts");
@@ -132,20 +114,32 @@ function HomePage() {
       {authStatus !== "authenticated" ?
         <div>
           <div className='text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg'>Welcome to APPSYNCBLOGAPP</div>
-          <button 
-            onClick={toLoginPage} 
+          <button
+            onClick={toLoginPage}
             className='mb-4 bg-cyan-500 text-white font-semibold py-2 rounded-lg hover:bg-cyan-800 flex items-center justify-center w-36'>login
           </button>
         </div>
         :
         <div>
-          <input 
-            value={term} 
-            onChange={e => setTerm(e.target.value)} 
-            placeholder='search title' 
-            className='p-2' 
-            style={{width: "100%"}}>
+          <div className='flex flex-row space-x-2'>
+            <input
+              value={term}
+              onChange={e => setTerm(e.target.value)}
+              placeholder='search title'
+              className='p-2'
+              style={{ width: "95%" }}>
             </input>
+            <div className='relative top-0'>
+              <button
+                onClick={toggleSortOrder}
+                className=' mt-4 bg-cyan-500 text-white font-semibold p-2 rounded-lg hover:bg-cyan-800 flex flex-row items-center'>
+                Sort
+                {sortOrder === 'ascending' && <IoIosArrowUp className='ml-1' />}
+                {sortOrder === 'descending' && <IoIosArrowDown className='ml-1' />}
+                {sortOrder === 'none' && <FiMinus className='ml-1' />}
+              </button>
+            </div>
+          </div>
           <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">All Posts</h1>
           {renderedListAllPosts}
         </div>

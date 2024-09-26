@@ -21,7 +21,7 @@ function SignUpPage() {
                 options: {
                     userAttributes: {
                         email: email,
-                        profile: 'defaultProfile'
+                        profile: `public/profile/${username}`
                     }
                 },
             })

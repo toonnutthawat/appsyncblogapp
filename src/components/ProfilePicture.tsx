@@ -21,7 +21,6 @@ function ProfilePicture({ src, size , onClick}: {
                         minWidth: size,
                         minHeight: size,
                         borderRadius: '50%',
-                        
                     }
                 }/>
                 :
