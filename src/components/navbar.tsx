@@ -28,7 +28,6 @@ function Navbar() {
                 {authStatus === 'authenticated' && (
                     <>
                         <Link to="/create-post" className='text-white hover:text-slate-900'>Post</Link>
-                        <Link to="/chat" className='text-white hover:text-slate-900'>Chat</Link>
                         <Link to="/my-post" className='text-white hover:text-slate-900'>MyPost</Link>
                         <Link to="/shop" className='text-white hover:text-slate-900'>Shop</Link>
                     </>

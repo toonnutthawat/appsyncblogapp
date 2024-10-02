@@ -68,9 +68,9 @@ export const getLikeStatus = /* GraphQL */ `query GetLikeStatus($id: ID!) {
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -88,9 +88,9 @@ export const listLikeStatuses = /* GraphQL */ `query ListLikeStatuses(
       id
       status
       postID
+      username
       createdAt
       updatedAt
-      createBy
       __typename
     }
     nextToken
@@ -118,9 +118,9 @@ export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -139,9 +139,9 @@ export const listComments = /* GraphQL */ `query ListComments(
       message
       img
       postID
+      username
       createdAt
       updatedAt
-      createBy
       __typename
     }
     nextToken
@@ -152,27 +152,31 @@ export const listComments = /* GraphQL */ `query ListComments(
   APITypes.ListCommentsQueryVariables,
   APITypes.ListCommentsQuery
 >;
-export const getChat = /* GraphQL */ `query GetChat($id: ID!) {
-  getChat(id: $id) {
+export const getOrder = /* GraphQL */ `query GetOrder($id: ID!) {
+  getOrder(id: $id) {
     id
-    message
-    username
+    status
+    client
+    OrderDetails {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetChatQueryVariables, APITypes.GetChatQuery>;
-export const listChats = /* GraphQL */ `query ListChats(
-  $filter: ModelChatFilterInput
+` as GeneratedQuery<APITypes.GetOrderQueryVariables, APITypes.GetOrderQuery>;
+export const listOrders = /* GraphQL */ `query ListOrders(
+  $filter: ModelOrderFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listChats(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      message
-      username
+      status
+      client
       createdAt
       updatedAt
       __typename
@@ -181,7 +185,115 @@ export const listChats = /* GraphQL */ `query ListChats(
     __typename
   }
 }
-` as GeneratedQuery<APITypes.ListChatsQueryVariables, APITypes.ListChatsQuery>;
+` as GeneratedQuery<
+  APITypes.ListOrdersQueryVariables,
+  APITypes.ListOrdersQuery
+>;
+export const getOrderDetail = /* GraphQL */ `query GetOrderDetail($id: ID!) {
+  getOrderDetail(id: $id) {
+    id
+    quantity
+    OrderID
+    order {
+      id
+      status
+      client
+      createdAt
+      updatedAt
+      __typename
+    }
+    ProductID
+    product {
+      id
+      name
+      price
+      owner
+      quantity
+      image
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetOrderDetailQueryVariables,
+  APITypes.GetOrderDetailQuery
+>;
+export const listOrderDetails = /* GraphQL */ `query ListOrderDetails(
+  $filter: ModelOrderDetailFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOrderDetails(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      quantity
+      OrderID
+      ProductID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOrderDetailsQueryVariables,
+  APITypes.ListOrderDetailsQuery
+>;
+export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
+  getProduct(id: $id) {
+    id
+    name
+    price
+    owner
+    quantity
+    image
+    OrderDetails {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetProductQueryVariables,
+  APITypes.GetProductQuery
+>;
+export const listProducts = /* GraphQL */ `query ListProducts(
+  $filter: ModelProductFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      price
+      owner
+      quantity
+      image
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListProductsQueryVariables,
+  APITypes.ListProductsQuery
+>;
 export const postByUsername = /* GraphQL */ `query PostByUsername(
   $username: String!
   $sortDirection: ModelSortDirection
@@ -233,9 +345,9 @@ export const likeStatusesByPostID = /* GraphQL */ `query LikeStatusesByPostID(
       id
       status
       postID
+      username
       createdAt
       updatedAt
-      createBy
       __typename
     }
     nextToken
@@ -265,9 +377,9 @@ export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
       message
       img
       postID
+      username
       createdAt
       updatedAt
-      createBy
       __typename
     }
     nextToken
@@ -277,4 +389,68 @@ export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
 ` as GeneratedQuery<
   APITypes.CommentsByPostIDQueryVariables,
   APITypes.CommentsByPostIDQuery
+>;
+export const orderDetailsByOrderID = /* GraphQL */ `query OrderDetailsByOrderID(
+  $OrderID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelOrderDetailFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  orderDetailsByOrderID(
+    OrderID: $OrderID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      quantity
+      OrderID
+      ProductID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.OrderDetailsByOrderIDQueryVariables,
+  APITypes.OrderDetailsByOrderIDQuery
+>;
+export const orderDetailsByProductID = /* GraphQL */ `query OrderDetailsByProductID(
+  $ProductID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelOrderDetailFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  orderDetailsByProductID(
+    ProductID: $ProductID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      quantity
+      OrderID
+      ProductID
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.OrderDetailsByProductIDQueryVariables,
+  APITypes.OrderDetailsByProductIDQuery
 >;

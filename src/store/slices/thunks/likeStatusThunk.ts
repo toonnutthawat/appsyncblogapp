@@ -22,7 +22,8 @@ const fetchLikeStatus = createAsyncThunk("fetchLikeStatus", async (postId : stri
                 input: {
                     id: postId + ":" + (await user).username,
                     status: false,
-                    postID: postId
+                    postID: postId,
+                    username: (await user).username
                 }
             }
         })

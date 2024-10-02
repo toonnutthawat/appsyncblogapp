@@ -22,7 +22,7 @@ type LikeStatus
   @model
   @auth(
     rules: [
-      { allow: owner, provider: userPools, ownerField: "createBy" }
+      { allow: owner, provider: userPools, ownerField: "username" }
       { allow: private, provider: userPools, operations: [read,delete] }
     ]
   )
@@ -32,13 +32,14 @@ type LikeStatus
   status: Boolean!
   post: Post! @belongsTo(fields: ["postID"])
   postID: ID! @index(name: "byPost")
+  username: String!
 }
 
 type Comment
   @model
   @auth(
     rules: [
-      { allow: owner, provider: userPools, ownerField: "createBy" }
+      { allow: owner, provider: userPools, ownerField: "username" }
       { allow: private, provider: userPools, operations: [read,delete] }
     ]
   )
@@ -49,19 +50,83 @@ type Comment
   img: String
   post: Post! @belongsTo(fields: ["postID"])
   postID: ID! @index(name: "byPost")
+  username: String!
 }
 
-type Chat
+type Order
   @model
   @auth(
     rules: [
-      { allow: owner, provider: userPools, ownerField: "username" }
-      { allow: private, provider: userPools, operations: [read] }
+      {allow: owner , provider: userPools , ownerField: "client"}
+      {allow: private , provider: userPools, operations: [read]}
     ]
   )
-  @aws_cognito_user_pools # Include this directive to enable Cognito User Pools
+  @aws_cognito_user_pools
+
+  {
+    id: ID!
+    status: Status!
+    client: String!
+    OrderDetails: [OrderDetail] @hasMany(indexName: "byOrder",fields: ["id"])
+  }
+
+enum Status {
+  CONFIRM
+  PACKED
+  IN_TRANSIT
+  DELIVERED
+}
+
+type OrderDetail
+  @model
+  @auth(
+    rules: [
+      {allow: owner , provider: userPools }
+      {allow: private , provider: userPools, operations: [read]}
+    ]
+  )
+  @aws_cognito_user_pools
+
+  {
+    id: ID!
+    quantity: Int!
+    OrderID: ID! @index(name: "byOrder")
+    order: Order @belongsTo(fields: ["OrderID"])
+    ProductID: ID! @index(name: "byProduct")
+    product: Product @belongsTo(fields: ["ProductID"])
+  }
+
+
+type Product
+  @model
+  @auth(
+    rules: [
+      {allow: owner , provider: userPools , ownerField: "owner"}
+      {allow: private , provider: userPools, operations: [read]}
+    ]
+  )
+@aws_cognito_user_pools
 {
   id: ID!
-  message: String!
-  username: String!
+  name: String!
+  price: Int!
+  owner: String!
+  quantity: Int!
+  image: String!
+  OrderDetails: [OrderDetail] @hasMany(indexName: "byProduct",fields: ["id"])
 }
+
+# type Chat
+#   @model
+#   @auth(
+#     rules: [
+#       { allow: owner, provider: userPools, ownerField: "username" }
+#       { allow: private, provider: userPools, operations: [read] }
+#     ]
+#   )
+#   @aws_cognito_user_pools # Include this directive to enable Cognito User Pools
+# {
+#   id: ID!
+#   message: String!
+#   username: String!
+# }

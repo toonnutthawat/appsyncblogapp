@@ -2,7 +2,7 @@ import { Params } from "react-router-dom";
 import { generateClient } from "@aws-amplify/api";
 import '../../configureAmplify'
 import { getPost, listComments, listLikeStatuses } from "../graphql/queries";
-import type { Post, ModelCommentConnection , ModelLikeStatusConnection } from "../API"; // Adjust the path as necessary
+import type { Post, ModelCommentConnection , ModelLikeStatusConnection } from "../API";
 
 interface ParamsType {
     params: Params

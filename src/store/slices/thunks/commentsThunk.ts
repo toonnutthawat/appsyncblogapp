@@ -3,6 +3,7 @@ import { generateClient } from "@aws-amplify/api";
 import { listComments } from "../../../graphql/queries";
 import { Post } from "../../../API";
 import { createComment } from "../../../graphql/mutations";
+import { getCurrentUser } from "aws-amplify/auth";
 
 const publicClient = generateClient()
 const privateClient = generateClient()
@@ -27,12 +28,14 @@ const fetchComments = createAsyncThunk("fetchComments", async (post : Post) => {
 })
 
 const addComment = createAsyncThunk("addComment", async ({message,postId} : {message: string , postId: string}) => {
+    const user = getCurrentUser()
     const response = await privateClient.graphql({
         query: createComment,
         variables: {
             input: {
                 message: message,
-                postID: postId
+                postID: postId,
+                username: (await user).username
             }
         }
     })

@@ -94,9 +94,9 @@ export const onDeletePost = /* GraphQL */ `subscription OnDeletePost(
 >;
 export const onCreateLikeStatus = /* GraphQL */ `subscription OnCreateLikeStatus(
   $filter: ModelSubscriptionLikeStatusFilterInput
-  $createBy: String
+  $username: String
 ) {
-  onCreateLikeStatus(filter: $filter, createBy: $createBy) {
+  onCreateLikeStatus(filter: $filter, username: $username) {
     id
     status
     post {
@@ -111,9 +111,9 @@ export const onCreateLikeStatus = /* GraphQL */ `subscription OnCreateLikeStatus
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -123,9 +123,9 @@ export const onCreateLikeStatus = /* GraphQL */ `subscription OnCreateLikeStatus
 >;
 export const onUpdateLikeStatus = /* GraphQL */ `subscription OnUpdateLikeStatus(
   $filter: ModelSubscriptionLikeStatusFilterInput
-  $createBy: String
+  $username: String
 ) {
-  onUpdateLikeStatus(filter: $filter, createBy: $createBy) {
+  onUpdateLikeStatus(filter: $filter, username: $username) {
     id
     status
     post {
@@ -140,9 +140,9 @@ export const onUpdateLikeStatus = /* GraphQL */ `subscription OnUpdateLikeStatus
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -152,9 +152,9 @@ export const onUpdateLikeStatus = /* GraphQL */ `subscription OnUpdateLikeStatus
 >;
 export const onDeleteLikeStatus = /* GraphQL */ `subscription OnDeleteLikeStatus(
   $filter: ModelSubscriptionLikeStatusFilterInput
-  $createBy: String
+  $username: String
 ) {
-  onDeleteLikeStatus(filter: $filter, createBy: $createBy) {
+  onDeleteLikeStatus(filter: $filter, username: $username) {
     id
     status
     post {
@@ -169,9 +169,9 @@ export const onDeleteLikeStatus = /* GraphQL */ `subscription OnDeleteLikeStatus
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -181,9 +181,9 @@ export const onDeleteLikeStatus = /* GraphQL */ `subscription OnDeleteLikeStatus
 >;
 export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
   $filter: ModelSubscriptionCommentFilterInput
-  $createBy: String
+  $username: String
 ) {
-  onCreateComment(filter: $filter, createBy: $createBy) {
+  onCreateComment(filter: $filter, username: $username) {
     id
     message
     img
@@ -199,9 +199,9 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -211,9 +211,9 @@ export const onCreateComment = /* GraphQL */ `subscription OnCreateComment(
 >;
 export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
   $filter: ModelSubscriptionCommentFilterInput
-  $createBy: String
+  $username: String
 ) {
-  onUpdateComment(filter: $filter, createBy: $createBy) {
+  onUpdateComment(filter: $filter, username: $username) {
     id
     message
     img
@@ -229,9 +229,9 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -241,9 +241,9 @@ export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment(
 >;
 export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
   $filter: ModelSubscriptionCommentFilterInput
-  $createBy: String
+  $username: String
 ) {
-  onDeleteComment(filter: $filter, createBy: $createBy) {
+  onDeleteComment(filter: $filter, username: $username) {
     id
     message
     img
@@ -259,9 +259,9 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -269,54 +269,252 @@ export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment(
   APITypes.OnDeleteCommentSubscriptionVariables,
   APITypes.OnDeleteCommentSubscription
 >;
-export const onCreateChat = /* GraphQL */ `subscription OnCreateChat(
-  $filter: ModelSubscriptionChatFilterInput
-  $username: String
+export const onCreateOrder = /* GraphQL */ `subscription OnCreateOrder(
+  $filter: ModelSubscriptionOrderFilterInput
+  $client: String
 ) {
-  onCreateChat(filter: $filter, username: $username) {
+  onCreateOrder(filter: $filter, client: $client) {
     id
-    message
-    username
+    status
+    client
+    OrderDetails {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateChatSubscriptionVariables,
-  APITypes.OnCreateChatSubscription
+  APITypes.OnCreateOrderSubscriptionVariables,
+  APITypes.OnCreateOrderSubscription
 >;
-export const onUpdateChat = /* GraphQL */ `subscription OnUpdateChat(
-  $filter: ModelSubscriptionChatFilterInput
-  $username: String
+export const onUpdateOrder = /* GraphQL */ `subscription OnUpdateOrder(
+  $filter: ModelSubscriptionOrderFilterInput
+  $client: String
 ) {
-  onUpdateChat(filter: $filter, username: $username) {
+  onUpdateOrder(filter: $filter, client: $client) {
     id
-    message
-    username
+    status
+    client
+    OrderDetails {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateChatSubscriptionVariables,
-  APITypes.OnUpdateChatSubscription
+  APITypes.OnUpdateOrderSubscriptionVariables,
+  APITypes.OnUpdateOrderSubscription
 >;
-export const onDeleteChat = /* GraphQL */ `subscription OnDeleteChat(
-  $filter: ModelSubscriptionChatFilterInput
-  $username: String
+export const onDeleteOrder = /* GraphQL */ `subscription OnDeleteOrder(
+  $filter: ModelSubscriptionOrderFilterInput
+  $client: String
 ) {
-  onDeleteChat(filter: $filter, username: $username) {
+  onDeleteOrder(filter: $filter, client: $client) {
     id
-    message
-    username
+    status
+    client
+    OrderDetails {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteChatSubscriptionVariables,
-  APITypes.OnDeleteChatSubscription
+  APITypes.OnDeleteOrderSubscriptionVariables,
+  APITypes.OnDeleteOrderSubscription
+>;
+export const onCreateOrderDetail = /* GraphQL */ `subscription OnCreateOrderDetail(
+  $filter: ModelSubscriptionOrderDetailFilterInput
+  $owner: String
+) {
+  onCreateOrderDetail(filter: $filter, owner: $owner) {
+    id
+    quantity
+    OrderID
+    order {
+      id
+      status
+      client
+      createdAt
+      updatedAt
+      __typename
+    }
+    ProductID
+    product {
+      id
+      name
+      price
+      owner
+      quantity
+      image
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateOrderDetailSubscriptionVariables,
+  APITypes.OnCreateOrderDetailSubscription
+>;
+export const onUpdateOrderDetail = /* GraphQL */ `subscription OnUpdateOrderDetail(
+  $filter: ModelSubscriptionOrderDetailFilterInput
+  $owner: String
+) {
+  onUpdateOrderDetail(filter: $filter, owner: $owner) {
+    id
+    quantity
+    OrderID
+    order {
+      id
+      status
+      client
+      createdAt
+      updatedAt
+      __typename
+    }
+    ProductID
+    product {
+      id
+      name
+      price
+      owner
+      quantity
+      image
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateOrderDetailSubscriptionVariables,
+  APITypes.OnUpdateOrderDetailSubscription
+>;
+export const onDeleteOrderDetail = /* GraphQL */ `subscription OnDeleteOrderDetail(
+  $filter: ModelSubscriptionOrderDetailFilterInput
+  $owner: String
+) {
+  onDeleteOrderDetail(filter: $filter, owner: $owner) {
+    id
+    quantity
+    OrderID
+    order {
+      id
+      status
+      client
+      createdAt
+      updatedAt
+      __typename
+    }
+    ProductID
+    product {
+      id
+      name
+      price
+      owner
+      quantity
+      image
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteOrderDetailSubscriptionVariables,
+  APITypes.OnDeleteOrderDetailSubscription
+>;
+export const onCreateProduct = /* GraphQL */ `subscription OnCreateProduct(
+  $filter: ModelSubscriptionProductFilterInput
+  $owner: String
+) {
+  onCreateProduct(filter: $filter, owner: $owner) {
+    id
+    name
+    price
+    owner
+    quantity
+    image
+    OrderDetails {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateProductSubscriptionVariables,
+  APITypes.OnCreateProductSubscription
+>;
+export const onUpdateProduct = /* GraphQL */ `subscription OnUpdateProduct(
+  $filter: ModelSubscriptionProductFilterInput
+  $owner: String
+) {
+  onUpdateProduct(filter: $filter, owner: $owner) {
+    id
+    name
+    price
+    owner
+    quantity
+    image
+    OrderDetails {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateProductSubscriptionVariables,
+  APITypes.OnUpdateProductSubscription
+>;
+export const onDeleteProduct = /* GraphQL */ `subscription OnDeleteProduct(
+  $filter: ModelSubscriptionProductFilterInput
+  $owner: String
+) {
+  onDeleteProduct(filter: $filter, owner: $owner) {
+    id
+    name
+    price
+    owner
+    quantity
+    image
+    OrderDetails {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteProductSubscriptionVariables,
+  APITypes.OnDeleteProductSubscription
 >;

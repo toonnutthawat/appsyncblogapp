@@ -23,7 +23,8 @@ function DetailPost() {
     const initialState: Comment = {
         id: '', message: '', createdAt: '', updatedAt: '', __typename: "Comment",
         post: detail,
-        postID: detail.id
+        postID: detail.id,
+        username: ""
     }
     const [coverImage, setCoverImage] = useState('')
     const [showComment, setShowComment] = useState(false)
@@ -152,8 +153,8 @@ function DetailPost() {
                         comments.map((comment) => (
                             <div key={comment?.id} className="gap-4 p-8 mt-4 shadow-md cursor-pointer hover:bg-zinc-100 relative space-y-2">
                                     <div className="flex flex-row space-x-2">
-                                        <ProfilePicture src={`public/profile/${comment.createBy}`} size='32px'></ProfilePicture>
-                                        <p style={{overflowWrap: "anywhere"}}>{comment?.createBy}</p>
+                                        <ProfilePicture src={`public/profile/${comment.username}`} size='32px'></ProfilePicture>
+                                        <p style={{overflowWrap: "anywhere"}}>{comment?.username}</p>
                                     </div>
                                     <h1>{comment?.message}</h1>
                                     <h1 className="bottom-2 right-2">{Moment(comment.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</h1>

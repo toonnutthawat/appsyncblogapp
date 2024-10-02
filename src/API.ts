@@ -103,9 +103,9 @@ export type Comment = {
   img?: string | null,
   post: Post,
   postID: string,
+  username: string,
   createdAt: string,
   updatedAt: string,
-  createBy?: string | null,
 };
 
 export type ModelLikeStatusConnection = {
@@ -120,9 +120,9 @@ export type LikeStatus = {
   status: boolean,
   post: Post,
   postID: string,
+  username: string,
   createdAt: string,
   updatedAt: string,
-  createBy?: string | null,
 };
 
 export type UpdatePostInput = {
@@ -142,17 +142,18 @@ export type CreateLikeStatusInput = {
   id?: string | null,
   status: boolean,
   postID: string,
+  username: string,
 };
 
 export type ModelLikeStatusConditionInput = {
   status?: ModelBooleanInput | null,
   postID?: ModelIDInput | null,
+  username?: ModelStringInput | null,
   and?: Array< ModelLikeStatusConditionInput | null > | null,
   or?: Array< ModelLikeStatusConditionInput | null > | null,
   not?: ModelLikeStatusConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  createBy?: ModelStringInput | null,
 };
 
 export type ModelBooleanInput = {
@@ -182,6 +183,7 @@ export type UpdateLikeStatusInput = {
   id: string,
   status?: boolean | null,
   postID?: string | null,
+  username?: string | null,
 };
 
 export type DeleteLikeStatusInput = {
@@ -193,18 +195,19 @@ export type CreateCommentInput = {
   message: string,
   img?: string | null,
   postID: string,
+  username: string,
 };
 
 export type ModelCommentConditionInput = {
   message?: ModelStringInput | null,
   img?: ModelStringInput | null,
   postID?: ModelIDInput | null,
+  username?: ModelStringInput | null,
   and?: Array< ModelCommentConditionInput | null > | null,
   or?: Array< ModelCommentConditionInput | null > | null,
   not?: ModelCommentConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  createBy?: ModelStringInput | null,
 };
 
 export type UpdateCommentInput = {
@@ -212,44 +215,156 @@ export type UpdateCommentInput = {
   message?: string | null,
   img?: string | null,
   postID?: string | null,
+  username?: string | null,
 };
 
 export type DeleteCommentInput = {
   id: string,
 };
 
-export type CreateChatInput = {
+export type CreateOrderInput = {
   id?: string | null,
-  message: string,
-  username: string,
+  status: Status,
+  client: string,
 };
 
-export type ModelChatConditionInput = {
-  message?: ModelStringInput | null,
-  username?: ModelStringInput | null,
-  and?: Array< ModelChatConditionInput | null > | null,
-  or?: Array< ModelChatConditionInput | null > | null,
-  not?: ModelChatConditionInput | null,
+export enum Status {
+  CONFIRM = "CONFIRM",
+  PACKED = "PACKED",
+  IN_TRANSIT = "IN_TRANSIT",
+  DELIVERED = "DELIVERED",
+}
+
+
+export type ModelOrderConditionInput = {
+  status?: ModelStatusInput | null,
+  client?: ModelStringInput | null,
+  and?: Array< ModelOrderConditionInput | null > | null,
+  or?: Array< ModelOrderConditionInput | null > | null,
+  not?: ModelOrderConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
-export type Chat = {
-  __typename: "Chat",
+export type ModelStatusInput = {
+  eq?: Status | null,
+  ne?: Status | null,
+};
+
+export type Order = {
+  __typename: "Order",
   id: string,
-  message: string,
-  username: string,
+  status: Status,
+  client: string,
+  OrderDetails?: ModelOrderDetailConnection | null,
   createdAt: string,
   updatedAt: string,
 };
 
-export type UpdateChatInput = {
-  id: string,
-  message?: string | null,
-  username?: string | null,
+export type ModelOrderDetailConnection = {
+  __typename: "ModelOrderDetailConnection",
+  items:  Array<OrderDetail | null >,
+  nextToken?: string | null,
 };
 
-export type DeleteChatInput = {
+export type OrderDetail = {
+  __typename: "OrderDetail",
+  id: string,
+  quantity: number,
+  OrderID: string,
+  order?: Order | null,
+  ProductID: string,
+  product?: Product | null,
+  createdAt: string,
+  updatedAt: string,
+  owner?: string | null,
+};
+
+export type Product = {
+  __typename: "Product",
+  id: string,
+  name: string,
+  price: number,
+  owner: string,
+  quantity: number,
+  image: string,
+  OrderDetails?: ModelOrderDetailConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateOrderInput = {
+  id: string,
+  status?: Status | null,
+  client?: string | null,
+};
+
+export type DeleteOrderInput = {
+  id: string,
+};
+
+export type CreateOrderDetailInput = {
+  id?: string | null,
+  quantity: number,
+  OrderID: string,
+  ProductID: string,
+};
+
+export type ModelOrderDetailConditionInput = {
+  quantity?: ModelIntInput | null,
+  OrderID?: ModelIDInput | null,
+  ProductID?: ModelIDInput | null,
+  and?: Array< ModelOrderDetailConditionInput | null > | null,
+  or?: Array< ModelOrderDetailConditionInput | null > | null,
+  not?: ModelOrderDetailConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type UpdateOrderDetailInput = {
+  id: string,
+  quantity?: number | null,
+  OrderID?: string | null,
+  ProductID?: string | null,
+};
+
+export type DeleteOrderDetailInput = {
+  id: string,
+};
+
+export type CreateProductInput = {
+  id?: string | null,
+  name: string,
+  price: number,
+  owner: string,
+  quantity: number,
+  image: string,
+};
+
+export type ModelProductConditionInput = {
+  name?: ModelStringInput | null,
+  price?: ModelIntInput | null,
+  owner?: ModelStringInput | null,
+  quantity?: ModelIntInput | null,
+  image?: ModelStringInput | null,
+  and?: Array< ModelProductConditionInput | null > | null,
+  or?: Array< ModelProductConditionInput | null > | null,
+  not?: ModelProductConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type UpdateProductInput = {
+  id: string,
+  name?: string | null,
+  price?: number | null,
+  owner?: string | null,
+  quantity?: number | null,
+  image?: string | null,
+};
+
+export type DeleteProductInput = {
   id: string,
 };
 
@@ -277,12 +392,12 @@ export type ModelLikeStatusFilterInput = {
   id?: ModelIDInput | null,
   status?: ModelBooleanInput | null,
   postID?: ModelIDInput | null,
+  username?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelLikeStatusFilterInput | null > | null,
   or?: Array< ModelLikeStatusFilterInput | null > | null,
   not?: ModelLikeStatusFilterInput | null,
-  createBy?: ModelStringInput | null,
 };
 
 export type ModelCommentFilterInput = {
@@ -290,28 +405,61 @@ export type ModelCommentFilterInput = {
   message?: ModelStringInput | null,
   img?: ModelStringInput | null,
   postID?: ModelIDInput | null,
+  username?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelCommentFilterInput | null > | null,
   or?: Array< ModelCommentFilterInput | null > | null,
   not?: ModelCommentFilterInput | null,
-  createBy?: ModelStringInput | null,
 };
 
-export type ModelChatFilterInput = {
+export type ModelOrderFilterInput = {
   id?: ModelIDInput | null,
-  message?: ModelStringInput | null,
-  username?: ModelStringInput | null,
+  status?: ModelStatusInput | null,
+  client?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  and?: Array< ModelChatFilterInput | null > | null,
-  or?: Array< ModelChatFilterInput | null > | null,
-  not?: ModelChatFilterInput | null,
+  and?: Array< ModelOrderFilterInput | null > | null,
+  or?: Array< ModelOrderFilterInput | null > | null,
+  not?: ModelOrderFilterInput | null,
 };
 
-export type ModelChatConnection = {
-  __typename: "ModelChatConnection",
-  items:  Array<Chat | null >,
+export type ModelOrderConnection = {
+  __typename: "ModelOrderConnection",
+  items:  Array<Order | null >,
+  nextToken?: string | null,
+};
+
+export type ModelOrderDetailFilterInput = {
+  id?: ModelIDInput | null,
+  quantity?: ModelIntInput | null,
+  OrderID?: ModelIDInput | null,
+  ProductID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelOrderDetailFilterInput | null > | null,
+  or?: Array< ModelOrderDetailFilterInput | null > | null,
+  not?: ModelOrderDetailFilterInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type ModelProductFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  price?: ModelIntInput | null,
+  owner?: ModelStringInput | null,
+  quantity?: ModelIntInput | null,
+  image?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelProductFilterInput | null > | null,
+  or?: Array< ModelProductFilterInput | null > | null,
+  not?: ModelProductFilterInput | null,
+};
+
+export type ModelProductConnection = {
+  __typename: "ModelProductConnection",
+  items:  Array<Product | null >,
   nextToken?: string | null,
 };
 
@@ -384,7 +532,7 @@ export type ModelSubscriptionLikeStatusFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionLikeStatusFilterInput | null > | null,
   or?: Array< ModelSubscriptionLikeStatusFilterInput | null > | null,
-  createBy?: ModelStringInput | null,
+  username?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionBooleanInput = {
@@ -401,17 +549,42 @@ export type ModelSubscriptionCommentFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCommentFilterInput | null > | null,
   or?: Array< ModelSubscriptionCommentFilterInput | null > | null,
-  createBy?: ModelStringInput | null,
+  username?: ModelStringInput | null,
 };
 
-export type ModelSubscriptionChatFilterInput = {
+export type ModelSubscriptionOrderFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  message?: ModelSubscriptionStringInput | null,
+  status?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionChatFilterInput | null > | null,
-  or?: Array< ModelSubscriptionChatFilterInput | null > | null,
-  username?: ModelStringInput | null,
+  and?: Array< ModelSubscriptionOrderFilterInput | null > | null,
+  or?: Array< ModelSubscriptionOrderFilterInput | null > | null,
+  client?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionOrderDetailFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  quantity?: ModelSubscriptionIntInput | null,
+  OrderID?: ModelSubscriptionIDInput | null,
+  ProductID?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionOrderDetailFilterInput | null > | null,
+  or?: Array< ModelSubscriptionOrderDetailFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionProductFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  price?: ModelSubscriptionIntInput | null,
+  quantity?: ModelSubscriptionIntInput | null,
+  image?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionProductFilterInput | null > | null,
+  or?: Array< ModelSubscriptionProductFilterInput | null > | null,
+  owner?: ModelStringInput | null,
 };
 
 export type CreatePostMutationVariables = {
@@ -517,9 +690,9 @@ export type CreateLikeStatusMutation = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
@@ -545,9 +718,9 @@ export type UpdateLikeStatusMutation = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
@@ -573,9 +746,9 @@ export type DeleteLikeStatusMutation = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
@@ -602,9 +775,9 @@ export type CreateCommentMutation = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
@@ -631,9 +804,9 @@ export type UpdateCommentMutation = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
@@ -660,55 +833,247 @@ export type DeleteCommentMutation = {
       updatedAt: string,
     },
     postID: string,
-    createdAt: string,
-    updatedAt: string,
-    createBy?: string | null,
-  } | null,
-};
-
-export type CreateChatMutationVariables = {
-  input: CreateChatInput,
-  condition?: ModelChatConditionInput | null,
-};
-
-export type CreateChatMutation = {
-  createChat?:  {
-    __typename: "Chat",
-    id: string,
-    message: string,
     username: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type UpdateChatMutationVariables = {
-  input: UpdateChatInput,
-  condition?: ModelChatConditionInput | null,
+export type CreateOrderMutationVariables = {
+  input: CreateOrderInput,
+  condition?: ModelOrderConditionInput | null,
 };
 
-export type UpdateChatMutation = {
-  updateChat?:  {
-    __typename: "Chat",
+export type CreateOrderMutation = {
+  createOrder?:  {
+    __typename: "Order",
     id: string,
-    message: string,
-    username: string,
+    status: Status,
+    client: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type DeleteChatMutationVariables = {
-  input: DeleteChatInput,
-  condition?: ModelChatConditionInput | null,
+export type UpdateOrderMutationVariables = {
+  input: UpdateOrderInput,
+  condition?: ModelOrderConditionInput | null,
 };
 
-export type DeleteChatMutation = {
-  deleteChat?:  {
-    __typename: "Chat",
+export type UpdateOrderMutation = {
+  updateOrder?:  {
+    __typename: "Order",
     id: string,
-    message: string,
-    username: string,
+    status: Status,
+    client: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteOrderMutationVariables = {
+  input: DeleteOrderInput,
+  condition?: ModelOrderConditionInput | null,
+};
+
+export type DeleteOrderMutation = {
+  deleteOrder?:  {
+    __typename: "Order",
+    id: string,
+    status: Status,
+    client: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateOrderDetailMutationVariables = {
+  input: CreateOrderDetailInput,
+  condition?: ModelOrderDetailConditionInput | null,
+};
+
+export type CreateOrderDetailMutation = {
+  createOrderDetail?:  {
+    __typename: "OrderDetail",
+    id: string,
+    quantity: number,
+    OrderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      status: Status,
+      client: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ProductID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      name: string,
+      price: number,
+      owner: string,
+      quantity: number,
+      image: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type UpdateOrderDetailMutationVariables = {
+  input: UpdateOrderDetailInput,
+  condition?: ModelOrderDetailConditionInput | null,
+};
+
+export type UpdateOrderDetailMutation = {
+  updateOrderDetail?:  {
+    __typename: "OrderDetail",
+    id: string,
+    quantity: number,
+    OrderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      status: Status,
+      client: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ProductID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      name: string,
+      price: number,
+      owner: string,
+      quantity: number,
+      image: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type DeleteOrderDetailMutationVariables = {
+  input: DeleteOrderDetailInput,
+  condition?: ModelOrderDetailConditionInput | null,
+};
+
+export type DeleteOrderDetailMutation = {
+  deleteOrderDetail?:  {
+    __typename: "OrderDetail",
+    id: string,
+    quantity: number,
+    OrderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      status: Status,
+      client: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ProductID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      name: string,
+      price: number,
+      owner: string,
+      quantity: number,
+      image: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type CreateProductMutationVariables = {
+  input: CreateProductInput,
+  condition?: ModelProductConditionInput | null,
+};
+
+export type CreateProductMutation = {
+  createProduct?:  {
+    __typename: "Product",
+    id: string,
+    name: string,
+    price: number,
+    owner: string,
+    quantity: number,
+    image: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateProductMutationVariables = {
+  input: UpdateProductInput,
+  condition?: ModelProductConditionInput | null,
+};
+
+export type UpdateProductMutation = {
+  updateProduct?:  {
+    __typename: "Product",
+    id: string,
+    name: string,
+    price: number,
+    owner: string,
+    quantity: number,
+    image: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteProductMutationVariables = {
+  input: DeleteProductInput,
+  condition?: ModelProductConditionInput | null,
+};
+
+export type DeleteProductMutation = {
+  deleteProduct?:  {
+    __typename: "Product",
+    id: string,
+    name: string,
+    price: number,
+    owner: string,
+    quantity: number,
+    image: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -785,9 +1150,9 @@ export type GetLikeStatusQuery = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
@@ -805,9 +1170,9 @@ export type ListLikeStatusesQuery = {
       id: string,
       status: boolean,
       postID: string,
+      username: string,
       createdAt: string,
       updatedAt: string,
-      createBy?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -835,9 +1200,9 @@ export type GetCommentQuery = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
@@ -856,43 +1221,152 @@ export type ListCommentsQuery = {
       message: string,
       img?: string | null,
       postID: string,
+      username: string,
       createdAt: string,
       updatedAt: string,
-      createBy?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
 };
 
-export type GetChatQueryVariables = {
+export type GetOrderQueryVariables = {
   id: string,
 };
 
-export type GetChatQuery = {
-  getChat?:  {
-    __typename: "Chat",
+export type GetOrderQuery = {
+  getOrder?:  {
+    __typename: "Order",
     id: string,
-    message: string,
-    username: string,
+    status: Status,
+    client: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type ListChatsQueryVariables = {
-  filter?: ModelChatFilterInput | null,
+export type ListOrdersQueryVariables = {
+  filter?: ModelOrderFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListChatsQuery = {
-  listChats?:  {
-    __typename: "ModelChatConnection",
+export type ListOrdersQuery = {
+  listOrders?:  {
+    __typename: "ModelOrderConnection",
     items:  Array< {
-      __typename: "Chat",
+      __typename: "Order",
       id: string,
-      message: string,
-      username: string,
+      status: Status,
+      client: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetOrderDetailQueryVariables = {
+  id: string,
+};
+
+export type GetOrderDetailQuery = {
+  getOrderDetail?:  {
+    __typename: "OrderDetail",
+    id: string,
+    quantity: number,
+    OrderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      status: Status,
+      client: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ProductID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      name: string,
+      price: number,
+      owner: string,
+      quantity: number,
+      image: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListOrderDetailsQueryVariables = {
+  filter?: ModelOrderDetailFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListOrderDetailsQuery = {
+  listOrderDetails?:  {
+    __typename: "ModelOrderDetailConnection",
+    items:  Array< {
+      __typename: "OrderDetail",
+      id: string,
+      quantity: number,
+      OrderID: string,
+      ProductID: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetProductQueryVariables = {
+  id: string,
+};
+
+export type GetProductQuery = {
+  getProduct?:  {
+    __typename: "Product",
+    id: string,
+    name: string,
+    price: number,
+    owner: string,
+    quantity: number,
+    image: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListProductsQueryVariables = {
+  filter?: ModelProductFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListProductsQuery = {
+  listProducts?:  {
+    __typename: "ModelProductConnection",
+    items:  Array< {
+      __typename: "Product",
+      id: string,
+      name: string,
+      price: number,
+      owner: string,
+      quantity: number,
+      image: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -942,9 +1416,9 @@ export type LikeStatusesByPostIDQuery = {
       id: string,
       status: boolean,
       postID: string,
+      username: string,
       createdAt: string,
       updatedAt: string,
-      createBy?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -967,9 +1441,59 @@ export type CommentsByPostIDQuery = {
       message: string,
       img?: string | null,
       postID: string,
+      username: string,
       createdAt: string,
       updatedAt: string,
-      createBy?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type OrderDetailsByOrderIDQueryVariables = {
+  OrderID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelOrderDetailFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type OrderDetailsByOrderIDQuery = {
+  orderDetailsByOrderID?:  {
+    __typename: "ModelOrderDetailConnection",
+    items:  Array< {
+      __typename: "OrderDetail",
+      id: string,
+      quantity: number,
+      OrderID: string,
+      ProductID: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type OrderDetailsByProductIDQueryVariables = {
+  ProductID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelOrderDetailFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type OrderDetailsByProductIDQuery = {
+  orderDetailsByProductID?:  {
+    __typename: "ModelOrderDetailConnection",
+    items:  Array< {
+      __typename: "OrderDetail",
+      id: string,
+      quantity: number,
+      OrderID: string,
+      ProductID: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1058,7 +1582,7 @@ export type OnDeletePostSubscription = {
 
 export type OnCreateLikeStatusSubscriptionVariables = {
   filter?: ModelSubscriptionLikeStatusFilterInput | null,
-  createBy?: string | null,
+  username?: string | null,
 };
 
 export type OnCreateLikeStatusSubscription = {
@@ -1078,15 +1602,15 @@ export type OnCreateLikeStatusSubscription = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
 export type OnUpdateLikeStatusSubscriptionVariables = {
   filter?: ModelSubscriptionLikeStatusFilterInput | null,
-  createBy?: string | null,
+  username?: string | null,
 };
 
 export type OnUpdateLikeStatusSubscription = {
@@ -1106,15 +1630,15 @@ export type OnUpdateLikeStatusSubscription = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
 export type OnDeleteLikeStatusSubscriptionVariables = {
   filter?: ModelSubscriptionLikeStatusFilterInput | null,
-  createBy?: string | null,
+  username?: string | null,
 };
 
 export type OnDeleteLikeStatusSubscription = {
@@ -1134,15 +1658,15 @@ export type OnDeleteLikeStatusSubscription = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
 export type OnCreateCommentSubscriptionVariables = {
   filter?: ModelSubscriptionCommentFilterInput | null,
-  createBy?: string | null,
+  username?: string | null,
 };
 
 export type OnCreateCommentSubscription = {
@@ -1163,15 +1687,15 @@ export type OnCreateCommentSubscription = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
 export type OnUpdateCommentSubscriptionVariables = {
   filter?: ModelSubscriptionCommentFilterInput | null,
-  createBy?: string | null,
+  username?: string | null,
 };
 
 export type OnUpdateCommentSubscription = {
@@ -1192,15 +1716,15 @@ export type OnUpdateCommentSubscription = {
       updatedAt: string,
     },
     postID: string,
+    username: string,
     createdAt: string,
     updatedAt: string,
-    createBy?: string | null,
   } | null,
 };
 
 export type OnDeleteCommentSubscriptionVariables = {
   filter?: ModelSubscriptionCommentFilterInput | null,
-  createBy?: string | null,
+  username?: string | null,
 };
 
 export type OnDeleteCommentSubscription = {
@@ -1221,55 +1745,247 @@ export type OnDeleteCommentSubscription = {
       updatedAt: string,
     },
     postID: string,
-    createdAt: string,
-    updatedAt: string,
-    createBy?: string | null,
-  } | null,
-};
-
-export type OnCreateChatSubscriptionVariables = {
-  filter?: ModelSubscriptionChatFilterInput | null,
-  username?: string | null,
-};
-
-export type OnCreateChatSubscription = {
-  onCreateChat?:  {
-    __typename: "Chat",
-    id: string,
-    message: string,
     username: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnUpdateChatSubscriptionVariables = {
-  filter?: ModelSubscriptionChatFilterInput | null,
-  username?: string | null,
+export type OnCreateOrderSubscriptionVariables = {
+  filter?: ModelSubscriptionOrderFilterInput | null,
+  client?: string | null,
 };
 
-export type OnUpdateChatSubscription = {
-  onUpdateChat?:  {
-    __typename: "Chat",
+export type OnCreateOrderSubscription = {
+  onCreateOrder?:  {
+    __typename: "Order",
     id: string,
-    message: string,
-    username: string,
+    status: Status,
+    client: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnDeleteChatSubscriptionVariables = {
-  filter?: ModelSubscriptionChatFilterInput | null,
-  username?: string | null,
+export type OnUpdateOrderSubscriptionVariables = {
+  filter?: ModelSubscriptionOrderFilterInput | null,
+  client?: string | null,
 };
 
-export type OnDeleteChatSubscription = {
-  onDeleteChat?:  {
-    __typename: "Chat",
+export type OnUpdateOrderSubscription = {
+  onUpdateOrder?:  {
+    __typename: "Order",
     id: string,
-    message: string,
-    username: string,
+    status: Status,
+    client: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteOrderSubscriptionVariables = {
+  filter?: ModelSubscriptionOrderFilterInput | null,
+  client?: string | null,
+};
+
+export type OnDeleteOrderSubscription = {
+  onDeleteOrder?:  {
+    __typename: "Order",
+    id: string,
+    status: Status,
+    client: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateOrderDetailSubscriptionVariables = {
+  filter?: ModelSubscriptionOrderDetailFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateOrderDetailSubscription = {
+  onCreateOrderDetail?:  {
+    __typename: "OrderDetail",
+    id: string,
+    quantity: number,
+    OrderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      status: Status,
+      client: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ProductID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      name: string,
+      price: number,
+      owner: string,
+      quantity: number,
+      image: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnUpdateOrderDetailSubscriptionVariables = {
+  filter?: ModelSubscriptionOrderDetailFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateOrderDetailSubscription = {
+  onUpdateOrderDetail?:  {
+    __typename: "OrderDetail",
+    id: string,
+    quantity: number,
+    OrderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      status: Status,
+      client: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ProductID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      name: string,
+      price: number,
+      owner: string,
+      quantity: number,
+      image: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnDeleteOrderDetailSubscriptionVariables = {
+  filter?: ModelSubscriptionOrderDetailFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteOrderDetailSubscription = {
+  onDeleteOrderDetail?:  {
+    __typename: "OrderDetail",
+    id: string,
+    quantity: number,
+    OrderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      status: Status,
+      client: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ProductID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      name: string,
+      price: number,
+      owner: string,
+      quantity: number,
+      image: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnCreateProductSubscriptionVariables = {
+  filter?: ModelSubscriptionProductFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateProductSubscription = {
+  onCreateProduct?:  {
+    __typename: "Product",
+    id: string,
+    name: string,
+    price: number,
+    owner: string,
+    quantity: number,
+    image: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateProductSubscriptionVariables = {
+  filter?: ModelSubscriptionProductFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateProductSubscription = {
+  onUpdateProduct?:  {
+    __typename: "Product",
+    id: string,
+    name: string,
+    price: number,
+    owner: string,
+    quantity: number,
+    image: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteProductSubscriptionVariables = {
+  filter?: ModelSubscriptionProductFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteProductSubscription = {
+  onDeleteProduct?:  {
+    __typename: "Product",
+    id: string,
+    name: string,
+    price: number,
+    owner: string,
+    quantity: number,
+    image: string,
+    OrderDetails?:  {
+      __typename: "ModelOrderDetailConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,

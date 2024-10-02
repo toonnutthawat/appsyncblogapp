@@ -7,11 +7,13 @@ import SignUpPage from "./pages/AuthPage/SignUpPage";
 import MyPost from "./pages/PostPage/MyPost";
 import DetailPost from "./pages/PostPage/DetailPost";
 import EditPage from "./pages/PostPage/EditPage";
-import ChatPage from "./pages/ChatPage";
 import ResetPassword from "./pages/AuthPage/ResetPassword";
 import { detailLoader } from "./loaders/detailLoader";
 import Login from "./pages/AuthPage/Login";
 import '@aws-amplify/ui-react/styles.css';
+import ProductPage from "./pages/Shop/ProductsPage";
+import AddProduct from "./pages/Shop/AddProduct";
+import CartPage from "./pages/Shop/CartPage";
 
 const router = createBrowserRouter([
   {
@@ -32,10 +34,6 @@ const router = createBrowserRouter([
         element: <ProfilePage></ProfilePage>
       },
       {
-        path: '/chat',
-        element: <ChatPage></ChatPage>
-      },
-      {
         path: '/sign-up',
         element: <SignUpPage></SignUpPage>
       },
@@ -50,6 +48,18 @@ const router = createBrowserRouter([
       {
         path: '/my-post',
         element: <MyPost></MyPost>
+      },
+      {
+        path:'/shop',
+        element: <ProductPage></ProductPage>
+      },
+      {
+        path: '/shop/add',
+        element: <AddProduct></AddProduct>
+      },
+      {
+        path: '/shop/cart',
+        element: <CartPage></CartPage>
       },
       {
         path: '/post/:id',

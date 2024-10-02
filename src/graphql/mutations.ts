@@ -111,9 +111,9 @@ export const createLikeStatus = /* GraphQL */ `mutation CreateLikeStatus(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -140,9 +140,9 @@ export const updateLikeStatus = /* GraphQL */ `mutation UpdateLikeStatus(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -169,9 +169,9 @@ export const deleteLikeStatus = /* GraphQL */ `mutation DeleteLikeStatus(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -199,9 +199,9 @@ export const createComment = /* GraphQL */ `mutation CreateComment(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -229,9 +229,9 @@ export const updateComment = /* GraphQL */ `mutation UpdateComment(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -259,9 +259,9 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
       __typename
     }
     postID
+    username
     createdAt
     updatedAt
-    createBy
     __typename
   }
 }
@@ -269,54 +269,252 @@ export const deleteComment = /* GraphQL */ `mutation DeleteComment(
   APITypes.DeleteCommentMutationVariables,
   APITypes.DeleteCommentMutation
 >;
-export const createChat = /* GraphQL */ `mutation CreateChat(
-  $input: CreateChatInput!
-  $condition: ModelChatConditionInput
+export const createOrder = /* GraphQL */ `mutation CreateOrder(
+  $input: CreateOrderInput!
+  $condition: ModelOrderConditionInput
 ) {
-  createChat(input: $input, condition: $condition) {
+  createOrder(input: $input, condition: $condition) {
     id
-    message
-    username
+    status
+    client
+    OrderDetails {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateChatMutationVariables,
-  APITypes.CreateChatMutation
+  APITypes.CreateOrderMutationVariables,
+  APITypes.CreateOrderMutation
 >;
-export const updateChat = /* GraphQL */ `mutation UpdateChat(
-  $input: UpdateChatInput!
-  $condition: ModelChatConditionInput
+export const updateOrder = /* GraphQL */ `mutation UpdateOrder(
+  $input: UpdateOrderInput!
+  $condition: ModelOrderConditionInput
 ) {
-  updateChat(input: $input, condition: $condition) {
+  updateOrder(input: $input, condition: $condition) {
     id
-    message
-    username
+    status
+    client
+    OrderDetails {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateChatMutationVariables,
-  APITypes.UpdateChatMutation
+  APITypes.UpdateOrderMutationVariables,
+  APITypes.UpdateOrderMutation
 >;
-export const deleteChat = /* GraphQL */ `mutation DeleteChat(
-  $input: DeleteChatInput!
-  $condition: ModelChatConditionInput
+export const deleteOrder = /* GraphQL */ `mutation DeleteOrder(
+  $input: DeleteOrderInput!
+  $condition: ModelOrderConditionInput
 ) {
-  deleteChat(input: $input, condition: $condition) {
+  deleteOrder(input: $input, condition: $condition) {
     id
-    message
-    username
+    status
+    client
+    OrderDetails {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteChatMutationVariables,
-  APITypes.DeleteChatMutation
+  APITypes.DeleteOrderMutationVariables,
+  APITypes.DeleteOrderMutation
+>;
+export const createOrderDetail = /* GraphQL */ `mutation CreateOrderDetail(
+  $input: CreateOrderDetailInput!
+  $condition: ModelOrderDetailConditionInput
+) {
+  createOrderDetail(input: $input, condition: $condition) {
+    id
+    quantity
+    OrderID
+    order {
+      id
+      status
+      client
+      createdAt
+      updatedAt
+      __typename
+    }
+    ProductID
+    product {
+      id
+      name
+      price
+      owner
+      quantity
+      image
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateOrderDetailMutationVariables,
+  APITypes.CreateOrderDetailMutation
+>;
+export const updateOrderDetail = /* GraphQL */ `mutation UpdateOrderDetail(
+  $input: UpdateOrderDetailInput!
+  $condition: ModelOrderDetailConditionInput
+) {
+  updateOrderDetail(input: $input, condition: $condition) {
+    id
+    quantity
+    OrderID
+    order {
+      id
+      status
+      client
+      createdAt
+      updatedAt
+      __typename
+    }
+    ProductID
+    product {
+      id
+      name
+      price
+      owner
+      quantity
+      image
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateOrderDetailMutationVariables,
+  APITypes.UpdateOrderDetailMutation
+>;
+export const deleteOrderDetail = /* GraphQL */ `mutation DeleteOrderDetail(
+  $input: DeleteOrderDetailInput!
+  $condition: ModelOrderDetailConditionInput
+) {
+  deleteOrderDetail(input: $input, condition: $condition) {
+    id
+    quantity
+    OrderID
+    order {
+      id
+      status
+      client
+      createdAt
+      updatedAt
+      __typename
+    }
+    ProductID
+    product {
+      id
+      name
+      price
+      owner
+      quantity
+      image
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteOrderDetailMutationVariables,
+  APITypes.DeleteOrderDetailMutation
+>;
+export const createProduct = /* GraphQL */ `mutation CreateProduct(
+  $input: CreateProductInput!
+  $condition: ModelProductConditionInput
+) {
+  createProduct(input: $input, condition: $condition) {
+    id
+    name
+    price
+    owner
+    quantity
+    image
+    OrderDetails {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateProductMutationVariables,
+  APITypes.CreateProductMutation
+>;
+export const updateProduct = /* GraphQL */ `mutation UpdateProduct(
+  $input: UpdateProductInput!
+  $condition: ModelProductConditionInput
+) {
+  updateProduct(input: $input, condition: $condition) {
+    id
+    name
+    price
+    owner
+    quantity
+    image
+    OrderDetails {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateProductMutationVariables,
+  APITypes.UpdateProductMutation
+>;
+export const deleteProduct = /* GraphQL */ `mutation DeleteProduct(
+  $input: DeleteProductInput!
+  $condition: ModelProductConditionInput
+) {
+  deleteProduct(input: $input, condition: $condition) {
+    id
+    name
+    price
+    owner
+    quantity
+    image
+    OrderDetails {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteProductMutationVariables,
+  APITypes.DeleteProductMutation
 >;
