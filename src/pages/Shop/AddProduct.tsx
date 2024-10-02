@@ -3,6 +3,7 @@ import { useAppDispatch } from "../../hook";
 import { addProduct } from "../../store/slices/thunks/productsThunk";
 import { FaFileImage } from "react-icons/fa";
 import { uploadData } from "aws-amplify/storage";
+import { useNavigate } from "react-router-dom";
 
 function AddProduct() {
     const [price, setPrice] = useState(0)
@@ -12,6 +13,7 @@ function AddProduct() {
     const dispatch = useAppDispatch()
     const imageFileInput = useRef<HTMLInputElement | null>(null)
     const [image, setImage] = useState<File | null>(null)
+    const navigate = useNavigate()
 
     async function uploadImage() {
         if (imageFileInput.current) {
@@ -48,6 +50,7 @@ function AddProduct() {
                 }
             }
             console.log("add Product success");
+            navigate('/shop')
         }
         catch (error) {
             setErrorMessage((error as Error).message)
@@ -58,7 +61,7 @@ function AddProduct() {
     return (
         <div>
             <div className="flex justify-center bg-white min-h-screen px-20">
-                <div className="space-y-2 relative bg-cyan-500 p-8 mt-8 shadow-2xl rounded" style={{ height: "40rem" }}>
+                <div className="space-y-2 relative bg-cyan-500 p-8 mt-8 shadow-2xl rounded" style={{ height: "36rem" }}>
                     <div className="text-4xl py-4 text-white font-bold drop-shadow-lg">
                         Add Product
                     </div>

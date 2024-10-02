@@ -110,10 +110,10 @@ function HomePage() {
   }, [newPost]);
 
   return (
-    <div className="m-4">
+    <div className="m-4 px-20">
       {authStatus !== "authenticated" ?
         <div>
-          <div className='text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg'>Welcome to APPSYNCBLOGAPP</div>
+          <div className='text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg'>Welcome to BLOGAPP</div>
           <button
             onClick={toLoginPage}
             className='mb-4 bg-cyan-500 text-white font-semibold py-2 rounded-lg hover:bg-cyan-800 flex items-center justify-center w-36'>login

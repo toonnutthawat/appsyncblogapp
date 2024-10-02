@@ -229,6 +229,7 @@ export type CreateOrderInput = {
 };
 
 export enum Status {
+  ORDER = "ORDER",
   CONFIRM = "CONFIRM",
   PACKED = "PACKED",
   IN_TRANSIT = "IN_TRANSIT",

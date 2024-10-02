@@ -71,6 +71,7 @@ type Order
   }
 
 enum Status {
+  ORDER
   CONFIRM
   PACKED
   IN_TRANSIT

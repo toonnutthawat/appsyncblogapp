@@ -23,12 +23,12 @@ function MyPost() {
 
 
   return (
-    <div className="py-8 px-8 max-w-xxl mx-auto rounded sm:items-center sm:space-y-0 sm:space-x-6 mb-2">
+    <div className="px-20 max-w-xxl mx-auto rounded sm:items-center sm:space-y-0 sm:space-x-6 mb-2">
       <input
         value={term}
         onChange={e => setTerm(e.target.value)}
         placeholder='search title'
-        className='p-2'
+        className='p-2 m-4'
         style={{ width: "100%" }}>
       </input>
       <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">My Posts</h1>
