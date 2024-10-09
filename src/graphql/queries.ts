@@ -157,6 +157,8 @@ export const getOrder = /* GraphQL */ `query GetOrder($id: ID!) {
     id
     status
     client
+    address
+    phone
     OrderDetails {
       nextToken
       __typename
@@ -177,6 +179,8 @@ export const listOrders = /* GraphQL */ `query ListOrders(
       id
       status
       client
+      address
+      phone
       createdAt
       updatedAt
       __typename
@@ -198,6 +202,8 @@ export const getOrderDetail = /* GraphQL */ `query GetOrderDetail($id: ID!) {
       id
       status
       client
+      address
+      phone
       createdAt
       updatedAt
       __typename
@@ -209,6 +215,7 @@ export const getOrderDetail = /* GraphQL */ `query GetOrderDetail($id: ID!) {
       price
       owner
       quantity
+      stock
       image
       createdAt
       updatedAt
@@ -255,6 +262,7 @@ export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
     price
     owner
     quantity
+    stock
     image
     OrderDetails {
       nextToken
@@ -281,6 +289,7 @@ export const listProducts = /* GraphQL */ `query ListProducts(
       price
       owner
       quantity
+      stock
       image
       createdAt
       updatedAt

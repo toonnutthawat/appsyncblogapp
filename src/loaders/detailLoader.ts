@@ -31,9 +31,7 @@ export async function detailLoader({ params }: ParamsType): Promise<DetailResult
                 postID: {
                     eq: postData.data.getPost?.id
                 },
-                status: {
-                    eq: true
-                }
+                
             }
         }
         
@@ -52,7 +50,7 @@ export async function detailLoader({ params }: ParamsType): Promise<DetailResult
     })
 
 
-    if (!postData || !postData.data || !postData.data.getPost) {
+    if (!postData.data.getPost ) {
         throw new Error('Post not found');
     }
 
@@ -63,7 +61,7 @@ export async function detailLoader({ params }: ParamsType): Promise<DetailResult
         listOfLike: {
             __typename: "ModelLikeStatusConnection",
             nextToken: postData.data.getPost.listOfLike?.nextToken,
-            items: responseListOfLikes.data.listLikeStatuses.items
+            items: responseListOfLikes.data.listLikeStatuses.items 
         } as ModelLikeStatusConnection
         ,
         comments: {

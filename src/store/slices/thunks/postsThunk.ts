@@ -30,18 +30,19 @@ const fetchMyPosts = createAsyncThunk("fetchMyPosts", async () => {
       return response.data.listPosts
 })
 
-const addPost = createAsyncThunk("addPost", async ({postId , postToCreate , coverImage} : {postId : string , postToCreate : Post , coverImage : string | null | undefined}) => {
+const addPost = createAsyncThunk("addPost", async ({postId, postTitle, postContent , coverImage} : 
+  { postId: string ,postTitle : string , postContent : string , coverImage : string | null | undefined}) => {
   const user = await getCurrentUser()
   const response = await client.graphql({
     query: createPost,
     variables: {
         input: {
-            title: postToCreate.title,
-            content: postToCreate.content,
             id: postId,
+            title: postTitle,
+            content: postContent,
             coverImage: coverImage,
             username: user.username,
-            likes: 0
+            likes: 0,
         }
     }
 });

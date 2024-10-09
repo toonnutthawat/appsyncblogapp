@@ -277,6 +277,8 @@ export const createOrder = /* GraphQL */ `mutation CreateOrder(
     id
     status
     client
+    address
+    phone
     OrderDetails {
       nextToken
       __typename
@@ -298,6 +300,8 @@ export const updateOrder = /* GraphQL */ `mutation UpdateOrder(
     id
     status
     client
+    address
+    phone
     OrderDetails {
       nextToken
       __typename
@@ -319,6 +323,8 @@ export const deleteOrder = /* GraphQL */ `mutation DeleteOrder(
     id
     status
     client
+    address
+    phone
     OrderDetails {
       nextToken
       __typename
@@ -344,6 +350,8 @@ export const createOrderDetail = /* GraphQL */ `mutation CreateOrderDetail(
       id
       status
       client
+      address
+      phone
       createdAt
       updatedAt
       __typename
@@ -355,6 +363,7 @@ export const createOrderDetail = /* GraphQL */ `mutation CreateOrderDetail(
       price
       owner
       quantity
+      stock
       image
       createdAt
       updatedAt
@@ -382,6 +391,8 @@ export const updateOrderDetail = /* GraphQL */ `mutation UpdateOrderDetail(
       id
       status
       client
+      address
+      phone
       createdAt
       updatedAt
       __typename
@@ -393,6 +404,7 @@ export const updateOrderDetail = /* GraphQL */ `mutation UpdateOrderDetail(
       price
       owner
       quantity
+      stock
       image
       createdAt
       updatedAt
@@ -420,6 +432,8 @@ export const deleteOrderDetail = /* GraphQL */ `mutation DeleteOrderDetail(
       id
       status
       client
+      address
+      phone
       createdAt
       updatedAt
       __typename
@@ -431,6 +445,7 @@ export const deleteOrderDetail = /* GraphQL */ `mutation DeleteOrderDetail(
       price
       owner
       quantity
+      stock
       image
       createdAt
       updatedAt
@@ -456,6 +471,7 @@ export const createProduct = /* GraphQL */ `mutation CreateProduct(
     price
     owner
     quantity
+    stock
     image
     OrderDetails {
       nextToken
@@ -480,6 +496,7 @@ export const updateProduct = /* GraphQL */ `mutation UpdateProduct(
     price
     owner
     quantity
+    stock
     image
     OrderDetails {
       nextToken
@@ -504,6 +521,7 @@ export const deleteProduct = /* GraphQL */ `mutation DeleteProduct(
     price
     owner
     quantity
+    stock
     image
     OrderDetails {
       nextToken

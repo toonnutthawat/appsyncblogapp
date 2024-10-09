@@ -6,6 +6,7 @@ import ConfirmSignUpPage from "./ConfirmSignUpPage";
 function SignUpPage() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("")
+    const [phoneNumber , setPhoneNumber] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [errorMessage, setErrorMessage] = useState("");
@@ -21,7 +22,8 @@ function SignUpPage() {
                 options: {
                     userAttributes: {
                         email: email,
-                        profile: `public/profile/${username}`
+                        profile: `public/profile/${username}`,
+                        phone_number: phoneNumber
                     }
                 },
             })
@@ -69,6 +71,17 @@ function SignUpPage() {
                                     required />
                             </div>
                             <div>
+                                <div className="text-white">Phone</div>
+                                <input
+                                    value={phoneNumber}
+                                    type="tel"
+                                    name="Phone"
+                                    className="border-2 pl-2 border-cyan-500 rounded"
+                                    style={{ width: "24rem" }}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    required />
+                            </div>
+                            <div>
                                 <div className="text-white">Password</div>
                                 <input
                                     value={password}
@@ -93,9 +106,9 @@ function SignUpPage() {
                             {errorMessage && (<div className="text-red-500 break-words" style={{ width: "24rem" }}>{errorMessage}</div>)}
                             <div className="mt-4">
                                 <button
-                                    className={`${((username || email || password || confirmPassword ) === "" || (confirmPassword !== password)) ? "bg-gray-500" : "bg-cyan-700"} 
+                                    className={`${((!username || !email || !password || !confirmPassword || !phoneNumber ) || (confirmPassword !== password)) ? "bg-gray-500" : "bg-cyan-700"} 
                         text-white p-2 rounded w-full`}
-                                    disabled={((username || email || password || confirmPassword ) === "" || (confirmPassword !== password))}>
+                                    disabled={((!username || !email || !password || !confirmPassword  || !phoneNumber) || (confirmPassword !== password))}>
                                     Sign Up
                                 </button>
                             </div>

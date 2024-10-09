@@ -28,7 +28,7 @@ function MyPost() {
         value={term}
         onChange={e => setTerm(e.target.value)}
         placeholder='search title'
-        className='p-2 m-4'
+        className='p-2 m-4 rounded-xl bg-zinc-100'
         style={{ width: "100%" }}>
       </input>
       <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">My Posts</h1>

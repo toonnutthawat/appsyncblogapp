@@ -22,8 +22,9 @@ function EditPage(){
     const imageFileInput = useRef<HTMLInputElement | null>(null)
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
-    console.log(delImg)
-    console.log(updatedPost.coverImage)
+    console.log("image",image);
+    console.log("delImg",delImg)
+    console.log("coverImageOfPost",updatedPost.coverImage)
 
     function onImageChange(e: React.ChangeEvent<HTMLInputElement>){
         const fileUploaded = e.target.files ? e.target.files[0] : null;
@@ -76,7 +77,7 @@ function EditPage(){
                     </div>
                 
                 )
-              : image && !delImg ?
+              : image && delImg ?
 
             (
                 (   

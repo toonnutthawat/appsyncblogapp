@@ -126,7 +126,7 @@ function HomePage() {
               value={term}
               onChange={e => setTerm(e.target.value)}
               placeholder='search title'
-              className='p-2'
+              className='p-2 m-4 rounded-xl bg-zinc-100'
               style={{ width: "95%" }}>
             </input>
             <div className='relative top-0'>

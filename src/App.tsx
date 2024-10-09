@@ -14,6 +14,7 @@ import '@aws-amplify/ui-react/styles.css';
 import ProductPage from "./pages/Shop/ProductsPage";
 import AddProduct from "./pages/Shop/AddProduct";
 import CartPage from "./pages/Shop/CartPage";
+import ProductDetail from "./pages/Shop/ProductDetail";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path:'/shop',
         element: <ProductPage></ProductPage>
+      },
+      {
+        path: '/product/detail',
+        element: <ProductDetail></ProductDetail>
       },
       {
         path: '/shop/add',

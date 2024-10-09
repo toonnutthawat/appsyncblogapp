@@ -277,6 +277,8 @@ export const onCreateOrder = /* GraphQL */ `subscription OnCreateOrder(
     id
     status
     client
+    address
+    phone
     OrderDetails {
       nextToken
       __typename
@@ -298,6 +300,8 @@ export const onUpdateOrder = /* GraphQL */ `subscription OnUpdateOrder(
     id
     status
     client
+    address
+    phone
     OrderDetails {
       nextToken
       __typename
@@ -319,6 +323,8 @@ export const onDeleteOrder = /* GraphQL */ `subscription OnDeleteOrder(
     id
     status
     client
+    address
+    phone
     OrderDetails {
       nextToken
       __typename
@@ -344,6 +350,8 @@ export const onCreateOrderDetail = /* GraphQL */ `subscription OnCreateOrderDeta
       id
       status
       client
+      address
+      phone
       createdAt
       updatedAt
       __typename
@@ -355,6 +363,7 @@ export const onCreateOrderDetail = /* GraphQL */ `subscription OnCreateOrderDeta
       price
       owner
       quantity
+      stock
       image
       createdAt
       updatedAt
@@ -382,6 +391,8 @@ export const onUpdateOrderDetail = /* GraphQL */ `subscription OnUpdateOrderDeta
       id
       status
       client
+      address
+      phone
       createdAt
       updatedAt
       __typename
@@ -393,6 +404,7 @@ export const onUpdateOrderDetail = /* GraphQL */ `subscription OnUpdateOrderDeta
       price
       owner
       quantity
+      stock
       image
       createdAt
       updatedAt
@@ -420,6 +432,8 @@ export const onDeleteOrderDetail = /* GraphQL */ `subscription OnDeleteOrderDeta
       id
       status
       client
+      address
+      phone
       createdAt
       updatedAt
       __typename
@@ -431,6 +445,7 @@ export const onDeleteOrderDetail = /* GraphQL */ `subscription OnDeleteOrderDeta
       price
       owner
       quantity
+      stock
       image
       createdAt
       updatedAt
@@ -456,6 +471,7 @@ export const onCreateProduct = /* GraphQL */ `subscription OnCreateProduct(
     price
     owner
     quantity
+    stock
     image
     OrderDetails {
       nextToken
@@ -480,6 +496,7 @@ export const onUpdateProduct = /* GraphQL */ `subscription OnUpdateProduct(
     price
     owner
     quantity
+    stock
     image
     OrderDetails {
       nextToken
@@ -504,6 +521,7 @@ export const onDeleteProduct = /* GraphQL */ `subscription OnDeleteProduct(
     price
     owner
     quantity
+    stock
     image
     OrderDetails {
       nextToken

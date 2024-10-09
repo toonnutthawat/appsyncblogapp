@@ -17,6 +17,7 @@ const addProduct = createAsyncThunk("addProduct", async ({ productName , coverIm
                 image: coverImage,
                 name: productName,
                 quantity: productQuantity,
+                stock: productQuantity,
                 owner: (await user).username,
                 price: productPrice
             }

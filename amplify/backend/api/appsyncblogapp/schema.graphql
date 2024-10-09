@@ -67,6 +67,8 @@ type Order
     id: ID!
     status: Status!
     client: String!
+    address: String!
+    phone: String!
     OrderDetails: [OrderDetail] @hasMany(indexName: "byOrder",fields: ["id"])
   }
 
@@ -113,6 +115,7 @@ type Product
   price: Int!
   owner: String!
   quantity: Int!
+  stock: Int!
   image: String!
   OrderDetails: [OrderDetail] @hasMany(indexName: "byProduct",fields: ["id"])
 }
