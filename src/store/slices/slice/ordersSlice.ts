@@ -10,34 +10,48 @@ const ordersSlice = createSlice({
         error: ""
     },
     reducers: {},
-    extraReducers(builder){
-        builder.addCase(createNewOrder.fulfilled, (state,action) => {
-            state.order?.push(action.payload as Order)
-        })
-        builder.addCase(createNewOrder.rejected, (state,action) => {
-            state.error = (action.error as Error).message
-        })
-        builder.addCase(fetchMyOrderInCart.fulfilled, (state,action) => {
-            state.orderDetail = action.payload
-        })
-        builder.addCase(fetchMyOrderInCart.rejected, (state, action) => {
-            state.error = (action.error as Error).message
-        })
-        builder.addCase(addToCart.fulfilled, (state, action) => {
-            // Assuming addToCart returns an object with newOrder and orderDetail if successful
-            const { newOrder, orderDetail } = action.payload;
-            if (newOrder) {
-                state.order = state.order ? [...state.order, newOrder] : [newOrder];
-            }
-            if (orderDetail) {
-                state.orderDetail = state.orderDetail ? [...state.orderDetail, orderDetail] : [orderDetail];
+    extraReducers(builder) {
+        builder.addCase(createNewOrder.fulfilled, (state, action) => {
+            // Adds the newly created order to the order list
+            if (state.order) {
+                state.order.push(action.payload as Order);
+            } else {
+                state.order = [action.payload as Order];
             }
         });
+        builder.addCase(createNewOrder.rejected, (state, action) => {
+            state.error = (action.error as Error).message;
+        });
+        builder.addCase(fetchMyOrderInCart.fulfilled, (state, action) => {
+            // Replaces the order details with the fetched details
+            state.orderDetail = action.payload as OrderDetail[];
+        });
+        builder.addCase(fetchMyOrderInCart.rejected, (state, action) => {
+            state.error = (action.error as Error).message;
+        });
+        builder.addCase(addToCart.fulfilled, (state, action) => {
+            if(action.payload?.newOrder === undefined || action.payload.orderDetail) return;
+            const { newOrder, orderDetail } : {newOrder : Order , orderDetail : OrderDetail} = action.payload;
+        
+            // Add the new order if present
+            if (newOrder && state.order) {
+                state.order.push(newOrder);
+            }
+        
+            // Add or update order details
+            if (orderDetail) {
+                if (state.orderDetail) {
+                    state.orderDetail.push(orderDetail);
+                } else {
+                    state.orderDetail = [orderDetail];
+                }
+            }
+        });
+        
         builder.addCase(addToCart.rejected, (state, action) => {
             state.error = action.error.message || "Failed to add to cart";
         });
-
     }
-})
+});
 
 export const orderReducer = ordersSlice.reducer;

@@ -242,6 +242,28 @@ export const listOrderDetails = /* GraphQL */ `query ListOrderDetails(
       quantity
       OrderID
       ProductID
+      order {
+        id
+        status
+        client
+        address
+        phone
+        createdAt
+        updatedAt
+        __typename
+      }
+      product {
+        id
+        name
+        price
+        owner
+        quantity
+        stock
+        image
+        createdAt
+        updatedAt
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -255,6 +277,7 @@ export const listOrderDetails = /* GraphQL */ `query ListOrderDetails(
   APITypes.ListOrderDetailsQueryVariables,
   APITypes.ListOrderDetailsQuery
 >;
+
 export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
   getProduct(id: $id) {
     id

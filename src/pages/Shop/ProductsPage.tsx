@@ -5,13 +5,15 @@ import { useAppDispatch, useAppSelector } from "../../hook";
 import { fetchProducts } from "../../store/slices/thunks/productsThunk";
 import { StorageImage } from "@aws-amplify/ui-react-storage";
 import ProfilePicture from "../../components/ProfilePicture";
-import { addToCart } from "../../store/slices/thunks/ordersThunk";
+import { addToCart, fetchMyOrderInCart } from "../../store/slices/thunks/ordersThunk";
 import { Product } from "../../API";
 
 function ProductPage() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const products = useAppSelector(state => state.products.data)
+    const productsInCart = useAppSelector(state => state.orders.orderDetail) 
+    console.log("productInCart : ",productsInCart);
     const [term , setTerm] = useState("")
 
     const filteredProducts = products?.filter((product) => 
@@ -22,6 +24,16 @@ function ProductPage() {
         dispatch(fetchProducts())
         console.log("fetchProducts");
     }, [])
+
+    useEffect(() => {
+        // dispatch(fetchMyOrderInCart())
+        fetchOrderDetailInMyCart()
+        console.log("fetchMyOrdersInCart");
+    }, [])
+
+    async function fetchOrderDetailInMyCart(){
+        dispatch(fetchMyOrderInCart())
+    }
 
     const toAddProduct = () => {
         navigate('/shop/add')
@@ -35,9 +47,12 @@ function ProductPage() {
         navigate('/product/detail', {state: {product}})
     }
 
-    const addCart = (product : Product) =>  {
-        dispatch(addToCart(product))
+    async function addCart(product : Product)  {
+        await dispatch(addToCart(product))
+        await fetchOrderDetailInMyCart()
+        // dispatch(fetchMyOrderInCart())
     }
+
 
     const renderedProducts = filteredProducts?.map((product, index) => (
         <div key={index} className="drop-shadow-md hover:bg-zinc-200">
@@ -76,6 +91,13 @@ function ProductPage() {
                 <div className="m-4 absolute right-0 cursor-pointer" onClick={toCartPage}>
                     <FaCartShopping className="text-cyan-500" size="32px"></FaCartShopping>
                 </div>
+                {
+                    (productsInCart?.length !== 0 && productsInCart) && (
+                        <div className="bg-red-500 text-center text-white flex items-center p-1 h-4 rounded-full right-2 absolute top-2">
+                            {productsInCart.length}
+                        </div>
+                    )
+                }
             </div>
             <div className="grid grid-cols-5 gap-4">
                 {renderedProducts}
