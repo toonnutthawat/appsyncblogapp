@@ -288,6 +288,12 @@ export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
     stock
     image
     OrderDetails {
+      items {
+        id
+        quantity
+        OrderID
+        ProductID
+      }
       nextToken
       __typename
     }

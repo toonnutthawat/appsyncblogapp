@@ -57,8 +57,13 @@ function ProductPage() {
     const renderedProducts = filteredProducts?.map((product, index) => (
         <div key={index} className="drop-shadow-md hover:bg-zinc-200">
             <div style={{ height: "16rem" }} className="border border-cyan-500 flex flex-col items-center relative rounded-lg ">
-                <div className='pt-4 cursor-pointer' onClick={() => toProductDetail(product)}>
+                <div className='pt-4 cursor-pointer relative flex justify-center items-center' onClick={() => toProductDetail(product)}>
                     <StorageImage path={product.image} alt='img' className='rounded-lg' style={{ objectFit: "cover", width: "140px", height: "140px" }}></StorageImage>
+                    {
+                        product.stock === 0 && (
+                            <div className="absolute bg-zinc-500 text-white top-8 p-4 opacity-75 rounded">out of stock</div>
+                        )
+                    }
                 </div>
                 <p className="text-ellipsis overflow-hidden truncate whitespace-nowrap w-full text-center px-2">
                     {product.name}
@@ -68,7 +73,11 @@ function ProductPage() {
                     <ProfilePicture src={`public/profile/${product.owner}`} size='32px'></ProfilePicture>
                     <p className="text-ellipsis overflow-hidden truncate whitespace-nowrap text-center px-2" style={{ width: "100px" }}>{product.owner}</p>
                 </div>
-                <FaCartShopping onClick={() => addCart(product)} className="text-cyan-500 absolute right-2 bottom-2 cursor-pointer" size="32px"></FaCartShopping>
+                {   product.stock !== 0 ?
+                    <FaCartShopping onClick={() => addCart(product)} className="text-cyan-500 absolute right-2 bottom-2 cursor-pointer" size="32px"></FaCartShopping>
+                    :
+                    <div></div>
+                }
             </div>
         </div>
     ))

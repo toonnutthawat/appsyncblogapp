@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Order, OrderDetail } from "../../../API";
-import { addToCart, createNewOrder, fetchMyOrderInCart } from "../thunks/ordersThunk";
+import { addToCart, changeOrderStatus, createNewOrder, fetchMyOrderInCart } from "../thunks/ordersThunk";
 
 const ordersSlice = createSlice({
     name: "orders",
@@ -51,6 +51,16 @@ const ordersSlice = createSlice({
         builder.addCase(addToCart.rejected, (state, action) => {
             state.error = action.error.message || "Failed to add to cart";
         });
+        builder.addCase(changeOrderStatus.fulfilled, (state,action) => {
+            const index = state.order?.findIndex((order) => order.id === action.payload.id)
+            if(!state.order) return;
+            if(index)  {
+            state.order[index].status = action.payload.status
+        }
+        })
+        builder.addCase(changeOrderStatus.rejected, (state,action) => {
+            state.error = (action.error as Error).message 
+        })
     }
 });
 

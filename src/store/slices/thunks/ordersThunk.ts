@@ -1,10 +1,9 @@
-import { ordersDetail } from './../slice/orderDetailSlice';
 import { OrderDetail, Product, Status } from './../../../API';
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { generateClient } from "@aws-amplify/api";
-import { createOrder, createOrderDetail, updateOrder } from "../../../graphql/mutations";
+import { createOrder, createOrderDetail, updateOrder, updateProduct } from "../../../graphql/mutations";
 import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
-import { listOrderDetails, listOrders } from "../../../graphql/queries";
+import { getProduct, listOrderDetails, listOrders } from "../../../graphql/queries";
 
 const client = generateClient()
 const orderStatus: Status = Status.ORDER
@@ -43,7 +42,30 @@ const changeOrderStatus = createAsyncThunk("changeOrderStatus", async ({orderId 
 })
 
 const decreaseProductStock = createAsyncThunk("decreaseProductStock", async (ordersDetail : OrderDetail) => {
-    
+    console.log("orderDetail to decrease stock :", ordersDetail);
+    try{
+    const product = await client.graphql({
+        query: getProduct,
+        variables: {
+            id: ordersDetail.ProductID
+        }
+    })
+    console.log("product to decrease stock :", product.data.getProduct);
+    if(!product.data.getProduct?.stock) return;
+    const response = await client.graphql({
+        query: updateProduct,
+        variables: {
+            input: {
+                id: ordersDetail.ProductID,
+                stock: product.data.getProduct?.stock - 1
+            }
+        }
+    })
+    return response.data.updateProduct
+    }
+    catch(error){
+        console.log((error as Error).message);
+    }
 })
 
 const fetchMyOrderInCart = createAsyncThunk("fetchMyOrderInCart", async () => {
@@ -165,4 +187,4 @@ const addToCart = createAsyncThunk("addToCart", async (product : Product) => {
     }
 })
 
-export { createNewOrder , addToCart , fetchMyOrderInCart , changeOrderStatus}
+export { createNewOrder , addToCart , fetchMyOrderInCart , changeOrderStatus , decreaseProductStock}
