@@ -30,8 +30,13 @@ const productsSlice = createSlice({
             if (!action.payload || !state.data) return;
             console.log("action.payload in decreaseProductStock", action.payload);
             const index = state.data.findIndex((product) => product.id === action.payload?.id);
+            console.log("index: ",index);
             if (index !== -1) {
-                state.data[index].stock = state.data[index].stock - 1;
+                console.log("decrease stock success");
+                state.data[index].stock = action.payload.stock;
+            }
+            else{
+                console.log('fail to decrease stock');
             }
         });
         

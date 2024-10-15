@@ -13,7 +13,6 @@ function ProductPage() {
     const dispatch = useAppDispatch()
     const products = useAppSelector(state => state.products.data)
     const productsInCart = useAppSelector(state => state.orders.orderDetail) 
-    console.log("productInCart : ",productsInCart);
     const [term , setTerm] = useState("")
 
     const filteredProducts = products?.filter((product) => 
@@ -50,7 +49,6 @@ function ProductPage() {
     async function addCart(product : Product)  {
         await dispatch(addToCart(product))
         await fetchOrderDetailInMyCart()
-        // dispatch(fetchMyOrderInCart())
     }
 
 

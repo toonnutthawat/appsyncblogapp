@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import Root from "./pages/Root";
 import HomePage from "./pages/HomePage";
 import CreatePostPage from "./pages/PostPage/CreatePostPage";
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage from "./pages/MyAccount/ProfilePage";
 import SignUpPage from "./pages/AuthPage/SignUpPage";
 import MyPost from "./pages/PostPage/MyPost";
 import DetailPost from "./pages/PostPage/DetailPost";
@@ -15,6 +15,8 @@ import ProductPage from "./pages/Shop/ProductsPage";
 import AddProduct from "./pages/Shop/AddProduct";
 import CartPage from "./pages/Shop/CartPage";
 import ProductDetail from "./pages/Shop/ProductDetail";
+import MyPurchase from "./pages/MyAccount/MyPurchase";
+import MyPurchaseOrderDetail from "./pages/MyAccount/MyPurchaseOrderDetail";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,14 @@ const router = createBrowserRouter([
       {
         path: '/profile-page',
         element: <ProfilePage></ProfilePage>
+      },
+      {
+        path:'/profile-page/myPurchase',
+        element: <MyPurchase></MyPurchase>
+      },
+      {
+        path: '/profile-page/orderDetail',
+        element: <MyPurchaseOrderDetail></MyPurchaseOrderDetail>
       },
       {
         path: '/sign-up',

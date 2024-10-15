@@ -1,13 +1,14 @@
 import '@aws-amplify/ui-react/styles.css';
-import ProfilePicture from "../components/ProfilePicture";
+import ProfilePicture from "../../components/ProfilePicture";
 import { useEffect, useRef, useState } from "react";
 import { signOut } from 'aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
 import { uploadData } from "aws-amplify/storage";
 import { updateUserAttributes } from "aws-amplify/auth";
-import { useAppDispatch, useAppSelector } from '../hook';
-import { fetchUser } from '../store/slices/thunks/userThunk';
+import { useAppDispatch, useAppSelector } from '../../hook';
+import { fetchUser } from '../../store/slices/thunks/userThunk';
 import { FaCamera } from "react-icons/fa6";
+import { IoDocumentText } from "react-icons/io5";
 
 function ProfilePage() {
     const [image, setImage] = useState<File | null>(null)
@@ -95,9 +96,14 @@ function ProfilePage() {
         setEditImg(true)
     }
 
+    const toMyPurchase = () => {
+        navigate('/profile-page/myPurchase')
+    }
+
     return (
         <div className='bg-white min-h-screen px-20 flex flex-col items-center'>
-            <div className='bg-cyan-500 p-8  mt-8 flex flex-col items-center rounded space-y-2' style={{ height: "36rem" }}>
+            <div className='bg-cyan-500 p-8  mt-8 flex flex-col items-center rounded space-y-2 relative' style={{ height: "36rem" }}>
+                <IoDocumentText onClick={toMyPurchase} color='white' size="32px" className='absolute right-4 cursor-pointer'></IoDocumentText>
                 <h1 className="text-4xl py-4 text-white font-bold drop-shadow-lg">Profile</h1>
                 <div className='relative'>
                     {

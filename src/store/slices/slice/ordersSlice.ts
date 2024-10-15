@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Order, OrderDetail } from "../../../API";
-import { addToCart, changeOrderStatus, createNewOrder, fetchMyOrderInCart } from "../thunks/ordersThunk";
+import { addToCart, changeOrderStatus, createNewOrder, fetchMyConfirmOrderDetails, fetchMyConfirmOrders, fetchMyOrderInCart } from "../thunks/ordersThunk";
 
 const ordersSlice = createSlice({
     name: "orders",
     initialState: {
         order: null as Order[] | null,
+        myOrders: null as Order[] | null,
+        myOrderDetail: null as OrderDetail[] | null,
         orderDetail: null as OrderDetail[] | null,
         error: ""
     },
@@ -29,6 +31,18 @@ const ordersSlice = createSlice({
         builder.addCase(fetchMyOrderInCart.rejected, (state, action) => {
             state.error = (action.error as Error).message;
         });
+        builder.addCase(fetchMyConfirmOrders.fulfilled, (state,action) => {
+            state.myOrders = action.payload
+        })
+        builder.addCase(fetchMyConfirmOrders.rejected, (state,action) => {
+            state.error = (action.error as Error).message
+        })
+        builder.addCase(fetchMyConfirmOrderDetails.fulfilled, (state,action) => {
+            state.myOrderDetail = action.payload
+        })
+        builder.addCase(fetchMyConfirmOrderDetails.rejected, (state,action) => {
+            state.error = (action.error as Error).message
+        })
         builder.addCase(addToCart.fulfilled, (state, action) => {
             if(action.payload?.newOrder === undefined || action.payload.orderDetail) return;
             const { newOrder, orderDetail } : {newOrder : Order , orderDetail : OrderDetail} = action.payload;
