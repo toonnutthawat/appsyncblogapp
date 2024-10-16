@@ -7,6 +7,9 @@ import { StorageImage } from "@aws-amplify/ui-react-storage";
 import ProfilePicture from "../../components/ProfilePicture";
 import { addToCart, fetchMyOrderInCart } from "../../store/slices/thunks/ordersThunk";
 import { Product } from "../../API";
+import { Subscription } from 'rxjs';
+import { generateClient } from "@aws-amplify/api";
+import { onUpdateProduct } from "../../graphql/subscriptions";
 
 function ProductPage() {
     const navigate = useNavigate()
@@ -14,15 +17,37 @@ function ProductPage() {
     const products = useAppSelector(state => state.products.data)
     const productsInCart = useAppSelector(state => state.orders.orderDetail) 
     const [term , setTerm] = useState("")
+    const client = generateClient()
+    const [updatedProduct , setUpdatedProduct] = useState<Product | null>()
 
     const filteredProducts = products?.filter((product) => 
         product.name.toLowerCase().includes(term.toLowerCase())
     )
 
+
+    let subOnCreate: Subscription;
+
+    function setUpSubscriptions() {
+      subOnCreate = client.graphql({ query: onUpdateProduct })
+        .subscribe({
+          next: ({ data }) => {
+            const updatedData = data.onUpdateProduct as Product;
+            setUpdatedProduct(updatedData)
+          },
+        });
+    }
+  
+    useEffect(() => {
+      setUpSubscriptions();
+      return () => {
+        subOnCreate.unsubscribe();
+      };
+    }, []);
+
     useEffect(() => {
         dispatch(fetchProducts())
         console.log("fetchProducts");
-    }, [])
+    }, [updatedProduct])
 
     useEffect(() => {
         // dispatch(fetchMyOrderInCart())

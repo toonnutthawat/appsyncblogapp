@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { changeOrderStatus, decreaseProductStock, fetchMyOrderInCart } from "../../store/slices/thunks/ordersThunk";
 import { StorageImage } from "@aws-amplify/ui-react-storage";
-import { Status } from "../../API";
+import { Order, Status } from "../../API";
 import { useNavigate } from "react-router-dom";
+
 
 function CartPage(){
     const dispatch = useAppDispatch()
     const ordersInCart = useAppSelector(state => state.orders.orderDetail)
+    const order = ordersInCart?.find((order) => order.order)
     const orderId = ordersInCart?.find((order) =>  order.OrderID)?.OrderID
-    //console.log("orderID", orderId);
     const [total , setTotal] = useState(0);
     const confirmStatus : Status = Status.CONFIRM
-    //console.log("ordersInCart", ordersInCart?.find((order) => (order.product)));
     const navigate = useNavigate()
+
+  
 
     useEffect(() => {
         dispatch(fetchMyOrderInCart())
@@ -31,14 +33,15 @@ function CartPage(){
         setTotal(total);
     }
 
-    async function confirmOrder(){
+    async function confirmOrder(order : Order | null | undefined){
         if(!orderId) return;
         dispatch(changeOrderStatus({orderId: orderId ,status : confirmStatus}))
         ordersInCart.forEach(orderDetail => {
             dispatch(decreaseProductStock(orderDetail))
         });
-        navigate('/shop')
+        navigate('/profile-page/orderDetail', {state: {order}})
     }
+
 
     const renderedOrderDetail = ordersInCart?.map((detail,index) => (
         <div key={index} className="border border-cyan-500 rounded flex items-center p-4 relative">
@@ -59,10 +62,12 @@ function CartPage(){
             <div className="absolute right-8 p-8 space-y-2">
                 <div>total price : B {total}</div>
                 <div>
+                    { order?.order && (
                     <button 
                         className="bg-cyan-500 hover:bg-cyan-700 px-8 py-2 text-white rounded "
-                        onClick={confirmOrder}
-                        >Confirm Order</button>
+                        onClick={() => confirmOrder(order?.order)}
+                        >Confirm Order</button>)
+                    }
                 </div>
             </div>
         </div>
