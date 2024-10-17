@@ -37,7 +37,7 @@ function ManageProduct(){
                     <div>quantity : {product.quantity}</div>
                     <div>credit : unchecked</div>
                     <div>create on : {Moment(product.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</div>
-                    <div className='flex flex-row space-x-4 text-right'>
+                    <div className='flex flex-row justify-end space-x-4 text-right'>
                         <ProfilePicture src={`public/profile/${product.owner}`} size='32px'></ProfilePicture>
                         <p className="text-ellipsis overflow-hidden truncate whitespace-nowrap text-right">{product.owner}</p>
                     </div>
