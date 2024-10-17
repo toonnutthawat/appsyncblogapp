@@ -13,7 +13,8 @@ const fetchUser = createAsyncThunk("fetchUser", async () => {
             img: responseAttributes.profile,
             email: responseAttributes.email,
             phoneNumber: responseAttributes.phone_number,
-            address: responseAttributes.address
+            address: responseAttributes.address,
+            nickname: responseAttributes.nickname
         };
 
         return user

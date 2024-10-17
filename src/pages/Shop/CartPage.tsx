@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
-import { changeOrderStatus, decreaseProductStock, fetchMyOrderInCart } from "../../store/slices/thunks/ordersThunk";
+import { changeOrderStatus, fetchMyOrderInCart } from "../../store/slices/thunks/ordersThunk";
+import { decreaseProductStock } from "../../store/slices/thunks/productsThunk";
 import { StorageImage } from "@aws-amplify/ui-react-storage";
 import { Order, Status } from "../../API";
 import { useNavigate } from "react-router-dom";

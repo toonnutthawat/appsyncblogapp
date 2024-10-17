@@ -217,6 +217,7 @@ export const getOrderDetail = /* GraphQL */ `query GetOrderDetail($id: ID!) {
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename
@@ -260,6 +261,7 @@ export const listOrderDetails = /* GraphQL */ `query ListOrderDetails(
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename
@@ -286,6 +288,7 @@ export const getProduct = /* GraphQL */ `query GetProduct($id: ID!) {
     quantity
     stock
     image
+    credit
     OrderDetails {
       nextToken
       __typename
@@ -313,6 +316,7 @@ export const listProducts = /* GraphQL */ `query ListProducts(
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename

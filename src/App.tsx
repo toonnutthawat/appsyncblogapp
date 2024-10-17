@@ -17,6 +17,7 @@ import CartPage from "./pages/Shop/CartPage";
 import ProductDetail from "./pages/Shop/ProductDetail";
 import MyPurchase from "./pages/MyAccount/MyPurchase";
 import MyPurchaseOrderDetail from "./pages/MyAccount/MyPurchaseOrderDetail";
+import ManageProduct from "./pages/Admin/ManageProduct";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage></HomePage>
+      },
+      {
+        path: '/admin/manageProduct',
+        element: <ManageProduct></ManageProduct>
       },
       {
         path: '/create-post',

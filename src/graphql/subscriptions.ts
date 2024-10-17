@@ -365,6 +365,7 @@ export const onCreateOrderDetail = /* GraphQL */ `subscription OnCreateOrderDeta
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename
@@ -406,6 +407,7 @@ export const onUpdateOrderDetail = /* GraphQL */ `subscription OnUpdateOrderDeta
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename
@@ -447,6 +449,7 @@ export const onDeleteOrderDetail = /* GraphQL */ `subscription OnDeleteOrderDeta
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename
@@ -473,6 +476,7 @@ export const onCreateProduct = /* GraphQL */ `subscription OnCreateProduct(
     quantity
     stock
     image
+    credit
     OrderDetails {
       nextToken
       __typename
@@ -498,6 +502,7 @@ export const onUpdateProduct = /* GraphQL */ `subscription OnUpdateProduct(
     quantity
     stock
     image
+    credit
     OrderDetails {
       nextToken
       __typename
@@ -523,6 +528,7 @@ export const onDeleteProduct = /* GraphQL */ `subscription OnDeleteProduct(
     quantity
     stock
     image
+    credit
     OrderDetails {
       nextToken
       __typename

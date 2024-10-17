@@ -1,15 +1,13 @@
-import { OrderDetail, Product, Status } from "./../../../API";
+import { Product, Status } from "./../../../API";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { generateClient } from "@aws-amplify/api";
 import {
   createOrder,
   createOrderDetail,
   updateOrder,
-  updateProduct,
 } from "../../../graphql/mutations";
 import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
 import {
-  getProduct,
   listOrderDetails,
   listOrders,
 } from "../../../graphql/queries";
@@ -51,36 +49,6 @@ const changeOrderStatus = createAsyncThunk(
     });
 
     return response.data.updateOrder;
-  }
-);
-
-const decreaseProductStock = createAsyncThunk(
-  "decreaseProductStock",
-  async (ordersDetail: OrderDetail) => {
-    console.log("orderDetail to decrease stock :", ordersDetail);
-    try {
-      const product = await client.graphql({
-        query: getProduct,
-        variables: {
-          id: ordersDetail.ProductID,
-        },
-      });
-      console.log("product to decrease stock :", product.data.getProduct);
-      if (!product.data.getProduct?.stock) return;
-      const response = await client.graphql({
-        query: updateProduct,
-        variables: {
-          input: {
-            id: ordersDetail.ProductID,
-            stock: product.data.getProduct?.stock - 1,
-          },
-        },
-      });
-      console.log(response.data.updateProduct);
-      return response.data.updateProduct;
-    } catch (error) {
-      console.log((error as Error));
-    }
   }
 );
 
@@ -250,5 +218,4 @@ export {
   fetchMyConfirmOrders,
   fetchMyConfirmOrderDetails,
   changeOrderStatus,
-  decreaseProductStock,
 };

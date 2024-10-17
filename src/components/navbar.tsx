@@ -30,6 +30,11 @@ function Navbar() {
                         <Link to="/create-post" className='text-white hover:text-slate-900'>Post</Link>
                         <Link to="/my-post" className='text-white hover:text-slate-900'>MyPost</Link>
                         <Link to="/shop" className='text-white hover:text-slate-900'>Shop</Link>
+                        {
+                            userInfo?.nickname === "Admin" && (
+                                <Link to="/admin/manageProduct" className='text-white hover:text-slate-900'>Manage</Link>
+                            )
+                        }
                     </>
                 )}
 

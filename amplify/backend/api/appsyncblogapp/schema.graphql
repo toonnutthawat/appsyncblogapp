@@ -117,6 +117,7 @@ type Product
   quantity: Int!
   stock: Int!
   image: String!
+  credit: Boolean!
   OrderDetails: [OrderDetail] @hasMany(indexName: "byProduct",fields: ["id"])
 }
 

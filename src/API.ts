@@ -296,6 +296,7 @@ export type Product = {
   quantity: number,
   stock: number,
   image: string,
+  credit: boolean,
   OrderDetails?: ModelOrderDetailConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -351,6 +352,7 @@ export type CreateProductInput = {
   quantity: number,
   stock: number,
   image: string,
+  credit: boolean,
 };
 
 export type ModelProductConditionInput = {
@@ -360,6 +362,7 @@ export type ModelProductConditionInput = {
   quantity?: ModelIntInput | null,
   stock?: ModelIntInput | null,
   image?: ModelStringInput | null,
+  credit?: ModelBooleanInput | null,
   and?: Array< ModelProductConditionInput | null > | null,
   or?: Array< ModelProductConditionInput | null > | null,
   not?: ModelProductConditionInput | null,
@@ -375,6 +378,7 @@ export type UpdateProductInput = {
   quantity?: number | null,
   stock?: number | null,
   image?: string | null,
+  credit?: boolean | null,
 };
 
 export type DeleteProductInput = {
@@ -466,6 +470,7 @@ export type ModelProductFilterInput = {
   quantity?: ModelIntInput | null,
   stock?: ModelIntInput | null,
   image?: ModelStringInput | null,
+  credit?: ModelBooleanInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelProductFilterInput | null > | null,
@@ -599,6 +604,7 @@ export type ModelSubscriptionProductFilterInput = {
   quantity?: ModelSubscriptionIntInput | null,
   stock?: ModelSubscriptionIntInput | null,
   image?: ModelSubscriptionStringInput | null,
+  credit?: ModelSubscriptionBooleanInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionProductFilterInput | null > | null,
@@ -955,6 +961,7 @@ export type CreateOrderDetailMutation = {
       quantity: number,
       stock: number,
       image: string,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -995,6 +1002,7 @@ export type UpdateOrderDetailMutation = {
       quantity: number,
       stock: number,
       image: string,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1035,6 +1043,7 @@ export type DeleteOrderDetailMutation = {
       quantity: number,
       stock: number,
       image: string,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1059,6 +1068,7 @@ export type CreateProductMutation = {
     quantity: number,
     stock: number,
     image: string,
+    credit: boolean,
     OrderDetails?:  {
       __typename: "ModelOrderDetailConnection",
       nextToken?: string | null,
@@ -1083,6 +1093,7 @@ export type UpdateProductMutation = {
     quantity: number,
     stock: number,
     image: string,
+    credit: boolean,
     OrderDetails?:  {
       __typename: "ModelOrderDetailConnection",
       nextToken?: string | null,
@@ -1107,6 +1118,7 @@ export type DeleteProductMutation = {
     quantity: number,
     stock: number,
     image: string,
+    credit: boolean,
     OrderDetails?:  {
       __typename: "ModelOrderDetailConnection",
       nextToken?: string | null,
@@ -1340,6 +1352,7 @@ export type GetOrderDetailQuery = {
       quantity: number,
       stock: number,
       image: string,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1386,6 +1399,7 @@ export type GetProductQuery = {
     quantity: number,
     stock: number,
     image: string,
+    credit: boolean,
     OrderDetails?:  {
       __typename: "ModelOrderDetailConnection",
       nextToken?: string | null,
@@ -1413,6 +1427,7 @@ export type ListProductsQuery = {
       quantity: number,
       stock: number,
       image: string,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1894,6 +1909,7 @@ export type OnCreateOrderDetailSubscription = {
       quantity: number,
       stock: number,
       image: string,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1934,6 +1950,7 @@ export type OnUpdateOrderDetailSubscription = {
       quantity: number,
       stock: number,
       image: string,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1974,6 +1991,7 @@ export type OnDeleteOrderDetailSubscription = {
       quantity: number,
       stock: number,
       image: string,
+      credit: boolean,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1998,6 +2016,7 @@ export type OnCreateProductSubscription = {
     quantity: number,
     stock: number,
     image: string,
+    credit: boolean,
     OrderDetails?:  {
       __typename: "ModelOrderDetailConnection",
       nextToken?: string | null,
@@ -2022,6 +2041,7 @@ export type OnUpdateProductSubscription = {
     quantity: number,
     stock: number,
     image: string,
+    credit: boolean,
     OrderDetails?:  {
       __typename: "ModelOrderDetailConnection",
       nextToken?: string | null,
@@ -2046,6 +2066,7 @@ export type OnDeleteProductSubscription = {
     quantity: number,
     stock: number,
     image: string,
+    credit: boolean,
     OrderDetails?:  {
       __typename: "ModelOrderDetailConnection",
       nextToken?: string | null,

@@ -365,6 +365,7 @@ export const createOrderDetail = /* GraphQL */ `mutation CreateOrderDetail(
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename
@@ -406,6 +407,7 @@ export const updateOrderDetail = /* GraphQL */ `mutation UpdateOrderDetail(
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename
@@ -447,6 +449,7 @@ export const deleteOrderDetail = /* GraphQL */ `mutation DeleteOrderDetail(
       quantity
       stock
       image
+      credit
       createdAt
       updatedAt
       __typename
@@ -473,6 +476,7 @@ export const createProduct = /* GraphQL */ `mutation CreateProduct(
     quantity
     stock
     image
+    credit
     OrderDetails {
       nextToken
       __typename
@@ -498,6 +502,7 @@ export const updateProduct = /* GraphQL */ `mutation UpdateProduct(
     quantity
     stock
     image
+    credit
     OrderDetails {
       nextToken
       __typename
@@ -523,6 +528,7 @@ export const deleteProduct = /* GraphQL */ `mutation DeleteProduct(
     quantity
     stock
     image
+    credit
     OrderDetails {
       nextToken
       __typename
