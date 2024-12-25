@@ -102,7 +102,7 @@ function ProfilePage() {
 
     return (
         <div className='bg-white min-h-screen px-20 flex flex-col items-center'>
-            <div className='bg-cyan-500 p-8  mt-8 flex flex-col items-center rounded space-y-2 relative' style={{ height: "36rem" }}>
+            <div className='bg-green-800 p-8  mt-8 flex flex-col items-center rounded space-y-2 relative py-8' >
                 <IoDocumentText onClick={toMyPurchase} color='white' size="32px" className='absolute right-4 cursor-pointer'></IoDocumentText>
                 <h1 className="text-4xl py-4 text-white font-bold drop-shadow-lg">Profile</h1>
                 <div className='relative'>
@@ -119,7 +119,7 @@ function ProfilePage() {
                                 <ProfilePicture size="128px" src={userInfo?.img}></ProfilePicture>
                                 <input type="file" ref={imageFileInput} onChange={onImageChange} className="abolute w-0 h-0" />
                                 <div className='cursor-pointer absolute bg-white p-2 rounded-full' onClick={uploadImage} style={{ bottom: "2rem", right: "10px" }}>
-                                    <FaCamera className='text-cyan-500'></FaCamera>
+                                    <FaCamera className='text-green-500'></FaCamera>
                                 </div>
                             </div>
                     }
@@ -139,18 +139,18 @@ function ProfilePage() {
                             " " + userInfo?.email
                         }
                     </div>
-                    <div className="text-sm text-white">
+                    {/* <div className="text-sm text-white">
                         phone_number :
                         {
                             " " + userInfo?.phoneNumber
                         }
-                    </div>
-                    <div className="text-sm text-white" >
+                    </div> */}
+                    {/* <div className="text-sm text-white" >
                         address :
                         {
                             " " + userInfo?.address
                         }
-                    </div>
+                    </div> */}
                     </div>
                 </div>
 
@@ -178,7 +178,7 @@ function ProfilePage() {
                 }
 
                 <div className="gap-2">
-                    <button onClick={updateProfileAtrributes} className="p-4 bg-cyan-700 rounded text-white hover:bg-cyan-800 mr-4">update address</button>
+                    <button onClick={updateProfileAtrributes} className="p-4 bg-green-700 rounded text-white hover:bg-green-900 mr-4">update address</button>
                     <button onClick={handleSignOut} className="mt-2 p-4 bg-red-500 rounded text-white hover:bg-red-800">Sign out</button>
                 </div>
             </div>

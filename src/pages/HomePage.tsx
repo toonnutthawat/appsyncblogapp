@@ -113,10 +113,10 @@ function HomePage() {
     <div className="m-4 px-20">
       {authStatus !== "authenticated" ?
         <div>
-          <div className='text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg'>Welcome to BLOGAPP</div>
+          <div className='text-4xl py-4 text-green-800 font-bold drop-shadow-lg'>Welcome to BLOGAPP</div>
           <button
             onClick={toLoginPage}
-            className='mb-4 bg-cyan-500 text-white font-semibold py-2 rounded-lg hover:bg-cyan-800 flex items-center justify-center w-36'>login
+            className='mb-4 bg-green-800 text-white font-semibold py-2 rounded-lg hover:bg-green-900 flex items-center justify-center w-36'>login
           </button>
         </div>
         :
@@ -132,7 +132,7 @@ function HomePage() {
             <div className='relative top-0'>
               <button
                 onClick={toggleSortOrder}
-                className=' mt-4 bg-cyan-500 text-white font-semibold p-2 rounded-lg hover:bg-cyan-800 flex flex-row items-center'>
+                className=' mt-4 bg-green-800 text-white font-semibold p-2 rounded-lg hover:bg-green-900 flex flex-row items-center'>
                 Sort
                 {sortOrder === 'ascending' && <IoIosArrowUp className='ml-1' />}
                 {sortOrder === 'descending' && <IoIosArrowDown className='ml-1' />}
@@ -140,7 +140,7 @@ function HomePage() {
               </button>
             </div>
           </div>
-          <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">All Posts</h1>
+          <h1 className="text-4xl py-4 text-green-800 font-bold drop-shadow-lg">All Posts</h1>
           {renderedListAllPosts}
         </div>
       }

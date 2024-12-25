@@ -6,18 +6,16 @@ import { StorageImage } from "@aws-amplify/ui-react-storage";
 import { Order, Status } from "../../API";
 import { useNavigate } from "react-router-dom";
 
-
 function CartPage(){
     const dispatch = useAppDispatch()
     const ordersInCart = useAppSelector(state => state.orders.orderDetail)
     const order = ordersInCart?.find((order) => order.order)
     const orderId = ordersInCart?.find((order) =>  order.OrderID)?.OrderID
     const [total , setTotal] = useState(0);
+     
     const confirmStatus : Status = Status.CONFIRM
     const navigate = useNavigate()
-
-  
-
+    
     useEffect(() => {
         dispatch(fetchMyOrderInCart())
         calTotalPrice()
@@ -36,7 +34,7 @@ function CartPage(){
 
     async function confirmOrder(order : Order | null | undefined){
         if(!orderId) return;
-        dispatch(changeOrderStatus({orderId: orderId ,status : confirmStatus}))
+        await dispatch(changeOrderStatus({orderId: orderId ,status : confirmStatus}))
         ordersInCart.forEach(orderDetail => {
             dispatch(decreaseProductStock(orderDetail))
         });

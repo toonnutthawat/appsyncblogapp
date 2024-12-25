@@ -31,7 +31,7 @@ function MyPost() {
         className='p-2 m-4 rounded-xl bg-zinc-100'
         style={{ width: "100%" }}>
       </input>
-      <h1 className="text-4xl py-4 text-cyan-500 font-bold drop-shadow-lg">My Posts</h1>
+      <h1 className="text-4xl py-4 text-green-800 font-bold drop-shadow-lg">My Posts</h1>
       {
         filteredPosts.map((post) => (
           <div key={post.id} className="relative">
@@ -50,9 +50,9 @@ function MyPost() {
               <p className="text-slate=500">Create on : {Moment(post.createdAt).format("DD / MM / YYYY, hh:mm:ss a")}</p>
               <div className="flex absolute right-4 top-4">
                 <Link to={`/post/${post.id}`}
-                  className="bg-cyan-500 rounded p-2 bottom-5 hover:bg-cyan-700 text-white  text-sm sm:text-base">View</Link>
+                  className="bg-green-500 rounded p-2 bottom-5 hover:bg-green-700 text-white  text-sm sm:text-base">View</Link>
                 <Link to={`/edit-post/${post.id}`}
-                  className="bg-cyan-500 rounded p-2 bottom-5 hover:bg-cyan-700 text-white  text-sm sm:text-base ml-2">Edit</Link>
+                  className="bg-green-500 rounded p-2 bottom-5 hover:bg-green-700 text-white  text-sm sm:text-base ml-2">Edit</Link>
                 <button onClick={() => dispatch(removePost(post.id))}
                   className="bg-red-500 rounded p-2 bottom-5 hover:bg-red-700 text-white text-sm sm:text-base ml-2"
                   id="delete-button">

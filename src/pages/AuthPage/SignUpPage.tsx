@@ -6,7 +6,6 @@ import ConfirmSignUpPage from "./ConfirmSignUpPage";
 function SignUpPage() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("")
-    const [phoneNumber , setPhoneNumber] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [errorMessage, setErrorMessage] = useState("");
@@ -22,8 +21,6 @@ function SignUpPage() {
                 options: {
                     userAttributes: {
                         email: email,
-                        profile: `public/profile/${username}`,
-                        phone_number: phoneNumber
                     }
                 },
             })
@@ -41,12 +38,15 @@ function SignUpPage() {
 
     return (
         <div className="flex justify-center bg-white min-h-screen relative">
-            <div className="flex flex-col gap-5 items-center  bg-cyan-500 rounded p-8 absolute w-32 mt-8 shadow-2xl"
-                style={{height: confirmSignUp ? "14rem" : "32rem", width: "28rem" }}>
+            <div className="flex flex-col gap-5 items-center  bg-green-800 rounded p-8 absolute w-32 mt-8 shadow-2xl"
+                style={{height: confirmSignUp ? "16rem" : "32rem", width: "28rem" }}>
                 {confirmSignUp ? <ConfirmSignUpPage username={username}></ConfirmSignUpPage> :
-
                     <div>
-                        <div className="text-4xl py-4 text-white font-bold drop-shadow-lg">REGISTER</div>
+                        <div className="flex flex-row space-x-6 items-center">
+                            <img src="../../../src/img/kulogo.png" style={{width: "50px" , height: "50px"}}>
+                            </img>
+                            <div className="text-4xl py-4 text-white font-bold drop-shadow-lg">REGISTER</div>
+                        </div>
                         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
                             <div>
                                 <div className="text-white">Email</div>
@@ -54,7 +54,7 @@ function SignUpPage() {
                                     value={email}
                                     type="text"
                                     name="email"
-                                    className="border-2 pl-2 border-cyan-500 rounded"
+                                    className="border-2 pl-2 border-green-500 rounded"
                                     style={{ width: "24rem" }}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required />
@@ -65,29 +65,29 @@ function SignUpPage() {
                                     value={username}
                                     type="text"
                                     name="Username"
-                                    className="border-2 pl-2 border-cyan-500 rounded"
+                                    className="border-2 pl-2 border-green-500 rounded"
                                     style={{ width: "24rem" }}
                                     onChange={(e) => setUsername(e.target.value)}
                                     required />
                             </div>
-                            <div>
-                                <div className="text-white">Phone</div>
+                            {/* <div>
+                                <div className="text-white">StudentID</div>
                                 <input
-                                    value={phoneNumber}
-                                    type="tel"
-                                    name="Phone"
-                                    className="border-2 pl-2 border-cyan-500 rounded"
+                                    value={studentID}
+                                    type="text"
+                                    name="studentID"
+                                    className="border-2 pl-2 border-green-500 rounded"
                                     style={{ width: "24rem" }}
-                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    onChange={(e) => setStudentID(e.target.value)}
                                     required />
-                            </div>
+                            </div> */}
                             <div>
                                 <div className="text-white">Password</div>
                                 <input
                                     value={password}
                                     type="password"
                                     name="Password"
-                                    className="border-2 pl-2 border-cyan-500 rounded"
+                                    className="border-2 pl-2 border-green-500 rounded"
                                     style={{ width: "24rem" }}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required />
@@ -97,7 +97,7 @@ function SignUpPage() {
                                     value={confirmPassword}
                                     type="password"
                                     name="Confirm Password"
-                                    className="border-2 pl-2 border-cyan-500 rounded"
+                                    className="border-2 pl-2 border-green-500 rounded"
                                     style={{ width: "24rem" }}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required />
@@ -106,9 +106,9 @@ function SignUpPage() {
                             {errorMessage && (<div className="text-red-500 break-words" style={{ width: "24rem" }}>{errorMessage}</div>)}
                             <div className="mt-4">
                                 <button
-                                    className={`${((!username || !email || !password || !confirmPassword || !phoneNumber ) || (confirmPassword !== password)) ? "bg-gray-500" : "bg-cyan-700"} 
+                                    className={`${((!username || !email || !password || !confirmPassword  ) || (confirmPassword !== password)) ? "bg-gray-500" : "bg-green-700"} 
                         text-white p-2 rounded w-full`}
-                                    disabled={((!username || !email || !password || !confirmPassword  || !phoneNumber) || (confirmPassword !== password))}>
+                                    disabled={((!username || !email || !password || !confirmPassword  ) || (confirmPassword !== password))}>
                                     Sign Up
                                 </button>
                             </div>

@@ -79,7 +79,7 @@ function ProductPage() {
 
     const renderedProducts = filteredProducts?.map((product, index) => (
         <div key={index} className="drop-shadow-md hover:bg-zinc-200">
-            <div style={{ height: "16rem" }} className="border border-cyan-500 flex flex-col items-center relative rounded-lg ">
+            <div style={{ height: "16rem" }} className="border border-green-500 flex flex-col items-center relative rounded-lg ">
                 <div className='pt-4 cursor-pointer relative flex justify-center items-center' onClick={() => toProductDetail(product)}>
                     <StorageImage path={product.image} alt='img' className='rounded-lg' style={{ objectFit: "cover", width: "140px", height: "140px" }}></StorageImage>
                     {
@@ -97,7 +97,7 @@ function ProductPage() {
                     <p className="text-ellipsis overflow-hidden truncate whitespace-nowrap text-center px-2" style={{ width: "100px" }}>{product.owner}</p>
                 </div>
                 {   product.stock !== 0 ?
-                    <FaCartShopping onClick={() => addCart(product)} className="text-cyan-500 absolute right-2 bottom-2 cursor-pointer" size="32px"></FaCartShopping>
+                    <FaCartShopping onClick={() => addCart(product)} className="text-green-500 absolute right-2 bottom-2 cursor-pointer" size="32px"></FaCartShopping>
                     :
                     <div></div>
                 }
@@ -109,7 +109,7 @@ function ProductPage() {
         <div className="px-20">
             <div className="flex flex-row relative w-full">
                 <button
-                    className="m-4 bg-cyan-500 text-white font-semibold py-2 rounded-lg hover:bg-cyan-800 flex items-center justify-center w-36"
+                    className="m-4 bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-800 flex items-center justify-center w-36"
                     onClick={toAddProduct}
                 >add Product
                 </button>
@@ -121,7 +121,7 @@ function ProductPage() {
                     style={{ width: "75%"}}>
                 </input>
                 <div className="m-4 absolute right-0 cursor-pointer" onClick={toCartPage}>
-                    <FaCartShopping className="text-cyan-500" size="32px"></FaCartShopping>
+                    <FaCartShopping className="text-green-500" size="32px"></FaCartShopping>
                 </div>
                 {
                     (productsInCart?.length !== 0 && productsInCart) && (

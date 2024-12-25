@@ -67,7 +67,7 @@ function CreatePostPage() {
     return (
         <div className='px-20'>
             <div className="flex justify-center bg-white min-h-screen px-20">
-                <div className="space-y-2 relative bg-cyan-500 p-8 mt-8 shadow-2xl rounded" style={{ height: "36rem" }}>
+                <div className="space-y-2 relative bg-green-800 p-8 mt-8 shadow-2xl rounded" style={{ height: "36rem" }}>
                     <div className="text-4xl py-4 text-white font-bold drop-shadow-lg">
                         Create Post
                     </div>
@@ -87,7 +87,7 @@ function CreatePostPage() {
                             <button type="button" className="absolute mb-4 bg-white text-white font-semibold py-2 rounded-lg flex items-center justify-center w-12"
                                 onClick={uploadImage}
                                 style={{ width: '3rem', top: '15rem', right: "32px" }}>
-                                <FaFileImage className="text-cyan-500" />
+                                <FaFileImage className="text-green-500" />
                             </button>
                         </div>
                         <div>
@@ -96,7 +96,7 @@ function CreatePostPage() {
                                 value={title}
                                 type="text"
                                 name="name"
-                                className="border-2 pl-2 border-cyan-500 rounded"
+                                className="border-2 pl-2 border-green-500 rounded"
                                 style={{ width: "24rem" }}
                                 onChange={(e) => setTitle(e.target.value)}
                                 required />
@@ -114,7 +114,7 @@ function CreatePostPage() {
                         </div>
                         <div className="mt-8">
                             <button
-                                className={`${((!title || !content)) ? "bg-gray-500" : "bg-cyan-700"} 
+                                className={`${((!title || !content)) ? "bg-gray-500" : "bg-green-700"} 
                                         text-white p-2 rounded w-full`}
                                 disabled={((!title || !content))}>
                                 create

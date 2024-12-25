@@ -207,7 +207,7 @@ const addToCart = createAsyncThunk("addToCart", async (product: Product) => {
     }
   } catch (error) {
     console.log((error as Error).message);
-    return { newOrder: undefined, orderDetail: undefined }; // Ensur
+    return { newOrder: undefined, orderDetail: undefined };
   }
 });
 

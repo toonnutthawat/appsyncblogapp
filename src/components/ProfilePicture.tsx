@@ -1,4 +1,7 @@
 import { StorageImage } from "@aws-amplify/ui-react-storage"
+import { useAppDispatch, useAppSelector } from "../hook"
+import { useEffect, useState } from "react"
+import { fetchUser } from "../store/slices/thunks/userThunk"
 
 function ProfilePicture({ src, size , onClick, className}: {
     src?: string | null
@@ -6,15 +9,25 @@ function ProfilePicture({ src, size , onClick, className}: {
     className?: string | null,
     onClick?: () => void
 }) {
+    const [loadError , setLoadError] = useState(false)
+    const user = useAppSelector(state => state.user.userInfo)
+    console.log("loadError", loadError);
+    const dispatch = useAppDispatch()
+    console.log(user);
+
+    useEffect(() => {
+        dispatch(fetchUser())
+    },[])
 
     return (
         <div className={`${className}`}>
             {
-                (src && (src !== "defaultProfile" ))? <StorageImage 
+                (src)? <StorageImage 
                     path={src} 
                     onClick={onClick} 
                     alt="profile" 
                     className={`object-cover ${onClick ? "cursor-pointer" : ""}`} 
+                    onError={() => setLoadError(true)} // Handle image load failure
                     style={
                     {
                         width: size,

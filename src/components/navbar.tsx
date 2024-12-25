@@ -20,8 +20,9 @@ function Navbar() {
 
 
     return (
-        <div className='flex justify-between items-center pt-2 pb-2 border-b bg-cyan-500 border-gray-30'>
+        <div className='flex justify-between items-center pt-2 pb-2 border-b bg-green-800 border-gray-30'>
             <div className='flex space-x-4 ml-4'>
+                <img src='../../src/img/kulogo.png' style={{width: "30px" , height: '30px'}} className='cursor-pointer'></img>
                 <Link to="/" className='text-white hover:text-slate-900'>Home</Link>
 
 
